@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Adeshprasad/careerForge/issues"
   },
-  "homepage": "https://github.com/Adeshprasad/careerForge#readme"
+  "homepage": "https://github.com/Adeshprasad/careerForge#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
