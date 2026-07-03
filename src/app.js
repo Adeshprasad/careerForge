@@ -43,7 +43,20 @@ app.get("/applications/:id", (req, res) => {
 
 });
 
-app.get("/applications", (req,res) => {
+app.put("/applications/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    const application = applications.find(
+        application => application.id === id
+    );
+    if (!application) {
+        return res.status(404).send("Application not found");
+    }
+    application.status = req.body.status;
+    res.send(applications);
+})
+
+app.get("/applications", (req, res) => {
     res.send(applications);
 });
 app.listen(3000, () => {
