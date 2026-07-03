@@ -56,6 +56,19 @@ app.put("/applications/:id", (req, res) => {
     res.send(applications);
 })
 
+app.delete("/applications/:id", (req, res) => {
+
+    const id = Number(req.params.id);
+    const index = applications.findIndex(
+        application => application.id === id
+    );
+    if (index === -1) {
+        return res.status(404).send("Application not found");
+    }
+    applications.splice(index, 1);
+    res.send("Application deleted successfully!");
+});
+
 app.get("/applications", (req, res) => {
     res.send(applications);
 });
