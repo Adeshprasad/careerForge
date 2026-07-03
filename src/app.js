@@ -16,8 +16,9 @@ app.use(express.json());
 
 app.post("/applications", (req, res) => {
 
-    console.log(req.body);
-    res.send("Application received!");
+    applications.push(req.body);
+
+    res.send("Application added successfully!");
 
 });
 
