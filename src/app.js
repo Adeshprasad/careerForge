@@ -12,6 +12,15 @@ const applications = [
     }
 ];
 
+app.use(express.json());
+
+app.post("/applications", (req, res) => {
+
+    console.log(req.body);
+    res.send("Application received!");
+
+});
+
 app.get("/applications", (req,res) => {
     res.send(applications);
 });
