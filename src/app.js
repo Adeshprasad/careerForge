@@ -18,6 +18,29 @@ const applications = [
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
+app.use("/profile", (req, res, next) => {
+
+    if (req.query.admin === "true") {
+        next();
+    } else {
+        res.status(401).json({
+            message: "Access denied"
+        });
+    }
+
+});
+
+app.get("/profile", (req, res) => {
+    res.json({
+        message: "Welcome to your profile!"
+    });
+});
+
 app.post("/applications", (req, res) => {
 
     applications.push(req.body);
