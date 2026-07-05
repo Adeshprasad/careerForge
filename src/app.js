@@ -1,8 +1,12 @@
+require("dotenv").config(); 
+
 const express = require("express");
 
 const app = express();
 
 const applicationRouter = require("./routes/applicationRoutes");
+
+
 
 // Global Middleware
 app.use(express.json());
@@ -36,6 +40,8 @@ app.get("/profile", (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+const PORT = process.env.PORT;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
