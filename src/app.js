@@ -23,19 +23,17 @@ app.use("/profile", (req, res, next) => {
     }
 });
 
-// Mount Router
+// Routes
 app.use("/applications", applicationRouter);
 
-// Other Routes
+app.get("/", (req, res) => {
+    res.send("Welcome to CareerForge API!");
+});
+
 app.get("/profile", (req, res) => {
     res.json({
         message: "Welcome to your profile!"
     });
-});
-
-// Root Route
-app.get("/", (req, res) => {
-    res.send("Welcome to CareerForge API!");
 });
 
 app.listen(3000, () => {

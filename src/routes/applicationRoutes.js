@@ -2,79 +2,22 @@ const express = require("express");
 
 const router = express.Router();
 
-// Temporary in-memory data
-const applications = [
-    {
-        id: 1,
-        company: "Amazon",
-        status: "Applied"
-    },
-    {
-        id: 2,
-        company: "Google",
-        status: "Interview"
-    }
-];
+const {
+    getApplications,
+    getApplicationById,
+    createApplication,
+    updateApplication,
+    deleteApplication
+} = require("../controllers/applicationController");
 
-// GET /applications
-router.get("/", (req, res) => {
-    res.send(applications);
-});
+router.get("/", getApplications);
 
-// POST /applications
-router.post("/", (req, res) => {
-    applications.push(req.body);
+router.get("/:id", getApplicationById);
 
-    res.send("Application added successfully!");
-});
+router.post("/", createApplication);
 
-// GET /applications/:id
-router.get("/:id", (req, res) => {
-    const id = Number(req.params.id);
+router.put("/:id", updateApplication);
 
-    const application = applications.find(
-        application => application.id === id
-    );
-
-    if (!application) {
-        return res.status(404).send("Application not found");
-    }
-
-    res.send(application);
-});
-
-// PUT /applications/:id
-router.put("/:id", (req, res) => {
-    const id = Number(req.params.id);
-
-    const application = applications.find(
-        application => application.id === id
-    );
-
-    if (!application) {
-        return res.status(404).send("Application not found");
-    }
-
-    application.status = req.body.status;
-
-    res.send(application);
-});
-
-// DELETE /applications/:id
-router.delete("/:id", (req, res) => {
-    const id = Number(req.params.id);
-
-    const index = applications.findIndex(
-        application => application.id === id
-    );
-
-    if (index === -1) {
-        return res.status(404).send("Application not found");
-    }
-
-    applications.splice(index, 1);
-
-    res.send("Application deleted successfully!");
-});
+router.delete("/:id", deleteApplication);
 
 module.exports = router;
