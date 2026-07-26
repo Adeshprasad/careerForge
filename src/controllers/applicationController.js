@@ -1,3 +1,5 @@
+const Application = require("../models/Application");
+
 const applications = [
     {
         id: 1,
@@ -31,12 +33,15 @@ function getApplicationById(req, res) {
     res.json(application);
 }
 
-function createApplication(req, res) {
-    applications.push(req.body);
+async function createApplication(req, res) {
+
+    const application = await Application.create(req.body);
 
     res.status(201).json({
-        message: "Application added successfully!"
+        message: "Application added successfully!",
+        data: application
     });
+
 }
 
 function updateApplication(req, res) {
