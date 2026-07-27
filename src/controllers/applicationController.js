@@ -13,8 +13,13 @@ const applications = [
     }
 ];
 
-function getApplications(req, res) {
-    res.json(applications);
+async function getApplications(req,res){
+    const applications = await Application.find();
+
+    res.json({
+        message:"Applications fetched successfully!",
+        data: applications
+    });
 }
 
 function getApplicationById(req, res) {
