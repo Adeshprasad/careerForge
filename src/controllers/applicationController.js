@@ -49,22 +49,31 @@ async function createApplication(req, res) {
 
 }
 
-function updateApplication(req, res) {
-    const id = Number(req.params.id);
+async function updateApplication(req, res) {
+    try {
+        const application = await Application.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
 
-    const application = applications.find(
-        application => application.id === id
-    );
+        if (!application) {
+            return res.status(404).json({
+                message: "Application not found"
+            });
+        }
 
-    if (!application) {
-        return res.status(404).json({
-            message: "Application not found"
+        res.json({
+            message: "Application Updated Successfully",
+            data: application
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
         });
     }
-
-    application.status = req.body.status;
-
-    res.json(application);
 }
 
 function deleteApplication(req, res) {
