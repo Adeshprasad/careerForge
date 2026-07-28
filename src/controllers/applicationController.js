@@ -75,27 +75,31 @@ async function updateApplication(req, res) {
         });
     }
 }
-
-function deleteApplication(req, res) {
-    const id = Number(req.params.id);
-
-    const index = applications.findIndex(
-        application => application.id === id
+ 
+async function deleteApplication(req,res){
+    try{
+        const application = await Application.findByIdAndDelete(
+        req.params.id
     );
 
-    if (index === -1) {
+    if(!application){
         return res.status(404).json({
-            message: "Application not found"
+            message:"Application not found"
         });
     }
 
-    applications.splice(index, 1);
+    res.status(200).json({
+            message:"Application deleted"
+        });
 
-    res.json({
-        message: "Application deleted successfully!"
-    });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
+        });
+    }
 }
-
 module.exports = {
     getApplications,
     getApplicationById,
