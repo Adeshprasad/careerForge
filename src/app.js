@@ -10,6 +10,8 @@ const app = express();
 
 const applicationRouter = require("./routes/applicationRoutes");
 
+const userRoutes = require("./routes/userRoutes");
+
 
 
 // Global Middleware
@@ -43,6 +45,8 @@ app.get("/profile", (req, res) => {
         message: "Welcome to your profile!"
     });
 });
+
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT;
 
