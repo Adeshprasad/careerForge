@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const authMiddleware = require("../middleware/authMiddleware");
+
 const {
     getApplications,
     getApplicationById,
@@ -19,5 +21,9 @@ router.post("/", createApplication);
 router.patch("/:id", updateApplication);
 
 router.delete("/:id", deleteApplication);
+
+router.get("/", authMiddleware, getApplications);
+
+router.delete("/:id", authMiddleware, deleteApplication);
 
 module.exports = router;
