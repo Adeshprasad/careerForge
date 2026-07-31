@@ -12,17 +12,13 @@ const {
     deleteApplication
 } = require("../controllers/applicationController");
 
-router.get("/", getApplications);
-
-router.get("/:id", getApplicationById);
-
-router.post("/", createApplication);
-
-router.patch("/:id", updateApplication);
-
-router.delete("/:id", deleteApplication);
-
 router.get("/", authMiddleware, getApplications);
+
+router.get("/:id", authMiddleware, getApplicationById);
+
+router.post("/", authMiddleware, createApplication);
+
+router.patch("/:id", authMiddleware, updateApplication);
 
 router.delete("/:id", authMiddleware, deleteApplication);
 
