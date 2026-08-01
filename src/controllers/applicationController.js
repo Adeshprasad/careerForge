@@ -51,24 +51,10 @@ function getApplicationById(req, res) {
 async function createApplication(req, res) {
     try {
 
-        const { company, status } = req.body;
-
         const application = await Application.create({
             ...req.body,
             user: req.user.userId
         });
-
-        if (!company || !company.trim()) {
-            return res.status(400).json({
-                message: "Company is required"
-            });
-        }
-
-        if(!status || !status.trim()){
-            return res.status(400).json({
-                message: "Status is required"
-            });
-        }
 
         return res.status(201).json({
             message: "Application added successfully!",
