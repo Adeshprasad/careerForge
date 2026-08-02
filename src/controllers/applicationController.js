@@ -1,30 +1,16 @@
 const Application = require("../models/Application");
 
-const applications = [
-    {
-        id: 1,
-        company: "Amazon",
-        status: "Applied"
-    },
-    {
-        id: 2,
-        company: "Google",
-        status: "Interview"
-    }
-];
-
 async function getApplications(req, res) {
     try {
         const applications = await Application.find({
             user: req.user.userId
-        });
+        }).populate("user", "name email");
 
         return res.json({
             message: "Applications fetched successfully!",
             data: applications
         });
-    }
-    catch (error) {
+    } catch (error) {
         return res.status(500).json({
             message: "Something went wrong",
             error: error.message
@@ -32,20 +18,30 @@ async function getApplications(req, res) {
     }
 }
 
-function getApplicationById(req, res) {
-    const id = Number(req.params.id);
+async function getApplicationById(req, res) {
+    try {
+        const application = await Application.findOne({
+            _id: req.params.id,
+            user: req.user.userId
+        }).populate("user", "name email");
 
-    const application = applications.find(
-        application => application.id === id
-    );
+        if (!application) {
+            return res.status(404).json({
+                message: "Application not found"
+            });
+        }
 
-    if (!application) {
-        return res.status(404).json({
-            message: "Application not found"
+        return res.json({
+            message: "Application fetched successfully!",
+            data: application
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
         });
     }
-
-    return res.json(application);
 }
 
 async function createApplication(req, res) {
@@ -60,8 +56,8 @@ async function createApplication(req, res) {
             message: "Application added successfully!",
             data: application
         });
-    }
-    catch (error) {
+
+    } catch (error) {
         return res.status(500).json({
             message: "Something went wrong",
             error: error.message
@@ -118,8 +114,7 @@ async function deleteApplication(req, res) {
             message: "Application deleted"
         });
 
-    }
-    catch (error) {
+    } catch (error) {
         return res.status(500).json({
             message: "Something went wrong",
             error: error.message
