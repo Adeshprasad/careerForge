@@ -2,9 +2,27 @@ const Application = require("../models/Application");
 
 async function getApplications(req, res) {
     try {
-        const applications = await Application.find({
-            user: req.user.userId
-        }).populate("user", "name email");
+
+        const {status, company, sort} = req.query;
+        let query = {
+            user : req.user.userId
+        };
+        if(status){
+            query.status = status;
+        }
+        if(company){
+            query.company = company;
+        }
+
+        let applicationsQuery = Application.find(query);
+
+        if(sort){
+            applicationsQuery = applicationsQuery.sort(sort);
+        }
+
+        applicationsQuery = applicationsQuery.populate("user", "name email");
+
+        const applications = await applicationsQuery;
 
         return res.json({
             message: "Applications fetched successfully!",
