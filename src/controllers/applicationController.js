@@ -3,10 +3,13 @@ const Application = require("../models/Application");
 async function getApplications(req, res) {
     try {
 
-        const {status, company, sort} = req.query;
+        const {status, company, sort, page=1, limit=10} = req.query;
         let query = {
             user : req.user.userId
         };
+        const pageNumber = parseInt(page);
+        const limitNumber = parseInt(limit);
+        const skip = (pageNumber-1) * limitNumber;
         if(status){
             query.status = status;
         }
@@ -19,7 +22,7 @@ async function getApplications(req, res) {
         if(sort){
             applicationsQuery = applicationsQuery.sort(sort);
         }
-
+        applicationsQuery.skip(skip).limit(limitNumber);
         applicationsQuery = applicationsQuery.populate("user", "name email");
 
         const applications = await applicationsQuery;
