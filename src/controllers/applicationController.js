@@ -27,8 +27,19 @@ async function getApplications(req, res) {
 
         const applications = await applicationsQuery;
 
+        const totalApplications = await Application.countDocuments(query);
+        const totalPages = Math.ceil(totalApplications/limitNumber);
+        const hasNextPage = pageNumber < totalPages;
+        const hasPreviousPage = pageNumber > 1;
+
         return res.json({
             message: "Applications fetched successfully!",
+            page: pageNumber,
+            limit: limitNumber,
+            totalApplications,
+            totalPages,
+            hasNextPage,
+            hasPreviousPage,
             data: applications
         });
     } catch (error) {
