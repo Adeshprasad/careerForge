@@ -4,10 +4,14 @@ const applicationSchema = new mongoose.Schema({
     company: String,
     status: String,
     user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-}
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    resume: {
+        type: String,
+        default: null
+    }
 });
 
 const Application = mongoose.model(

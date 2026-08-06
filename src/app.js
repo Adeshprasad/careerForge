@@ -22,6 +22,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use("/uploads", express.static("uploads"));
+
 // Authentication Middleware
 app.use("/profile", (req, res, next) => {
     if (req.query.admin === "true") {

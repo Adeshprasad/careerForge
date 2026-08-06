@@ -3,23 +3,23 @@ const Application = require("../models/Application");
 async function getApplications(req, res) {
     try {
 
-        const {status, company, sort, page=1, limit=10} = req.query;
+        const { status, company, sort, page = 1, limit = 10 } = req.query;
         let query = {
-            user : req.user.userId
+            user: req.user.userId
         };
         const pageNumber = parseInt(page);
         const limitNumber = parseInt(limit);
-        const skip = (pageNumber-1) * limitNumber;
-        if(status){
+        const skip = (pageNumber - 1) * limitNumber;
+        if (status) {
             query.status = status;
         }
-        if(company){
+        if (company) {
             query.company = company;
         }
 
         let applicationsQuery = Application.find(query);
 
-        if(sort){
+        if (sort) {
             applicationsQuery = applicationsQuery.sort(sort);
         }
         applicationsQuery.skip(skip).limit(limitNumber);
@@ -28,7 +28,7 @@ async function getApplications(req, res) {
         const applications = await applicationsQuery;
 
         const totalApplications = await Application.countDocuments(query);
-        const totalPages = Math.ceil(totalApplications/limitNumber);
+        const totalPages = Math.ceil(totalApplications / limitNumber);
         const hasNextPage = pageNumber < totalPages;
         const hasPreviousPage = pageNumber > 1;
 
@@ -81,7 +81,8 @@ async function createApplication(req, res) {
 
         const application = await Application.create({
             ...req.body,
-            user: req.user.userId
+            user: req.user.userId,
+            resume: req.file?.path
         });
 
         return res.status(201).json({
@@ -112,6 +113,10 @@ async function updateApplication(req, res) {
         }
 
         Object.assign(application, req.body);
+
+        if (req.file) {
+            application.resume = req.file.path;
+        }
 
         await application.save();
 
