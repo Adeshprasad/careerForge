@@ -1,6 +1,7 @@
-require("dotenv").config(); 
+require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 
 const connectDB = require("./config/db");
 
@@ -9,10 +10,14 @@ connectDB();
 const app = express();
 
 const applicationRouter = require("./routes/applicationRoutes");
-
 const userRoutes = require("./routes/userRoutes");
 
-
+// CORS Middleware
+app.use(
+    cors({
+        origin: "http://localhost:5173"
+    })
+);
 
 // Global Middleware
 app.use(express.json());
@@ -50,6 +55,7 @@ app.get("/profile", (req, res) => {
 
 app.use("/users", userRoutes);
 
+// Error Handling Middleware
 app.use((err, req, res, next) => {
     console.error(err);
 

@@ -1,22 +1,11 @@
-import ApplicationCard from "./components/ApplicationCard";
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-    const applications = [
-        { company: "Google", status: "Applied" },
-        { company: "Amazon", status: "Interview" },
-        { company: "Microsoft", status: "Rejected" }
-    ];
-
     return (
         <>
-            <h1>CareerForge</h1>
-
-            {applications.map((application) => (
-                <ApplicationCard
-                    company={application.company}
-                    status={application.status}
-                />
-            ))}
+            <Navbar title="CareerForge" />
+            <Dashboard />
         </>
     );
 }

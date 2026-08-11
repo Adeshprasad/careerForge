@@ -2,6 +2,7 @@ function ApplicationCard(props) {
     return (
         <div>
             <h2>{props.company}</h2>
+            <p>{props.role}</p>
             <p>{props.status}</p>
         </div>
     );
