@@ -9,6 +9,16 @@ function App() {
     const [error, setError] = useState("");
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [company, setCompany] = useState("");
+    const [status, setStatus] = useState("");
+    const [sort, setSort] = useState("-createdAt");
+
+    function clearFilters() {
+        setCompany("");
+        setStatus("");
+        setSort("-createdAt");
+        setPage(1);
+    }
 
     async function updateApplication(id, updatedData) {
         try {
@@ -79,7 +89,7 @@ function App() {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications?page=${page}`,
+                `http://localhost:3000/applications?page=${page}&company=${company}&status=${status}&sort=${sort}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -107,7 +117,7 @@ function App() {
 
     useEffect(() => {
         fetchApplications();
-    }, [page]);
+    }, [page, company, status, sort]);
 
     return (
         <>
@@ -122,6 +132,13 @@ function App() {
                 totalPages={totalPages}
                 onDelete={deleteApplication}
                 onUpdate={updateApplication}
+                company={company}
+                setCompany={setCompany}
+                status={status}
+                setStatus={setStatus}
+                sort={sort}
+                setSort={setSort}
+                onClearFilters={clearFilters}
             />
 
             <AddApplication onApplicationAdded={fetchApplications} />

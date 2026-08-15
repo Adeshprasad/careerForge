@@ -13,6 +13,8 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         default: null
     }
+}, {
+    timestamps: true
 });
 
 const Application = mongoose.model(
