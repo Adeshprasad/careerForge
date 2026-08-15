@@ -6,8 +6,13 @@ function Dashboard({
     error,
     page,
     setPage,
-    totalPages
+    totalPages,
+    onDelete,
+    onUpdate
 }) {
+
+    console.log(applications);
+
     return (
         <main>
             <h1>Your Applications</h1>
@@ -21,9 +26,12 @@ function Dashboard({
                     {applications.map((application) => (
                         <ApplicationCard
                             key={application._id}
+                            id={application._id}
                             company={application.company}
                             role={application.role}
                             status={application.status}
+                            onDelete={onDelete}
+                            onUpdate={onUpdate}
                         />
                     ))}
 

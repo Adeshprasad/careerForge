@@ -10,6 +10,67 @@ function App() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    async function updateApplication(id, updatedData) {
+        try {
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(
+                `http://localhost:3000/applications/${id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(updatedData)
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error(data);
+                return false;
+            }
+
+            console.log("Application updated successfully!");
+
+            await fetchApplications();
+
+            return true;
+
+        } catch (error) {
+            console.error("Error updating application:", error);
+            return false;
+        }
+    }
+
+    async function deleteApplication(id) {
+        try {
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(
+                `http://localhost:3000/applications/${id}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                console.error("Failed to delete application");
+                return;
+            }
+
+            await fetchApplications();
+
+        } catch (error) {
+            console.error("Error deleting application:", error);
+        }
+    }
+
     async function fetchApplications() {
         try {
             setLoading(true);
@@ -59,6 +120,8 @@ function App() {
                 page={page}
                 setPage={setPage}
                 totalPages={totalPages}
+                onDelete={deleteApplication}
+                onUpdate={updateApplication}
             />
 
             <AddApplication onApplicationAdded={fetchApplications} />
