@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import AddApplication from "./components/AddApplications";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
     const [applications, setApplications] = useState([]);
@@ -12,6 +14,16 @@ function App() {
     const [company, setCompany] = useState("");
     const [status, setStatus] = useState("");
     const [sort, setSort] = useState("-createdAt");
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        Boolean(localStorage.getItem("token"))
+    );
+    const [showRegister, setShowRegister] = useState(false);
+
+
+    function logout() {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+    }
 
     function clearFilters() {
         setCompany("");
@@ -81,6 +93,14 @@ function App() {
         }
     }
 
+    async function handleLogin() {
+        setApplications([]);
+        setPage(1);
+        setIsLoggedIn(true);
+
+        await fetchApplications();
+    }
+
     async function fetchApplications() {
         try {
             setLoading(true);
@@ -98,6 +118,12 @@ function App() {
             );
 
             if (!response.ok) {
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+                    setIsLoggedIn(false);
+                    return;
+                }
+
                 setError("Failed to load applications");
                 setLoading(false);
                 return;
@@ -121,27 +147,45 @@ function App() {
 
     return (
         <>
-            <Navbar title="CareerForge" />
+            {!isLoggedIn ? (
+                showRegister ? (
+                    <Register
+                        onRegister={() => setShowRegister(false)}
+                    />
+                ) : (
+                    <Login
+                        onLogin={handleLogin}
+                        onRegister={() => setShowRegister(true)}
+                    />
+                )
+            ) : (
+                <>
+                    <Navbar title="CareerForge"
+                        onLogout={logout} />
 
-            <Dashboard
-                applications={applications}
-                loading={loading}
-                error={error}
-                page={page}
-                setPage={setPage}
-                totalPages={totalPages}
-                onDelete={deleteApplication}
-                onUpdate={updateApplication}
-                company={company}
-                setCompany={setCompany}
-                status={status}
-                setStatus={setStatus}
-                sort={sort}
-                setSort={setSort}
-                onClearFilters={clearFilters}
-            />
+                    <Dashboard
+                        applications={applications}
+                        loading={loading}
+                        error={error}
+                        page={page}
+                        setPage={setPage}
+                        totalPages={totalPages}
+                        onDelete={deleteApplication}
+                        onUpdate={updateApplication}
+                        company={company}
+                        setCompany={setCompany}
+                        status={status}
+                        setStatus={setStatus}
+                        sort={sort}
+                        setSort={setSort}
+                        onClearFilters={clearFilters}
+                    />
 
-            <AddApplication onApplicationAdded={fetchApplications} />
+                    <AddApplication
+                        onApplicationAdded={fetchApplications}
+                    />
+                </>
+            )}
         </>
     );
 }
