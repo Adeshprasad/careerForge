@@ -69,6 +69,7 @@ function Dashboard({
                             status={application.status}
                             onDelete={onDelete}
                             onUpdate={onUpdate}
+                            resume={application.resume}
                         />
                     ))}
 

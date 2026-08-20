@@ -4,6 +4,7 @@ function AddApplication({ onApplicationAdded }) {
     const [company, setCompany] = useState("");
     const [role, setRole] = useState("");
     const [status, setStatus] = useState("Applied");
+    const [resume, setResume] = useState(null);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -11,19 +12,24 @@ function AddApplication({ onApplicationAdded }) {
         try {
             const token = localStorage.getItem("token");
 
+            const formData = new FormData();
+
+            formData.append("company", company);
+            formData.append("role", role);
+            formData.append("status", status);
+
+            if (resume) {
+                formData.append("resume", resume);
+            }
+
             const response = await fetch(
                 "http://localhost:3000/applications",
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`
                     },
-                    body: JSON.stringify({
-                        company: company,
-                        role: role,
-                        status: status
-                    })
+                    body: formData
                 }
             );
 
@@ -41,6 +47,7 @@ function AddApplication({ onApplicationAdded }) {
             setCompany("");
             setRole("");
             setStatus("Applied");
+            setResume(null);
 
         } catch (error) {
             console.error(error);
@@ -55,12 +62,14 @@ function AddApplication({ onApplicationAdded }) {
                 value={company}
                 onChange={(event) => setCompany(event.target.value)}
             />
+
             <input
                 type="text"
                 placeholder="Role"
                 value={role}
                 onChange={(event) => setRole(event.target.value)}
             />
+
             <select
                 value={status}
                 onChange={(event) => setStatus(event.target.value)}
@@ -70,6 +79,13 @@ function AddApplication({ onApplicationAdded }) {
                 <option value="Rejected">Rejected</option>
                 <option value="Offer">Offer</option>
             </select>
+
+            <input
+                type="file"
+                accept="application/pdf"
+                onChange={(event) => setResume(event.target.files[0])}
+            />
+
             <button type="submit">
                 Add Application
             </button>

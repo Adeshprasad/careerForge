@@ -74,6 +74,16 @@ function ApplicationCard(props) {
             <p>{props.role}</p>
             <p>{props.status}</p>
 
+            {props.resume && (
+                <a
+                    href={`http://localhost:3000/${props.resume.replace(/\\/g, "/")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View Resume
+                </a>
+            )}
+
             <button onClick={() => setIsEditing(true)}>
                 Edit
             </button>
