@@ -9,7 +9,8 @@ const {
     getApplicationById,
     createApplication,
     updateApplication,
-    deleteApplication
+    deleteApplication,
+    getResume
 } = require("../controllers/applicationController");
 
 const {
@@ -18,14 +19,44 @@ const {
 
 const upload = require("../middleware/uploadMiddleware");
 
-router.get("/", authMiddleware, getApplications);
+router.get(
+    "/",
+    authMiddleware,
+    getApplications
+);
 
-router.get("/:id", authMiddleware, getApplicationById);
+router.get(
+    "/:id/resume",
+    authMiddleware,
+    getResume
+);
 
-router.post("/", authMiddleware,upload.single("resume"), validateApplication, createApplication);
+router.get(
+    "/:id",
+    authMiddleware,
+    getApplicationById
+);
 
-router.patch("/:id", authMiddleware,upload.single("resume"), validateApplication, updateApplication);
+router.post(
+    "/",
+    authMiddleware,
+    upload.single("resume"),
+    validateApplication,
+    createApplication
+);
 
-router.delete("/:id", authMiddleware, deleteApplication);
+router.patch(
+    "/:id",
+    authMiddleware,
+    upload.single("resume"),
+    validateApplication,
+    updateApplication
+);
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    deleteApplication
+);
 
 module.exports = router;

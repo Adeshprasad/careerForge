@@ -8,6 +8,34 @@ function ApplicationCard(props) {
     const [role, setRole] = useState(props.role || "");
     const [status, setStatus] = useState(props.status || "Applied");
 
+    async function viewResume() {
+        try {
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(
+                `http://localhost:3000/applications/${props.id}/resume`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                console.error("Failed to load resume");
+                return;
+            }
+
+            const blob = await response.blob();
+
+            const url = URL.createObjectURL(blob);
+
+            window.open(url, "_blank");
+        } catch (error) {
+            console.error("Error loading resume:", error);
+        }
+    }
+
     if (isEditing) {
         return (
             <div>
@@ -75,13 +103,9 @@ function ApplicationCard(props) {
             <p>{props.status}</p>
 
             {props.resume && (
-                <a
-                    href={`http://localhost:3000/${props.resume.replace(/\\/g, "/")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
+                <button onClick={viewResume}>
                     View Resume
-                </a>
+                </button>
             )}
 
             <button onClick={() => setIsEditing(true)}>

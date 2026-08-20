@@ -1,9 +1,16 @@
 const Application = require("../models/Application");
 const asyncHandler = require("../utils/asyncHandler");
+const path = require("path");
 
 const getApplications = asyncHandler(async (req, res) => {
 
-    const { status, company, sort, page = 1, limit = 10 } = req.query;
+    const {
+        status,
+        company,
+        sort,
+        page = 1,
+        limit = 10
+    } = req.query;
 
     let query = {
         user: req.user.userId
@@ -34,8 +41,11 @@ const getApplications = asyncHandler(async (req, res) => {
 
     const applications = await applicationsQuery;
 
-    const totalApplications = await Application.countDocuments(query);
-    const totalPages = Math.ceil(totalApplications / limitNumber);
+    const totalApplications =
+        await Application.countDocuments(query);
+
+    const totalPages =
+        Math.ceil(totalApplications / limitNumber);
 
     return res.json({
         message: "Applications fetched successfully!",
@@ -48,6 +58,7 @@ const getApplications = asyncHandler(async (req, res) => {
         data: applications
     });
 });
+
 
 const getApplicationById = asyncHandler(async (req, res) => {
 
@@ -68,6 +79,32 @@ const getApplicationById = asyncHandler(async (req, res) => {
     });
 });
 
+
+const getResume = asyncHandler(async (req, res) => {
+
+    const application = await Application.findOne({
+        _id: req.params.id,
+        user: req.user.userId
+    });
+
+    if (!application) {
+        return res.status(404).json({
+            message: "Application not found"
+        });
+    }
+
+    if (!application.resume) {
+        return res.status(404).json({
+            message: "Resume not found"
+        });
+    }
+
+    const filePath = path.resolve(application.resume);
+
+    return res.sendFile(filePath);
+});
+
+
 const createApplication = asyncHandler(async (req, res) => {
 
     const application = await Application.create({
@@ -81,6 +118,7 @@ const createApplication = asyncHandler(async (req, res) => {
         data: application
     });
 });
+
 
 const updateApplication = asyncHandler(async (req, res) => {
 
@@ -109,6 +147,7 @@ const updateApplication = asyncHandler(async (req, res) => {
     });
 });
 
+
 const deleteApplication = asyncHandler(async (req, res) => {
 
     const application = await Application.findOneAndDelete({
@@ -127,9 +166,11 @@ const deleteApplication = asyncHandler(async (req, res) => {
     });
 });
 
+
 module.exports = {
     getApplications,
     getApplicationById,
+    getResume,
     createApplication,
     updateApplication,
     deleteApplication

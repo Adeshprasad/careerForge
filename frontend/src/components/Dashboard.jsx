@@ -67,9 +67,9 @@ function Dashboard({
                             company={application.company}
                             role={application.role}
                             status={application.status}
+                            resume={application.resume}
                             onDelete={onDelete}
                             onUpdate={onUpdate}
-                            resume={application.resume}
                         />
                     ))}
 
