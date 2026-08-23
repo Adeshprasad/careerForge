@@ -15,7 +15,8 @@ function Dashboard({
     setStatus,
     sort,
     setSort,
-    onClearFilters
+    onClearFilters,
+    onViewDetails
 }) {
 
     console.log(applications);
@@ -70,6 +71,7 @@ function Dashboard({
                             resume={application.resume}
                             onDelete={onDelete}
                             onUpdate={onUpdate}
+                            onViewDetails={onViewDetails}
                         />
                     ))}
 

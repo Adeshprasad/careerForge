@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import AddApplication from "./components/AddApplications";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ApplicationDetails from "./components/ApplicationDetails";
 
 function App() {
     const [applications, setApplications] = useState([]);
@@ -18,11 +19,16 @@ function App() {
         Boolean(localStorage.getItem("token"))
     );
     const [showRegister, setShowRegister] = useState(false);
+    const [selectedApplicationId, setSelectedApplicationId] = useState(null);
 
 
     function logout() {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
+    }
+
+    function handleViewDetails(id) {
+        setSelectedApplicationId(id);
     }
 
     function clearFilters() {
@@ -160,30 +166,42 @@ function App() {
                 )
             ) : (
                 <>
-                    <Navbar title="CareerForge"
-                        onLogout={logout} />
-
-                    <Dashboard
-                        applications={applications}
-                        loading={loading}
-                        error={error}
-                        page={page}
-                        setPage={setPage}
-                        totalPages={totalPages}
-                        onDelete={deleteApplication}
-                        onUpdate={updateApplication}
-                        company={company}
-                        setCompany={setCompany}
-                        status={status}
-                        setStatus={setStatus}
-                        sort={sort}
-                        setSort={setSort}
-                        onClearFilters={clearFilters}
+                    <Navbar
+                        title="CareerForge"
+                        onLogout={logout}
                     />
 
-                    <AddApplication
-                        onApplicationAdded={fetchApplications}
-                    />
+                    {selectedApplicationId ? (
+                        <ApplicationDetails
+                            applicationId={selectedApplicationId}
+                            onBack={() => setSelectedApplicationId(null)}
+                        />
+                    ) : (
+                        <>
+                            <Dashboard
+                                applications={applications}
+                                loading={loading}
+                                error={error}
+                                page={page}
+                                setPage={setPage}
+                                totalPages={totalPages}
+                                onDelete={deleteApplication}
+                                onUpdate={updateApplication}
+                                onViewDetails={handleViewDetails}
+                                company={company}
+                                setCompany={setCompany}
+                                status={status}
+                                setStatus={setStatus}
+                                sort={sort}
+                                setSort={setSort}
+                                onClearFilters={clearFilters}
+                            />
+
+                            <AddApplication
+                                onApplicationAdded={fetchApplications}
+                            />
+                        </>
+                    )}
                 </>
             )}
         </>

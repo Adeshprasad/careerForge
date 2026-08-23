@@ -108,6 +108,10 @@ function ApplicationCard(props) {
                 </button>
             )}
 
+            <button onClick={() => props.onViewDetails(props.id)}>
+                View Details
+            </button>
+
             <button onClick={() => setIsEditing(true)}>
                 Edit
             </button>
