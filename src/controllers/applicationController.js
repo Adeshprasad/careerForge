@@ -110,7 +110,14 @@ const createApplication = asyncHandler(async (req, res) => {
     const application = await Application.create({
         ...req.body,
         user: req.user.userId,
-        resume: req.file?.path
+        resume: req.file?.path,
+
+        statusHistory: [
+            {
+                status: req.body.status,
+                changedAt: new Date()
+            }
+        ]
     });
 
     return res.status(201).json({
@@ -133,10 +140,32 @@ const updateApplication = asyncHandler(async (req, res) => {
         });
     }
 
+    const oldStatus = application.status;
+
     Object.assign(application, req.body);
 
     if (req.file) {
         application.resume = req.file.path;
+    }
+
+    if (
+        req.body.status &&
+        req.body.status !== oldStatus
+    ) {
+
+        if (!application.statusHistory) {
+            application.statusHistory = [
+                {
+                    status: oldStatus,
+                    changedAt: application.createdAt || new Date()
+                }
+            ];
+        }
+
+        application.statusHistory.push({
+            status: req.body.status,
+            changedAt: new Date()
+        });
     }
 
     await application.save();

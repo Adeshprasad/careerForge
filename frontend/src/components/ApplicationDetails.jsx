@@ -122,9 +122,13 @@ function ApplicationDetails({ applicationId, onBack }) {
                 Role: {application.role}
             </p>
 
-            <p>
-                Status: {application.status}
-            </p>
+            <section>
+                <h3>Current Status</h3>
+
+                <p>
+                    <strong>{application.status}</strong>
+                </p>
+            </section>
 
             <p>
                 Applied on:{" "}
@@ -138,6 +142,33 @@ function ApplicationDetails({ applicationId, onBack }) {
             <p>
                 Email: {application.user.email}
             </p>
+
+            <h3>Status History</h3>
+
+            {application.statusHistory &&
+                application.statusHistory.length > 0 ? (
+                <div>
+                    {application.statusHistory.map((history, index) => (
+                        <div key={index}>
+                            <p>
+                                ● <strong>{history.status}</strong>
+                            </p>
+
+                            <p>
+                                {new Date(
+                                    history.changedAt
+                                ).toLocaleString()}
+                            </p>
+
+                            {index < application.statusHistory.length - 1 && (
+                                <p>│</p>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p>No status history available.</p>
+            )}
 
             {application.resume && (
                 <button onClick={viewResume}>
