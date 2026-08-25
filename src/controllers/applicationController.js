@@ -8,6 +8,8 @@ const getApplications = asyncHandler(async (req, res) => {
     const {
         status,
         company,
+        from,
+        to,
         sort,
         page = 1,
         limit = 10
@@ -27,6 +29,22 @@ const getApplications = asyncHandler(async (req, res) => {
 
     if (company) {
         query.company = new RegExp(company, "i");
+    }
+
+    if (from || to) {
+        query.createdAt = {};
+    }
+
+    if (from) {
+        query.createdAt.$gte = new Date(from);
+    }
+
+    if (to) {
+        const endDate = new Date(to);
+
+        endDate.setHours(23, 59, 59, 999);
+
+        query.createdAt.$lte = endDate;
     }
 
     let applicationsQuery = Application.find(query);
@@ -59,6 +77,7 @@ const getApplications = asyncHandler(async (req, res) => {
         data: applications
     });
 });
+
 
 const getApplicationAnalytics = asyncHandler(async (req, res) => {
 

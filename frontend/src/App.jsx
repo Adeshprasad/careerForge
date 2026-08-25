@@ -8,19 +8,30 @@ import ApplicationDetails from "./components/ApplicationDetails";
 import Analytics from "./components/Analytics";
 
 function App() {
+
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+
     const [company, setCompany] = useState("");
     const [status, setStatus] = useState("");
+
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
+
     const [sort, setSort] = useState("-createdAt");
+
     const [isLoggedIn, setIsLoggedIn] = useState(
         Boolean(localStorage.getItem("token"))
     );
+
     const [showRegister, setShowRegister] = useState(false);
-    const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+
+    const [selectedApplicationId, setSelectedApplicationId] =
+        useState(null);
 
 
     function logout() {
@@ -28,19 +39,56 @@ function App() {
         setIsLoggedIn(false);
     }
 
+
     function handleViewDetails(id) {
         setSelectedApplicationId(id);
     }
 
+
     function clearFilters() {
         setCompany("");
         setStatus("");
+        setFrom("");
+        setTo("");
         setSort("-createdAt");
         setPage(1);
     }
 
+
+    function handleCompanyChange(value) {
+        setCompany(value);
+        setPage(1);
+    }
+
+
+    function handleStatusChange(value) {
+        setStatus(value);
+        setPage(1);
+    }
+
+
+    function handleFromChange(value) {
+        setFrom(value);
+        setPage(1);
+    }
+
+
+    function handleToChange(value) {
+        setTo(value);
+        setPage(1);
+    }
+
+
+    function handleSortChange(value) {
+        setSort(value);
+        setPage(1);
+    }
+
+
     async function updateApplication(id, updatedData) {
+
         try {
+
             const token = localStorage.getItem("token");
 
             const response = await fetch(
@@ -69,13 +117,21 @@ function App() {
             return true;
 
         } catch (error) {
-            console.error("Error updating application:", error);
+
+            console.error(
+                "Error updating application:",
+                error
+            );
+
             return false;
         }
     }
 
+
     async function deleteApplication(id) {
+
         try {
+
             const token = localStorage.getItem("token");
 
             const response = await fetch(
@@ -89,18 +145,28 @@ function App() {
             );
 
             if (!response.ok) {
-                console.error("Failed to delete application");
+
+                console.error(
+                    "Failed to delete application"
+                );
+
                 return;
             }
 
             await fetchApplications();
 
         } catch (error) {
-            console.error("Error deleting application:", error);
+
+            console.error(
+                "Error deleting application:",
+                error
+            );
         }
     }
 
+
     async function handleLogin() {
+
         setApplications([]);
         setPage(1);
         setIsLoggedIn(true);
@@ -108,15 +174,18 @@ function App() {
         await fetchApplications();
     }
 
+
     async function fetchApplications() {
+
         try {
+
             setLoading(true);
             setError("");
 
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications?page=${page}&company=${company}&status=${status}&sort=${sort}`,
+                `http://localhost:3000/applications?page=${page}&company=${company}&status=${status}&from=${from}&to=${to}&sort=${sort}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -125,14 +194,21 @@ function App() {
             );
 
             if (!response.ok) {
+
                 if (response.status === 401) {
+
                     localStorage.removeItem("token");
                     setIsLoggedIn(false);
+
                     return;
                 }
 
-                setError("Failed to load applications");
+                setError(
+                    "Failed to load applications"
+                );
+
                 setLoading(false);
+
                 return;
             }
 
@@ -140,32 +216,61 @@ function App() {
 
             setApplications(data.data);
             setTotalPages(data.totalPages);
+
             setLoading(false);
 
         } catch (error) {
-            setError("Failed to load applications");
+
+            console.error(error);
+
+            setError(
+                "Failed to load applications"
+            );
+
             setLoading(false);
         }
     }
 
+
     useEffect(() => {
+
         fetchApplications();
-    }, [page, company, status, sort]);
+
+    }, [
+        page,
+        company,
+        status,
+        from,
+        to,
+        sort
+    ]);
+
 
     return (
         <>
             {!isLoggedIn ? (
+
                 showRegister ? (
+
                     <Register
-                        onRegister={() => setShowRegister(false)}
+                        onRegister={() =>
+                            setShowRegister(false)
+                        }
                     />
+
                 ) : (
+
                     <Login
                         onLogin={handleLogin}
-                        onRegister={() => setShowRegister(true)}
+                        onRegister={() =>
+                            setShowRegister(true)
+                        }
                     />
+
                 )
+
             ) : (
+
                 <>
                     <Navbar
                         title="CareerForge"
@@ -173,36 +278,76 @@ function App() {
                     />
 
                     {selectedApplicationId ? (
+
                         <ApplicationDetails
-                            applicationId={selectedApplicationId}
-                            onBack={() => setSelectedApplicationId(null)}
+                            applicationId={
+                                selectedApplicationId
+                            }
+                            onBack={() =>
+                                setSelectedApplicationId(null)
+                            }
                         />
+
                     ) : (
-                        
+
                         <>
-                        <Analytics />
-                        
+                            <Analytics />
+
                             <Dashboard
                                 applications={applications}
                                 loading={loading}
                                 error={error}
+
                                 page={page}
                                 setPage={setPage}
                                 totalPages={totalPages}
-                                onDelete={deleteApplication}
-                                onUpdate={updateApplication}
-                                onViewDetails={handleViewDetails}
+
+                                onDelete={
+                                    deleteApplication
+                                }
+
+                                onUpdate={
+                                    updateApplication
+                                }
+
+                                onViewDetails={
+                                    handleViewDetails
+                                }
+
                                 company={company}
-                                setCompany={setCompany}
+                                setCompany={
+                                    handleCompanyChange
+                                }
+
                                 status={status}
-                                setStatus={setStatus}
+                                setStatus={
+                                    handleStatusChange
+                                }
+
+                                from={from}
+                                setFrom={
+                                    handleFromChange
+                                }
+
+                                to={to}
+                                setTo={
+                                    handleToChange
+                                }
+
                                 sort={sort}
-                                setSort={setSort}
-                                onClearFilters={clearFilters}
+                                setSort={
+                                    handleSortChange
+                                }
+
+                                onClearFilters={
+                                    clearFilters
+                                }
                             />
 
                             <AddApplication
-                                onApplicationAdded={fetchApplications}
+                                onApplicationAdded={
+                                    fetchApplications
+                                }
                             />
                         </>
                     )}

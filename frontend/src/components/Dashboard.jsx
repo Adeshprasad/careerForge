@@ -16,7 +16,11 @@ function Dashboard({
     sort,
     setSort,
     onClearFilters,
-    onViewDetails
+    onViewDetails,
+    from,
+    to,
+    setFrom,
+    setTo
 }) {
 
     console.log(applications);
@@ -42,6 +46,18 @@ function Dashboard({
                 <option value="Rejected">Rejected</option>
                 <option value="Offer">Offer</option>
             </select>
+
+            <input
+                type="date"
+                value={from}
+                onChange={(event) => setFrom(event.target.value)}
+            />
+
+            <input
+                type="date"
+                value={to}
+                onChange={(event) => setTo(event.target.value)}
+            />
 
             <select
                 value={sort}
