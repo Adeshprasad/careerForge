@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Application = require("../models/Application");
 const asyncHandler = require("../utils/asyncHandler");
 const path = require("path");
@@ -56,6 +57,36 @@ const getApplications = asyncHandler(async (req, res) => {
         hasNextPage: pageNumber < totalPages,
         hasPreviousPage: pageNumber > 1,
         data: applications
+    });
+});
+
+const getApplicationAnalytics = asyncHandler(async (req, res) => {
+
+    const userId = req.user.userId;
+
+    const totalApplications = await Application.countDocuments({
+        user: userId
+    });
+
+    const statusBreakdown = await Application.aggregate([
+        {
+            $match: {
+                user: new mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $group: {
+                _id: "$status",
+                count: {
+                    $sum: 1
+                }
+            }
+        }
+    ]);
+
+    return res.json({
+        totalApplications,
+        statusBreakdown
     });
 });
 
@@ -202,5 +233,6 @@ module.exports = {
     getResume,
     createApplication,
     updateApplication,
-    deleteApplication
+    deleteApplication,
+    getApplicationAnalytics
 };

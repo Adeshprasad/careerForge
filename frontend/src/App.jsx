@@ -5,6 +5,7 @@ import AddApplication from "./components/AddApplications";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ApplicationDetails from "./components/ApplicationDetails";
+import Analytics from "./components/Analytics";
 
 function App() {
     const [applications, setApplications] = useState([]);
@@ -177,7 +178,10 @@ function App() {
                             onBack={() => setSelectedApplicationId(null)}
                         />
                     ) : (
+                        
                         <>
+                        <Analytics />
+                        
                             <Dashboard
                                 applications={applications}
                                 loading={loading}

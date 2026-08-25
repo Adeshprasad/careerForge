@@ -10,7 +10,8 @@ const {
     createApplication,
     updateApplication,
     deleteApplication,
-    getResume
+    getResume,
+    getApplicationAnalytics
 } = require("../controllers/applicationController");
 
 const {
@@ -29,6 +30,12 @@ router.get(
     "/:id/resume",
     authMiddleware,
     getResume
+);
+
+router.get(
+    "/analytics",
+    authMiddleware,
+    getApplicationAnalytics
 );
 
 router.get(
