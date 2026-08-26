@@ -12,7 +12,10 @@ const {
     deleteApplication,
     getResume,
     getApplicationAnalytics,
-    getUpcomingFollowUps
+    getUpcomingFollowUps,
+    addInterview,
+    updateInterview,
+    deleteInterview
 } = require("../controllers/applicationController");
 
 const {
@@ -43,6 +46,24 @@ router.get(
     "/follow-ups",
     authMiddleware,
     getUpcomingFollowUps
+);
+
+router.post(
+    "/:id/interviews",
+    authMiddleware,
+    addInterview
+);
+
+router.patch(
+    "/:id/interviews/:interviewId",
+    authMiddleware,
+    updateInterview
+);
+
+router.delete(
+    "/:id/interviews/:interviewId",
+    authMiddleware,
+    deleteInterview
 );
 
 router.get(

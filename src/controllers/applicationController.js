@@ -246,6 +246,55 @@ const updateApplication = asyncHandler(async (req, res) => {
     });
 });
 
+const addInterview = asyncHandler(async (req, res) => {
+
+    const application = await Application.findOne({
+        _id: req.params.id,
+        user: req.user.userId
+    });
+
+    if (!application) {
+        return res.status(404).json({
+            message: "Application not found"
+        });
+    }
+
+    const {
+        date,
+        round,
+        type,
+        notes,
+        outcome
+    } = req.body;
+
+    if (!date) {
+        return res.status(400).json({
+            message: "Interview date is required"
+        });
+    }
+
+    if (!round || !round.trim()) {
+        return res.status(400).json({
+            message: "Interview round is required"
+        });
+    }
+
+    application.interviews.push({
+        date,
+        round,
+        type,
+        notes,
+        outcome
+    });
+
+    await application.save();
+
+    return res.status(201).json({
+        message: "Interview added successfully!",
+        data: application
+    });
+});
+
 
 const deleteApplication = asyncHandler(async (req, res) => {
 
@@ -265,6 +314,72 @@ const deleteApplication = asyncHandler(async (req, res) => {
     });
 });
 
+const updateInterview = asyncHandler(async (req, res) => {
+
+    const application = await Application.findOne({
+        _id: req.params.id,
+        user: req.user.userId
+    });
+
+    if (!application) {
+        return res.status(404).json({
+            message: "Application not found"
+        });
+    }
+
+    const interview = application.interviews.id(
+        req.params.interviewId
+    );
+
+    if (!interview) {
+        return res.status(404).json({
+            message: "Interview not found"
+        });
+    }
+
+    Object.assign(interview, req.body);
+
+    await application.save();
+
+    return res.json({
+        message: "Interview updated successfully!",
+        data: application
+    });
+});
+
+const deleteInterview = asyncHandler(async (req, res) => {
+
+    const application = await Application.findOne({
+        _id: req.params.id,
+        user: req.user.userId
+    });
+
+    if (!application) {
+        return res.status(404).json({
+            message: "Application not found"
+        });
+    }
+
+    const interview = application.interviews.id(
+        req.params.interviewId
+    );
+
+    if (!interview) {
+        return res.status(404).json({
+            message: "Interview not found"
+        });
+    }
+
+    interview.deleteOne();
+
+    await application.save();
+
+    return res.json({
+        message: "Interview deleted successfully!",
+        data: application
+    });
+});
+
 
 module.exports = {
     getApplications,
@@ -274,5 +389,8 @@ module.exports = {
     updateApplication,
     deleteApplication,
     getApplicationAnalytics,
-    getUpcomingFollowUps
+    getUpcomingFollowUps,
+    addInterview,
+    updateInterview,
+    deleteInterview
 };
