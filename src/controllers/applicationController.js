@@ -109,6 +109,26 @@ const getApplicationAnalytics = asyncHandler(async (req, res) => {
     });
 });
 
+const getUpcomingFollowUps = asyncHandler(async (req, res) => {
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+    const applications = await Application.find({
+        user: req.user.userId,
+        followUpDate: {
+            $gte: today
+        }
+    })
+        .sort({ followUpDate: 1 })
+        .populate("user", "name email");
+
+    return res.json({
+        message: "Upcoming follow-ups fetched successfully!",
+        data: applications
+    });
+});
 
 const getApplicationById = asyncHandler(async (req, res) => {
 
@@ -253,5 +273,6 @@ module.exports = {
     createApplication,
     updateApplication,
     deleteApplication,
-    getApplicationAnalytics
+    getApplicationAnalytics,
+    getUpcomingFollowUps
 };

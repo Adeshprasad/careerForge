@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import ApplicationDetails from "./components/ApplicationDetails";
 import Analytics from "./components/Analytics";
+import UpcomingFollowUps from "./components/UpcomingFollowUps";
 
 function App() {
 
@@ -292,6 +293,8 @@ function App() {
 
                         <>
                             <Analytics />
+
+                            <UpcomingFollowUps />
 
                             <Dashboard
                                 applications={applications}

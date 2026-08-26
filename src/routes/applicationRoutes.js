@@ -11,7 +11,8 @@ const {
     updateApplication,
     deleteApplication,
     getResume,
-    getApplicationAnalytics
+    getApplicationAnalytics,
+    getUpcomingFollowUps
 } = require("../controllers/applicationController");
 
 const {
@@ -36,6 +37,12 @@ router.get(
     "/analytics",
     authMiddleware,
     getApplicationAnalytics
+);
+
+router.get(
+    "/follow-ups",
+    authMiddleware,
+    getUpcomingFollowUps
 );
 
 router.get(
