@@ -2,46 +2,81 @@ function validateApplication(req, res, next) {
 
     const { company, status } = req.body;
 
-    // POST → required fields
+    const allowedStatuses = [
+        "Applied",
+        "Interview",
+        "Rejected",
+        "Offer"
+    ];
+
+
+    // POST
     if (req.method === "POST") {
 
-        if (!company || !company.trim()) {
+        if (
+            typeof company !== "string" ||
+            !company.trim()
+        ) {
             return res.status(400).json({
                 message: "Company is required"
             });
         }
 
-        if (!status || !status.trim()) {
+        if (
+            typeof status !== "string" ||
+            !status.trim()
+        ) {
             return res.status(400).json({
                 message: "Status is required"
             });
         }
-    }
 
-    // PATCH → validate only fields that are provided
-    if (req.method === "PATCH") {
-
-        if (
-            company !== undefined &&
-            (!company || !company.trim())
-        ) {
+        if (!allowedStatuses.includes(status)) {
             return res.status(400).json({
-                message: "Company cannot be empty"
+                message: "Invalid application status"
             });
         }
+    }
 
-        if (
-            status !== undefined &&
-            (!status || !status.trim())
-        ) {
-            return res.status(400).json({
-                message: "Status cannot be empty"
-            });
+
+    // PATCH
+    if (req.method === "PATCH") {
+
+        if (company !== undefined) {
+
+            if (
+                typeof company !== "string" ||
+                !company.trim()
+            ) {
+                return res.status(400).json({
+                    message: "Company cannot be empty"
+                });
+            }
+        }
+
+
+        if (status !== undefined) {
+
+            if (
+                typeof status !== "string" ||
+                !status.trim()
+            ) {
+                return res.status(400).json({
+                    message: "Status cannot be empty"
+                });
+            }
+
+            if (!allowedStatuses.includes(status)) {
+                return res.status(400).json({
+                    message: "Invalid application status"
+                });
+            }
         }
     }
 
     next();
 }
+
 
 module.exports = {
     validateApplication

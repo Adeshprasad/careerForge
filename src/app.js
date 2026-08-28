@@ -57,7 +57,15 @@ app.use("/users", userRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
+
     console.error(err);
+
+    if (err.name === "CastError") {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid application ID"
+        });
+    }
 
     res.status(err.status || 500).json({
         success: false,
