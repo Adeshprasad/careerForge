@@ -23,8 +23,6 @@ function Dashboard({
     setTo
 }) {
 
-    console.log(applications);
-
     return (
         <main>
             <h1>Your Applications</h1>

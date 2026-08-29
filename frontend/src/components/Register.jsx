@@ -37,8 +37,6 @@ function Register({ onRegister }) {
                 return;
             }
 
-            console.log("Registration successful!");
-
             setLoading(false);
             onRegister();
 
