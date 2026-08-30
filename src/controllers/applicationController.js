@@ -282,6 +282,7 @@ const getApplicationAnalytics =
                     }
                 },
 
+
                 {
                     $group: {
                         _id: "$status",
@@ -289,6 +290,71 @@ const getApplicationAnalytics =
                         count: {
                             $sum: 1
                         }
+                    }
+                },
+
+
+                {
+                    $addFields: {
+                        order: {
+                            $switch: {
+                                branches: [
+                                    {
+                                        case: {
+                                            $eq: [
+                                                "$_id",
+                                                "Applied"
+                                            ]
+                                        },
+                                        then: 1
+                                    },
+                                    {
+                                        case: {
+                                            $eq: [
+                                                "$_id",
+                                                "Interview"
+                                            ]
+                                        },
+                                        then: 2
+                                    },
+                                    {
+                                        case: {
+                                            $eq: [
+                                                "$_id",
+                                                "Offer"
+                                            ]
+                                        },
+                                        then: 3
+                                    },
+                                    {
+                                        case: {
+                                            $eq: [
+                                                "$_id",
+                                                "Rejected"
+                                            ]
+                                        },
+                                        then: 4
+                                    }
+                                ],
+
+                                default: 99
+                            }
+                        }
+                    }
+                },
+
+
+                {
+                    $sort: {
+                        order: 1
+                    }
+                },
+
+
+                {
+                    $project: {
+                        _id: 1,
+                        count: 1
                     }
                 }
 

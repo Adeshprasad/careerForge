@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import AddApplication from "./components/AddApplications";
 import Login from "./components/Login";
@@ -7,6 +6,10 @@ import Register from "./components/Register";
 import ApplicationDetails from "./components/ApplicationDetails";
 import Analytics from "./components/Analytics";
 import UpcomingFollowUps from "./components/UpcomingFollowUps";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+import DashboardOverview from "./components/DashboardOverview";
+import "./components/AppShell.css";
 
 function App() {
 
@@ -33,10 +36,42 @@ function App() {
 
     const [selectedApplicationId, setSelectedApplicationId] =
         useState(null);
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") || "dark"
+    );
+
+    const [currentView, setCurrentView] = useState(() => {
+        const view = window.location.hash.replace("#", "");
+
+        if (
+            view === "applications" ||
+            view === "analytics" ||
+            view === "add"
+        ) {
+            return view;
+        }
+
+        return "dashboard";
+    });
+
+    const [user, setUser] = useState(null);
+
+    function handleViewChange(view) {
+        setCurrentView(view);
+
+        window.history.pushState(
+            {},
+            "",
+            `#${view}`
+        );
+
+        setSelectedApplicationId(null);
+    }
 
 
     function logout() {
         localStorage.removeItem("token");
+        setUser(null);
         setIsLoggedIn(false);
     }
 
@@ -235,6 +270,99 @@ function App() {
 
     useEffect(() => {
 
+        function handleHashChange() {
+
+            const view =
+                window.location.hash.replace("#", "");
+
+            if (
+                view === "applications" ||
+                view === "analytics" ||
+                view === "add"
+            ) {
+                setCurrentView(view);
+            } else {
+                setCurrentView("dashboard");
+            }
+
+            setSelectedApplicationId(null);
+        }
+
+        window.addEventListener(
+            "popstate",
+            handleHashChange
+        );
+
+        window.addEventListener(
+            "hashchange",
+            handleHashChange
+        );
+
+        return () => {
+
+            window.removeEventListener(
+                "popstate",
+                handleHashChange
+            );
+
+            window.removeEventListener(
+                "hashchange",
+                handleHashChange
+            );
+        };
+
+    }, []);
+
+
+    useEffect(() => {
+
+        async function fetchCurrentUser() {
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                if (!token) {
+                    return;
+                }
+
+                const response = await fetch(
+                    "http://localhost:3000/users/me",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error(data.message);
+                    return;
+                }
+
+                setUser(data.user);
+
+            } catch (error) {
+
+                console.error(
+                    "Failed to fetch current user:",
+                    error
+                );
+
+            }
+        }
+
+        if (isLoggedIn) {
+            fetchCurrentUser();
+        }
+
+    }, [isLoggedIn]);
+
+
+    useEffect(() => {
+
         fetchApplications();
 
     }, [
@@ -246,6 +374,11 @@ function App() {
         sort
     ]);
 
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
 
     return (
         <>
@@ -272,89 +405,133 @@ function App() {
 
             ) : (
 
-                <>
-                    <Navbar
-                        title="CareerForge"
+                <div className="app-shell">
+
+                    <Sidebar
+                        currentView={currentView}
+                        setCurrentView={handleViewChange}
                         onLogout={logout}
                     />
 
-                    {selectedApplicationId ? (
+                    <div className="app-main">
 
-                        <ApplicationDetails
-                            applicationId={
-                                selectedApplicationId
-                            }
-                            onBack={() =>
-                                setSelectedApplicationId(null)
-                            }
+                        <Topbar
+                            theme={theme}
+                            setTheme={setTheme}
+                            onLogout={logout}
+                            user={user}
                         />
 
-                    ) : (
+                        <div className="app-content">
 
-                        <>
-                            <Analytics />
+                            {selectedApplicationId ? (
 
-                            <UpcomingFollowUps />
+                                <ApplicationDetails
+                                    applicationId={
+                                        selectedApplicationId
+                                    }
+                                    onBack={() =>
+                                        setSelectedApplicationId(null)
+                                    }
+                                />
 
-                            <Dashboard
-                                applications={applications}
-                                loading={loading}
-                                error={error}
+                            ) : (
 
-                                page={page}
-                                setPage={setPage}
-                                totalPages={totalPages}
+                                <>
 
-                                onDelete={
-                                    deleteApplication
-                                }
+                                    {currentView === "dashboard" && (
 
-                                onUpdate={
-                                    updateApplication
-                                }
+                                        <DashboardOverview
+                                            applications={applications}
+                                            onViewDetails={handleViewDetails}
+                                        />
 
-                                onViewDetails={
-                                    handleViewDetails
-                                }
+                                    )}
 
-                                company={company}
-                                setCompany={
-                                    handleCompanyChange
-                                }
 
-                                status={status}
-                                setStatus={
-                                    handleStatusChange
-                                }
+                                    {currentView === "applications" && (
 
-                                from={from}
-                                setFrom={
-                                    handleFromChange
-                                }
+                                        <Dashboard
+                                            applications={applications}
+                                            loading={loading}
+                                            error={error}
 
-                                to={to}
-                                setTo={
-                                    handleToChange
-                                }
+                                            page={page}
+                                            setPage={setPage}
+                                            totalPages={totalPages}
 
-                                sort={sort}
-                                setSort={
-                                    handleSortChange
-                                }
+                                            onDelete={
+                                                deleteApplication
+                                            }
 
-                                onClearFilters={
-                                    clearFilters
-                                }
-                            />
+                                            onUpdate={
+                                                updateApplication
+                                            }
 
-                            <AddApplication
-                                onApplicationAdded={
-                                    fetchApplications
-                                }
-                            />
-                        </>
-                    )}
-                </>
+                                            onViewDetails={
+                                                handleViewDetails
+                                            }
+
+                                            company={company}
+                                            setCompany={
+                                                handleCompanyChange
+                                            }
+
+                                            status={status}
+                                            setStatus={
+                                                handleStatusChange
+                                            }
+
+                                            from={from}
+                                            setFrom={
+                                                handleFromChange
+                                            }
+
+                                            to={to}
+                                            setTo={
+                                                handleToChange
+                                            }
+
+                                            sort={sort}
+                                            setSort={
+                                                handleSortChange
+                                            }
+
+                                            onClearFilters={
+                                                clearFilters
+                                            }
+                                        />
+
+                                    )}
+
+
+                                    {currentView === "analytics" && (
+
+                                        <Analytics />
+
+                                    )}
+
+
+                                    {currentView === "add" && (
+
+                                        <AddApplication
+                                            onApplicationAdded={
+                                                fetchApplications
+                                            }
+                                        />
+
+                                    )}
+
+                                </>
+
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             )}
         </>
     );

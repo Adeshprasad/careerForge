@@ -1,0 +1,146 @@
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    position: sticky;
+
+    top: 0;
+
+    height: 64px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 0 30px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+    z-index: 50;
+}
+
+.topbar-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.topbar-theme,
+.topbar-logout {
+    height: 38px;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.topbar-theme {
+    width: 38px;
+
+    padding: 0;
+}
+
+.topbar-theme:hover,
+.topbar-logout:hover {
+    background: var(--surface-secondary);
+}
+
+.topbar-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 6px;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.topbar-avatar {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.topbar-mobile-brand {
+    display: none;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .topbar-user span,
+    .topbar-logout {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .topbar {
+        justify-content: space-between;
+    }
+
+    .topbar-mobile-brand {
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        color: var(--text);
+    }
+
+    .topbar-mobile-brand .sidebar-logo {
+        width: 30px;
+        height: 30px;
+    }
+
+}

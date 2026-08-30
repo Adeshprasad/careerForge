@@ -7,10 +7,13 @@ function Analytics() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+
     useEffect(() => {
 
         async function fetchAnalytics() {
+
             try {
+
                 setLoading(true);
                 setError("");
 
@@ -20,7 +23,8 @@ function Analytics() {
                     "http://localhost:3000/applications/analytics",
                     {
                         headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization:
+                                `Bearer ${token}`
                         }
                     }
                 );
@@ -28,18 +32,29 @@ function Analytics() {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    setError(data.message);
+
+                    setError(
+                        data.message ||
+                        "Failed to load analytics"
+                    );
+
                     setLoading(false);
+
                     return;
                 }
 
                 setAnalytics(data);
+
                 setLoading(false);
 
             } catch (error) {
+
                 console.error(error);
 
-                setError("Failed to load analytics");
+                setError(
+                    "Failed to load analytics"
+                );
+
                 setLoading(false);
             }
         }
@@ -49,89 +64,379 @@ function Analytics() {
     }, []);
 
 
+    function getStatusCount(status) {
+
+        return (
+            analytics?.statusBreakdown?.find(
+                (item) =>
+                    item._id === status
+            )?.count || 0
+        );
+    }
+
+
+    function getPercentage(status) {
+
+        const total =
+            analytics?.totalApplications || 0;
+
+        const count =
+            getStatusCount(status);
+
+        if (total === 0) {
+            return 0;
+        }
+
+        return (
+            (count / total) * 100
+        ).toFixed(1);
+    }
+
+
     if (loading) {
-        return <p>Loading analytics...</p>;
+
+        return (
+            <section className="analytics analytics-state">
+
+                <div className="loading-spinner"></div>
+
+                <p>
+                    Loading analytics...
+                </p>
+
+            </section>
+        );
     }
 
 
     if (error) {
-        return <p>{error}</p>;
+
+        return (
+            <section className="analytics analytics-state">
+
+                <h3>
+                    Unable to load analytics
+                </h3>
+
+                <p>
+                    {error}
+                </p>
+
+            </section>
+        );
     }
 
 
+    const total =
+        analytics.totalApplications || 0;
+
+    const interviews =
+        getStatusCount("Interview");
+
+    const offers =
+        getStatusCount("Offer");
+
+
+    const interviewRate =
+        total > 0
+            ? ((interviews / total) * 100).toFixed(1)
+            : 0;
+
+    const offerRate =
+        total > 0
+            ? ((offers / total) * 100).toFixed(1)
+            : 0;
+
+
     return (
-        <section className="analytics">
+        <main className="analytics">
 
-            <h2>Career Analytics</h2>
+            {/* Header */}
 
-            <div className="analytics-cards">
+            <section className="analytics-header">
 
-                <div className="analytics-card">
-                    <h3>Total Applications</h3>
-                    <p>{analytics.totalApplications}</p>
-                </div>
+                <div>
 
-                <div className="analytics-card">
-                    <h3>Applied</h3>
-                    <p>
-                        {analytics.statusBreakdown.find(
-                            (item) => item._id === "Applied"
-                        )?.count || 0}
+                    <p className="analytics-eyebrow">
+                        INSIGHTS
                     </p>
+
+                    <h1>
+                        Analytics
+                    </h1>
+
+                    <p>
+                        Understand how your application
+                        pipeline is performing.
+                    </p>
+
                 </div>
+
+                <div className="analytics-total">
+
+                    <span>
+                        Applications tracked
+                    </span>
+
+                    <strong>
+                        {total}
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+            {/* Summary cards */}
+
+            <section className="analytics-cards">
 
                 <div className="analytics-card">
-                    <h3>Interviews</h3>
-                    <p>
-                        {analytics.statusBreakdown.find(
-                            (item) => item._id === "Interview"
-                        )?.count || 0}
-                    </p>
+
+                    <div className="analytics-card-icon">
+                        ◉
+                    </div>
+
+                    <div>
+
+                        <span>
+                            TOTAL
+                        </span>
+
+                        <strong>
+                            {total}
+                        </strong>
+
+                    </div>
+
                 </div>
+
 
                 <div className="analytics-card">
-                    <h3>Offers</h3>
-                    <p>
-                        {analytics.statusBreakdown.find(
-                            (item) => item._id === "Offer"
-                        )?.count || 0}
-                    </p>
+
+                    <div className="analytics-card-icon">
+                        ↗
+                    </div>
+
+                    <div>
+
+                        <span>
+                            APPLIED
+                        </span>
+
+                        <strong>
+                            {getStatusCount("Applied")}
+                        </strong>
+
+                    </div>
+
                 </div>
 
-            </div>
 
-            <div className="status-breakdown">
+                <div className="analytics-card">
 
-                <h3>Status Breakdown</h3>
+                    <div className="analytics-card-icon">
+                        ◌
+                    </div>
 
-                {analytics.statusBreakdown.map((item) => {
+                    <div>
 
-                    const percentage =
-                        analytics.totalApplications > 0
-                            ? (
-                                (item.count /
-                                    analytics.totalApplications) *
-                                100
-                            ).toFixed(1)
-                            : 0;
+                        <span>
+                            INTERVIEWS
+                        </span>
 
-                    return (
-                        <div
-                            className="status-row"
-                            key={item._id}
-                        >
-                            <span>{item._id}</span>
+                        <strong>
+                            {interviews}
+                        </strong>
 
-                            <span>
-                                {item.count} ({percentage}%)
-                            </span>
-                        </div>
-                    );
-                })}
+                    </div>
 
-            </div>
+                </div>
 
-        </section>
+
+                <div className="analytics-card">
+
+                    <div className="analytics-card-icon">
+                        ★
+                    </div>
+
+                    <div>
+
+                        <span>
+                            OFFERS
+                        </span>
+
+                        <strong>
+                            {offers}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            {/* Pipeline */}
+
+            <section className="analytics-panel">
+
+                <div className="analytics-panel-header">
+
+                    <div>
+
+                        <h2>
+                            Application Pipeline
+                        </h2>
+
+                        <p>
+                            Breakdown of your current applications.
+                        </p>
+
+                    </div>
+
+                    <span className="pipeline-total">
+                        {total} total
+                    </span>
+
+                </div>
+
+
+                <div className="pipeline-list">
+
+                    {analytics.statusBreakdown.map(
+                        (item) => {
+
+                            const percentage =
+                                getPercentage(
+                                    item._id
+                                );
+
+                            return (
+
+                                <div
+                                    className="pipeline-item"
+                                    key={item._id}
+                                >
+
+                                    <div className="pipeline-item-header">
+
+                                        <div className="pipeline-name">
+
+                                            <span
+                                                className={`pipeline-dot ${String(
+                                                    item._id
+                                                ).toLowerCase()}`}
+                                            ></span>
+
+                                            <span>
+                                                {item._id}
+                                            </span>
+
+                                        </div>
+
+                                        <div className="pipeline-value">
+
+                                            <strong>
+                                                {item.count}
+                                            </strong>
+
+                                            <span>
+                                                {percentage}%
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div className="pipeline-bar">
+
+                                        <div
+                                            className={`pipeline-fill ${String(
+                                                item._id
+                                            ).toLowerCase()}`}
+                                            style={{
+                                                width:
+                                                    `${percentage}%`
+                                            }}
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+                            );
+                        }
+                    )}
+
+                </div>
+
+            </section>
+
+
+            {/* Performance */}
+
+            <section className="analytics-performance">
+
+                <div className="performance-card">
+
+                    <div className="performance-icon">
+                        ◌
+                    </div>
+
+                    <div>
+
+                        <span>
+                            INTERVIEW RATE
+                        </span>
+
+                        <strong>
+                            {interviewRate}%
+                        </strong>
+
+                        <p>
+                            {interviews} of {total}
+                            {" "}
+                            applications reached
+                            interview stage.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div className="performance-card">
+
+                    <div className="performance-icon">
+                        ★
+                    </div>
+
+                    <div>
+
+                        <span>
+                            OFFER RATE
+                        </span>
+
+                        <strong>
+                            {offerRate}%
+                        </strong>
+
+                        <p>
+                            {offers} of {total}
+                            {" "}
+                            applications resulted
+                            in an offer.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
     );
 }
 

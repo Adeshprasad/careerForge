@@ -1,0 +1,322 @@
+/* =========================
+   UPCOMING FOLLOW-UPS
+========================= */
+
+.follow-ups {
+    width: min(1200px, 100%);
+
+    margin: 0 auto;
+
+    padding: 24px 32px 10px;
+}
+
+.follow-ups-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+.follow-ups-eyebrow {
+    margin: 0 0 6px;
+
+    color: var(--primary);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+.follow-ups-header h2 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 20px;
+}
+
+.follow-ups-header p {
+    margin: 5px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+}
+
+.follow-up-count {
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* List */
+
+.follow-ups-list {
+    display: grid;
+
+    gap: 10px;
+}
+
+.follow-up-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 16px 18px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.follow-up-card:hover {
+    transform: translateY(-1px);
+}
+
+
+/* Date */
+
+.follow-up-date {
+    min-width: 72px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    padding-right: 18px;
+
+    border-right: 1px solid var(--border);
+}
+
+.follow-up-date span {
+    color: var(--text-secondary);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+.follow-up-date strong {
+    color: var(--text);
+
+    font-size: 14px;
+}
+
+
+/* Company */
+
+.follow-up-info {
+    flex: 1;
+}
+
+.follow-up-info h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 15px;
+}
+
+.follow-up-info p {
+    margin: 4px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+
+/* Status */
+
+.follow-up-status {
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.follow-up-status.applied {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+.follow-up-status.interview {
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+.follow-up-status.offer {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+.follow-up-status.rejected {
+    background: #fee2e2;
+
+    color: #b91c1c;
+}
+
+
+/* Empty */
+
+.no-follow-ups {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 20px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+}
+
+.follow-up-empty-icon {
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--surface-secondary);
+
+    color: var(--success);
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+.no-follow-ups h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 14px;
+}
+
+.no-follow-ups p {
+    margin: 4px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+
+/* Loading / Error */
+
+.follow-ups-state {
+    min-height: 150px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.follow-ups-state h3 {
+    margin: 0 0 5px;
+
+    color: var(--text);
+}
+
+.follow-ups-state p {
+    margin: 0;
+
+    color: var(--text-secondary);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .follow-ups {
+        padding: 20px 16px 10px;
+    }
+
+    .follow-up-card {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+
+        gap: 14px;
+    }
+
+    .follow-up-date {
+        min-width: 65px;
+
+        padding-right: 14px;
+    }
+
+    .follow-up-info {
+        min-width: calc(100% - 95px);
+    }
+
+    .follow-up-status {
+        margin-left: 79px;
+    }
+
+}

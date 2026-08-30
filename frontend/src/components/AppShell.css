@@ -1,0 +1,65 @@
+/* =========================
+   APP SHELL
+========================= */
+
+.app-shell {
+    min-height: 100vh;
+
+    display: flex;
+
+    background: var(--bg);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.app-main {
+    width: calc(100% - 250px);
+
+    margin-left: 250px;
+
+    min-width: 0;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.app-content {
+    min-height: calc(100vh - 64px);
+
+    padding: 20px 0 40px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .app-main {
+        width: calc(100% - 72px);
+
+        margin-left: 72px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .app-main {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    .app-content {
+        padding-bottom: 80px;
+    }
+
+}

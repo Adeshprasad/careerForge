@@ -2,20 +2,76 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --surface-secondary: #f8fafc;
+
+    --text: #111827;
+    --text-secondary: #6b7280;
+
+    --border: #e5e7eb;
+
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+
+    --shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg: #0f1117;
+    --surface: #171a23;
+    --surface-secondary: #1e222d;
+
+    --text: #f5f7fb;
+    --text-secondary: #9ca3af;
+
+    --border: #2a2f3a;
+
+    --primary: #818cf8;
+    --primary-hover: #6366f1;
+
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --danger: #f87171;
+
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+html {
+    background: var(--bg);
+    color: var(--text);
+}
+
 body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
 
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-    background: #0f1117;
-    color: #f5f7fb;
+    background: var(--bg);
+    color: var(--text);
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
 }
 
 button,
 input,
-select {
+select,
+textarea {
     font: inherit;
 }
 
@@ -23,127 +79,14 @@ button {
     cursor: pointer;
 }
 
-.interviews-section {
-    margin-top: 32px;
-}
-
-.interview-form {
-    display: grid;
-    gap: 16px;
-    padding: 24px;
-    margin-top: 16px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.form-group label {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font: inherit;
-}
-
-.form-group textarea {
-    resize: vertical;
-}
-
-.add-interview-button {
-    width: fit-content;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.add-interview-button:disabled {
+button:disabled {
     cursor: not-allowed;
-    opacity: 0.6;
 }
 
-.interview-list {
-    margin-top: 28px;
-}
-
-.interview-list>h4 {
-    margin-bottom: 16px;
-}
-
-.interview-card {
-    padding: 20px;
-    margin-bottom: 16px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-}
-
-.interview-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-}
-
-.interview-card-header h4 {
-    margin: 0 0 6px;
-}
-
-.interview-date {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.7;
-}
-
-.interview-outcome {
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.interview-outcome.pending {
-    background: #fff3cd;
-}
-
-.interview-outcome.passed {
-    background: #d1e7dd;
-}
-
-.interview-outcome.failed {
-    background: #f8d7da;
-}
-
-.interview-meta {
-    margin-top: 14px;
-    font-size: 14px;
-    opacity: 0.75;
-}
-
-.interview-notes-display {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #eee;
-}
-
-.interview-notes-display p {
-    margin-bottom: 0;
-    line-height: 1.6;
-}
-
-.empty-message {
-    opacity: 0.7;
+input,
+select,
+textarea {
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--border);
 }

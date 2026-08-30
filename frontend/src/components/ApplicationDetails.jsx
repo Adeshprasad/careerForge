@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./ApplicationDetails.css";
 
 function ApplicationDetails({ applicationId, onBack }) {
 
@@ -474,101 +475,214 @@ function ApplicationDetails({ applicationId, onBack }) {
 
 
     return (
-        <main>
+        <main className="application-details">
 
-            <h1>Application Details</h1>
+            <button
+                className="back-button"
+                onClick={onBack}
+            >
+                ← Back to Applications
+            </button>
 
-            <h2>{application.company}</h2>
 
-            <p>
-                Role: {application.role}
-            </p>
+            {/* Application Header */}
+
+            <section className="details-hero">
+
+                <div className="details-hero-main">
+
+                    <div className="details-company-avatar">
+                        {application.company
+                            ? application.company
+                                .charAt(0)
+                                .toUpperCase()
+                            : "?"}
+                    </div>
+
+                    <div>
+
+                        <p className="details-eyebrow">
+                            APPLICATION
+                        </p>
+
+                        <h1>
+                            {application.company}
+                        </h1>
+
+                        <p className="details-role">
+                            {application.role ||
+                                "Role not specified"}
+                        </p>
+
+                    </div>
+
+                </div>
 
 
-            <section>
-
-                <h3>Current Status</h3>
-
-                <p>
-                    <strong>
-                        {application.status}
-                    </strong>
-                </p>
+                <span
+                    className={`details-status ${String(
+                        application.status
+                    ).toLowerCase()}`}
+                >
+                    {application.status}
+                </span>
 
             </section>
 
 
-            <p>
-                Applied on:{" "}
-                {new Date(
-                    application.createdAt
-                ).toLocaleDateString()}
-            </p>
+            {/* Overview */}
+
+            <section className="details-overview">
+
+                <div className="overview-item">
+
+                    <span>
+                        APPLIED ON
+                    </span>
+
+                    <strong>
+                        {new Date(
+                            application.createdAt
+                        ).toLocaleDateString()}
+                    </strong>
+
+                </div>
 
 
-            <p>
-                Applicant:{" "}
-                {application.user.name}
-            </p>
+                <div className="overview-item">
+
+                    <span>
+                        APPLICANT
+                    </span>
+
+                    <strong>
+                        {application.user.name}
+                    </strong>
+
+                </div>
 
 
-            <p>
-                Email:{" "}
-                {application.user.email}
-            </p>
+                <div className="overview-item">
+
+                    <span>
+                        EMAIL
+                    </span>
+
+                    <strong>
+                        {application.user.email}
+                    </strong>
+
+                </div>
+
+
+                {application.resume && (
+
+                    <button
+                        className="resume-button"
+                        onClick={viewResume}
+                    >
+                        📄 View Resume
+                    </button>
+
+                )}
+
+            </section>
 
 
             {/* NOTES */}
 
-            <section>
+            <section className="details-section">
 
-                <h3>Notes</h3>
+                <div className="details-section-header">
+                    <div>
+                        <p className="details-section-eyebrow">
+                            NOTES
+                        </p>
+
+                        <h3>
+                            Application Notes
+                        </h3>
+
+                        <p>
+                            Keep important information about this opportunity.
+                        </p>
+                    </div>
+                </div>
 
                 <textarea
+                    className="details-textarea"
                     value={notes}
                     onChange={(event) =>
                         setNotes(event.target.value)
                     }
                     placeholder="Add notes about this application..."
-                    rows="5"
+                    rows="6"
                 />
 
-                <br />
-
-                <button
-                    onClick={saveNotes}
-                    disabled={savingNotes}
-                >
-                    {savingNotes
-                        ? "Saving..."
-                        : "Save Notes"}
-                </button>
+                <div className="details-section-actions">
+                    <button
+                        className="primary-action"
+                        onClick={saveNotes}
+                        disabled={savingNotes}
+                    >
+                        {savingNotes
+                            ? "Saving..."
+                            : "Save Notes"}
+                    </button>
+                </div>
 
             </section>
 
 
             {/* FOLLOW-UP */}
 
-            <section>
+            <section className="details-section">
 
-                <h3>Follow-up</h3>
+                <div className="details-section-header">
+                    <div>
+                        <p className="details-section-eyebrow">
+                            FOLLOW-UP
+                        </p>
 
-                <input
-                    type="date"
-                    value={followUpDate}
-                    onChange={(event) =>
-                        setFollowUpDate(event.target.value)
-                    }
-                />
+                        <h3>
+                            Follow-up Reminder
+                        </h3>
 
-                <button
-                    onClick={saveFollowUp}
-                    disabled={savingFollowUp}
-                >
-                    {savingFollowUp
-                        ? "Saving..."
-                        : "Save Follow-up"}
-                </button>
+                        <p>
+                            Set a date so you don't lose track of this opportunity.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="follow-up-form">
+
+                    <div className="details-field">
+
+                        <label>
+                            Follow-up date
+                        </label>
+
+                        <input
+                            type="date"
+                            value={followUpDate}
+                            onChange={(event) =>
+                                setFollowUpDate(event.target.value)
+                            }
+                        />
+
+                    </div>
+
+                    <button
+                        className="primary-action"
+                        onClick={saveFollowUp}
+                        disabled={savingFollowUp}
+                    >
+                        {savingFollowUp
+                            ? "Saving..."
+                            : "Save Follow-up"}
+                    </button>
+
+                </div>
 
             </section>
 
@@ -867,67 +981,99 @@ function ApplicationDetails({ applicationId, onBack }) {
 
             {/* STATUS HISTORY */}
 
-            <h3>Status History</h3>
+            {/* STATUS HISTORY */}
 
-            {application.statusHistory &&
-                application.statusHistory.length > 0 ? (
+            <section className="details-section status-history-section">
 
-                <div>
+                <div className="details-section-header">
 
-                    {application.statusHistory.map(
-                        (history, index) => (
+                    <div>
 
-                            <div key={index}>
+                        <p className="details-section-eyebrow">
+                            TIMELINE
+                        </p>
 
-                                <p>
-                                    ●{" "}
-                                    <strong>
-                                        {history.status}
-                                    </strong>
-                                </p>
+                        <h3>
+                            Status History
+                        </h3>
 
-                                <p>
-                                    {new Date(
-                                        history.changedAt
-                                    ).toLocaleString()}
-                                </p>
+                        <p>
+                            Track how this application has progressed.
+                        </p>
 
-                                {index <
-                                    application.statusHistory.length - 1 && (
-                                        <p>│</p>
-                                    )}
-
-                            </div>
-                        )
-                    )}
+                    </div>
 
                 </div>
 
-            ) : (
 
-                <p>
-                    No status history available.
-                </p>
+                {application.statusHistory &&
+                    application.statusHistory.length > 0 ? (
 
-            )}
+                    <div className="status-history">
+
+                        {application.statusHistory.map(
+                            (history, index) => (
+
+                                <div
+                                    className="history-item"
+                                    key={index}
+                                >
+
+                                    <div className="history-marker">
+
+                                        <span></span>
+
+                                        {index <
+                                            application.statusHistory.length - 1 && (
+                                                <div className="history-line"></div>
+                                            )}
+
+                                    </div>
 
 
-            {/* RESUME */}
+                                    <div className="history-content">
 
-            {application.resume && (
+                                        <div className="history-top">
 
-                <button onClick={viewResume}>
-                    View Resume
-                </button>
+                                            <strong>
+                                                {history.status}
+                                            </strong>
 
-            )}
+                                            <span>
+                                                {new Date(
+                                                    history.changedAt
+                                                ).toLocaleString()}
+                                            </span>
 
+                                        </div>
 
-            <br />
+                                    </div>
 
-            <button onClick={onBack}>
-                Back to Applications
-            </button>
+                                </div>
+
+                            )
+                        )}
+
+                    </div>
+
+                ) : (
+
+                    <div className="history-empty">
+
+                        <span>
+                            ○
+                        </span>
+
+                        <p>
+                            No status history available yet.
+                        </p>
+
+                    </div>
+
+                )}
+
+            </section>
+
 
         </main>
     );

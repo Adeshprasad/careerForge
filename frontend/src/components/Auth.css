@@ -1,0 +1,334 @@
+/* =========================
+   AUTH PAGE
+========================= */
+
+.auth-page {
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 20px;
+
+    background: var(--bg);
+}
+
+
+/* =========================
+   AUTH CARD
+========================= */
+
+.auth-card {
+    width: min(420px, 100%);
+
+    padding: 34px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    box-shadow: var(--shadow);
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.auth-brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 28px;
+}
+
+.auth-logo {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.auth-brand span {
+    color: var(--text);
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.auth-header {
+    margin-bottom: 24px;
+}
+
+.auth-eyebrow {
+    margin: 0 0 7px;
+
+    color: var(--primary);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+.auth-header h1 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 26px;
+
+    line-height: 1.15;
+}
+
+.auth-header p:last-child {
+    margin: 7px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.auth-error {
+    margin-bottom: 16px;
+
+    padding: 10px 12px;
+
+    border: 1px solid rgba(220, 38, 38, 0.25);
+
+    border-radius: 8px;
+
+    background: rgba(220, 38, 38, 0.08);
+
+    color: var(--danger);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.auth-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+.auth-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.auth-field label {
+    color: var(--text);
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.auth-field input {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--surface-secondary);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-field input::placeholder {
+    color: var(--text-secondary);
+
+    opacity: 0.6;
+}
+
+.auth-field input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 14%,
+            transparent
+        );
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.auth-submit {
+    width: 100%;
+
+    height: 42px;
+
+    margin-top: 3px;
+
+    border: 1px solid var(--primary);
+
+    border-radius: 9px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        opacity 0.2s ease;
+}
+
+.auth-submit:hover:not(:disabled) {
+    background: var(--primary-hover);
+
+    transform: translateY(-1px);
+}
+
+.auth-submit:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   SECONDARY ACTION
+========================= */
+
+.auth-switch {
+    width: 100%;
+
+    margin-top: 2px;
+
+    padding: 5px;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-secondary);
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+.auth-switch:hover {
+    color: var(--primary);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.auth-footer {
+    margin-top: 22px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-secondary);
+
+    font-size: 9px;
+
+    text-align: center;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 500px) {
+
+    .auth-page {
+        padding: 20px 16px;
+    }
+
+    .auth-card {
+        padding: 25px 20px;
+
+        border-radius: 14px;
+    }
+
+    .auth-header h1 {
+        font-size: 23px;
+    }
+
+}

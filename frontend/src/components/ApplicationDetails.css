@@ -1,0 +1,943 @@
+/* =========================
+   APPLICATION DETAILS
+========================= */
+
+.application-details {
+    width: min(1100px, calc(100% - 48px));
+
+    margin: 0 auto;
+
+    padding: 28px 0 60px;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 18px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-secondary);
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.back-button:hover {
+    color: var(--primary);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.details-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 24px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+}
+
+.details-hero-main {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+.details-company-avatar {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    background: var(--surface-secondary);
+
+    color: var(--primary);
+
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.details-eyebrow {
+    margin: 0 0 4px;
+
+    color: var(--primary);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+}
+
+.details-hero h1 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+.details-role {
+    margin: 5px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+
+/* Status */
+
+.details-status {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.details-status.applied {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.details-status.interview {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.details-status.offer {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.details-status.rejected {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+
+/* =========================
+   OVERVIEW
+========================= */
+
+.details-overview {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr))
+        auto;
+
+    align-items: center;
+
+    gap: 0;
+
+    margin-top: 12px;
+
+    padding: 18px 20px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
+
+    box-shadow: var(--shadow);
+}
+
+.overview-item {
+    min-width: 0;
+
+    padding-right: 20px;
+
+    border-right: 1px solid var(--border);
+}
+
+.overview-item:not(:first-child) {
+    padding-left: 20px;
+}
+
+.overview-item span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--text-secondary);
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+.overview-item strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* Resume */
+
+.resume-button {
+    margin-left: 20px;
+
+    height: 35px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: var(--surface-secondary);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.resume-button:hover {
+    border-color: var(--primary);
+
+    color: var(--primary);
+}
+
+
+/* =========================
+   GENERAL DETAILS SECTION
+========================= */
+
+.details-section {
+    margin-top: 18px;
+
+    padding: 22px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    box-shadow: var(--shadow);
+}
+
+.details-section-header {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.details-section-eyebrow {
+    margin: 0 0 5px;
+
+    color: var(--primary);
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+}
+
+.details-section-header h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 16px;
+}
+
+.details-section-header p:last-child {
+    margin: 5px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+.details-textarea {
+    width: 100%;
+
+    min-height: 130px;
+
+    padding: 12px;
+
+    resize: vertical;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface-secondary);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    outline: none;
+}
+
+.details-textarea::placeholder {
+    color: var(--text-secondary);
+
+    opacity: 0.6;
+}
+
+.details-textarea:focus {
+    border-color: var(--primary);
+}
+
+.details-section-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   FOLLOW-UP
+========================= */
+
+.follow-up-form {
+    display: flex;
+    align-items: flex-end;
+
+    gap: 12px;
+}
+
+.details-field {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.details-field label {
+    color: var(--text);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.details-field input {
+    width: 100%;
+    height: 38px;
+
+    padding: 0 10px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: var(--surface-secondary);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    outline: none;
+}
+
+.details-field input:focus {
+    border-color: var(--primary);
+}
+
+
+/* =========================
+   INTERVIEWS
+========================= */
+
+.interviews-section {
+    margin-top: 18px;
+}
+
+.interviews-section > h3 {
+    margin: 0 0 12px;
+
+    color: var(--text);
+
+    font-size: 16px;
+}
+
+
+/* Interview form */
+
+.interview-form {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+
+    padding: 22px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    box-shadow: var(--shadow);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.form-group label {
+    color: var(--text);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 10px 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: var(--surface-secondary);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    outline: none;
+}
+
+.form-group input,
+.form-group select {
+    height: 38px;
+}
+
+.form-group textarea {
+    resize: vertical;
+
+    min-height: 80px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+}
+
+
+/* Notes spans full width */
+
+.interview-form .form-group:nth-child(5) {
+    grid-column: 1 / -1;
+}
+
+
+/* Interview buttons */
+
+.interview-form-actions {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding-top: 3px;
+}
+
+.add-interview-button,
+.cancel-interview-button {
+    height: 36px;
+
+    padding: 0 13px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.add-interview-button {
+    border: 1px solid var(--primary);
+
+    background: var(--primary);
+
+    color: white;
+}
+
+.cancel-interview-button {
+    border: 1px solid var(--border);
+
+    background: var(--surface-secondary);
+
+    color: var(--text-secondary);
+}
+
+.add-interview-button:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+
+/* Interview history */
+
+.interview-list {
+    margin-top: 18px;
+}
+
+.interview-list > h4 {
+    margin: 0 0 10px;
+
+    color: var(--text);
+
+    font-size: 12px;
+}
+
+.interview-card {
+    position: relative;
+
+    padding: 17px;
+
+    margin-bottom: 9px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.interview-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.interview-card-header h4 {
+    margin: 0 0 4px;
+
+    color: var(--text);
+
+    font-size: 13px;
+}
+
+.interview-date {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+}
+
+.interview-outcome {
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.interview-outcome.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.interview-outcome.passed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.interview-outcome.failed {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.interview-meta {
+    margin-top: 11px;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+}
+
+.interview-notes-display {
+    margin-top: 12px;
+
+    padding-top: 12px;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+.interview-notes-display strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--text);
+
+    font-size: 10px;
+}
+
+.interview-notes-display p {
+    margin: 0;
+}
+
+.interview-card-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    margin-top: 12px;
+}
+
+.edit-interview-button,
+.delete-interview-button {
+    height: 29px;
+
+    padding: 0 9px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.edit-interview-button {
+    border: 1px solid var(--border);
+
+    background: var(--surface-secondary);
+
+    color: var(--text-secondary);
+}
+
+.delete-interview-button {
+    border: 1px solid transparent;
+
+    background: transparent;
+
+    color: var(--danger);
+}
+
+.empty-message {
+    padding: 18px;
+
+    margin: 0;
+
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    text-align: center;
+}
+
+
+/* =========================
+   STATUS HISTORY
+========================= */
+
+.status-history-section {
+    margin-top: 18px;
+}
+
+.status-history {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-item {
+    display: flex;
+
+    min-height: 55px;
+}
+
+.history-marker {
+    position: relative;
+
+    width: 22px;
+
+    flex-shrink: 0;
+}
+
+.history-marker span {
+    position: absolute;
+
+    top: 3px;
+    left: 5px;
+
+    width: 10px;
+    height: 10px;
+
+    border: 2px solid var(--primary);
+
+    border-radius: 50%;
+
+    background: var(--surface);
+}
+
+.history-line {
+    position: absolute;
+
+    top: 15px;
+    bottom: -3px;
+
+    left: 9px;
+
+    width: 1px;
+
+    background: var(--border);
+}
+
+.history-content {
+    flex: 1;
+
+    padding-bottom: 16px;
+}
+
+.history-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.history-top strong {
+    color: var(--text);
+
+    font-size: 11px;
+}
+
+.history-top span {
+    color: var(--text-secondary);
+
+    font-size: 9px;
+}
+
+.history-empty {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 14px;
+
+    border: 1px dashed var(--border);
+    border-radius: 9px;
+}
+
+.history-empty span {
+    color: var(--text-secondary);
+}
+
+.history-empty p {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 850px) {
+
+    .details-overview {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+    .overview-item {
+        border-right: none;
+
+        padding: 0;
+    }
+
+    .overview-item:not(:first-child) {
+        padding-left: 0;
+    }
+
+    .resume-button {
+        margin-left: 0;
+    }
+
+    .interview-form {
+        grid-template-columns: 1fr;
+    }
+
+    .interview-form .form-group:nth-child(5),
+    .interview-form-actions {
+        grid-column: auto;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .application-details {
+        width: calc(100% - 32px);
+
+        padding: 22px 0 40px;
+    }
+
+    .details-hero {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 18px;
+    }
+
+    .details-hero h1 {
+        font-size: 22px;
+    }
+
+    .details-status {
+        align-self: flex-start;
+    }
+
+    .details-overview {
+        grid-template-columns: 1fr;
+
+        padding: 16px;
+    }
+
+    .overview-item {
+        padding-bottom: 12px;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+    .overview-item:last-of-type {
+        padding-bottom: 0;
+
+        border-bottom: none;
+    }
+
+    .details-section,
+    .interview-form {
+        padding: 17px;
+    }
+
+    .follow-up-form {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .follow-up-form .primary-action {
+        width: 100%;
+    }
+
+    .interview-card-header {
+        flex-direction: column;
+    }
+
+    .history-top {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+}

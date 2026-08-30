@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./UpcomingFollowUps.css";
 
 function UpcomingFollowUps() {
 
@@ -52,55 +53,131 @@ function UpcomingFollowUps() {
 
 
     if (loading) {
-        return <p>Loading follow-ups...</p>;
+        return (
+            <section className="follow-ups follow-ups-state">
+                <div className="loading-spinner"></div>
+                <p>Loading follow-ups...</p>
+            </section>
+        );
     }
 
 
     if (error) {
-        return <p>{error}</p>;
+        return (
+            <section className="follow-ups follow-ups-state">
+                <h3>Unable to load follow-ups</h3>
+                <p>{error}</p>
+            </section>
+        );
     }
 
 
     return (
-        <section>
+        <section className="follow-ups">
 
-            <h2>Upcoming Follow-ups</h2>
+            <div className="follow-ups-header">
+
+                <div>
+                    <p className="follow-ups-eyebrow">
+                        STAY ON TRACK
+                    </p>
+
+                    <h2>
+                        Upcoming Follow-ups
+                    </h2>
+
+                    <p>
+                        Don't let good opportunities go cold.
+                    </p>
+                </div>
+
+                <div className="follow-up-count">
+                    {followUps.length}
+                </div>
+
+            </div>
+
 
             {followUps.length === 0 ? (
 
-                <p>
-                    No upcoming follow-ups.
-                </p>
+                <div className="no-follow-ups">
 
-            ) : (
+                    <div className="follow-up-empty-icon">
+                        ✓
+                    </div>
 
-                followUps.map((application) => (
-
-                    <div key={application._id}>
-
+                    <div>
                         <h3>
-                            {application.company}
+                            You're all caught up
                         </h3>
 
                         <p>
-                            {application.role}
+                            No upcoming follow-ups right now.
                         </p>
-
-                        <p>
-                            Follow up:{" "}
-                            {new Date(
-                                application.followUpDate
-                            ).toLocaleDateString()}
-                        </p>
-
-                        <p>
-                            Status:{" "}
-                            {application.status}
-                        </p>
-
                     </div>
 
-                ))
+                </div>
+
+            ) : (
+
+                <div className="follow-ups-list">
+
+                    {followUps.map((application) => (
+
+                        <div
+                            className="follow-up-card"
+                            key={application._id}
+                        >
+
+                            <div className="follow-up-date">
+
+                                <span>
+                                    FOLLOW UP
+                                </span>
+
+                                <strong>
+                                    {new Date(
+                                        application.followUpDate
+                                    ).toLocaleDateString(
+                                        undefined,
+                                        {
+                                            month: "short",
+                                            day: "numeric"
+                                        }
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div className="follow-up-info">
+
+                                <h3>
+                                    {application.company}
+                                </h3>
+
+                                <p>
+                                    {application.role ||
+                                        "Role not specified"}
+                                </p>
+
+                            </div>
+
+
+                            <span
+                                className={`follow-up-status ${String(
+                                    application.status
+                                ).toLowerCase()}`}
+                            >
+                                {application.status}
+                            </span>
+
+                        </div>
+
+                    ))}
+
+                </div>
+
             )}
 
         </section>
