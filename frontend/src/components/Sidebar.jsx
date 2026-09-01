@@ -11,9 +11,16 @@ function Sidebar({
 
             <div className="sidebar-brand">
 
-                <div className="sidebar-logo">
+                <button
+                    type="button"
+                    className="sidebar-logo"
+                    onClick={() =>
+                        setCurrentView("dashboard")
+                    }
+                    aria-label="Go to Dashboard"
+                >
                     CF
-                </div>
+                </button>
 
                 <div>
                     <h2>
@@ -34,7 +41,9 @@ function Sidebar({
                     OVERVIEW
                 </p>
 
+
                 <button
+                    type="button"
                     className={`sidebar-link ${
                         currentView === "dashboard"
                             ? "active"
@@ -53,6 +62,7 @@ function Sidebar({
 
 
                 <button
+                    type="button"
                     className={`sidebar-link ${
                         currentView === "analytics"
                             ? "active"
@@ -78,7 +88,9 @@ function Sidebar({
                     WORKSPACE
                 </p>
 
+
                 <button
+                    type="button"
                     className={`sidebar-link ${
                         currentView === "applications"
                             ? "active"
@@ -97,6 +109,7 @@ function Sidebar({
 
 
                 <button
+                    type="button"
                     className={`sidebar-link ${
                         currentView === "add"
                             ? "active"
@@ -122,7 +135,15 @@ function Sidebar({
             <div className="sidebar-bottom">
 
                 <button
-                    className="sidebar-link"
+                    type="button"
+                    className={`sidebar-link ${
+                        currentView === "settings"
+                            ? "active"
+                            : ""
+                    }`}
+                    onClick={() =>
+                        setCurrentView("settings")
+                    }
                 >
                     <span className="sidebar-icon">
                         ⚙
@@ -133,6 +154,7 @@ function Sidebar({
 
 
                 <button
+                    type="button"
                     className="sidebar-link logout-link"
                     onClick={onLogout}
                 >

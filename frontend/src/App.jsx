@@ -1,52 +1,71 @@
 import { useEffect, useState } from "react";
+
 import Dashboard from "./components/Dashboard";
 import AddApplication from "./components/AddApplications";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ApplicationDetails from "./components/ApplicationDetails";
 import Analytics from "./components/Analytics";
-import UpcomingFollowUps from "./components/UpcomingFollowUps";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import DashboardOverview from "./components/DashboardOverview";
+import Settings from "./components/Settings";
+
 import "./components/AppShell.css";
+
 
 function App() {
 
     const [applications, setApplications] = useState([]);
+
     const [loading, setLoading] = useState(true);
+
     const [error, setError] = useState("");
 
+
     const [page, setPage] = useState(1);
+
     const [totalPages, setTotalPages] = useState(1);
 
+
     const [company, setCompany] = useState("");
+
     const [status, setStatus] = useState("");
 
     const [from, setFrom] = useState("");
+
     const [to, setTo] = useState("");
 
     const [sort, setSort] = useState("-createdAt");
+
 
     const [isLoggedIn, setIsLoggedIn] = useState(
         Boolean(localStorage.getItem("token"))
     );
 
+
     const [showRegister, setShowRegister] = useState(false);
+
 
     const [selectedApplicationId, setSelectedApplicationId] =
         useState(null);
+
+
     const [theme, setTheme] = useState(
         localStorage.getItem("theme") || "dark"
     );
 
+
     const [currentView, setCurrentView] = useState(() => {
-        const view = window.location.hash.replace("#", "");
+
+        const view =
+            window.location.hash.replace("#", "");
 
         if (
             view === "applications" ||
             view === "analytics" ||
-            view === "add"
+            view === "add" ||
+            view === "settings"
         ) {
             return view;
         }
@@ -54,9 +73,16 @@ function App() {
         return "dashboard";
     });
 
+
     const [user, setUser] = useState(null);
 
+
+    /* =========================================
+       NAVIGATION
+    ========================================= */
+
     function handleViewChange(view) {
+
         setCurrentView(view);
 
         window.history.pushState(
@@ -69,84 +95,146 @@ function App() {
     }
 
 
+    /* =========================================
+       LOGOUT
+    ========================================= */
+
     function logout() {
+
         localStorage.removeItem("token");
+
         setUser(null);
+
         setIsLoggedIn(false);
+
+        setCurrentView("dashboard");
+
+        setSelectedApplicationId(null);
+
+        window.history.pushState(
+            {},
+            "",
+            "#dashboard"
+        );
     }
 
 
+    /* =========================================
+       APPLICATION DETAILS
+    ========================================= */
+
     function handleViewDetails(id) {
+
         setSelectedApplicationId(id);
     }
 
 
+    /* =========================================
+       FILTERS
+    ========================================= */
+
     function clearFilters() {
+
         setCompany("");
+
         setStatus("");
+
         setFrom("");
+
         setTo("");
+
         setSort("-createdAt");
+
         setPage(1);
     }
 
 
     function handleCompanyChange(value) {
+
         setCompany(value);
+
         setPage(1);
     }
 
 
     function handleStatusChange(value) {
+
         setStatus(value);
+
         setPage(1);
     }
 
 
     function handleFromChange(value) {
+
         setFrom(value);
+
         setPage(1);
     }
 
 
     function handleToChange(value) {
+
         setTo(value);
+
         setPage(1);
     }
 
 
     function handleSortChange(value) {
+
         setSort(value);
+
         setPage(1);
     }
 
 
-    async function updateApplication(id, updatedData) {
+    /* =========================================
+       UPDATE APPLICATION
+    ========================================= */
+
+    async function updateApplication(
+        id,
+        updatedData
+    ) {
 
         try {
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
+
 
             const response = await fetch(
                 `http://localhost:3000/applications/${id}`,
                 {
                     method: "PATCH",
+
                     headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
+                        "Content-Type":
+                            "application/json",
+
+                        Authorization:
+                            `Bearer ${token}`
                     },
-                    body: JSON.stringify(updatedData)
+
+                    body: JSON.stringify(
+                        updatedData
+                    )
                 }
             );
 
-            const data = await response.json();
+
+            const data =
+                await response.json();
+
 
             if (!response.ok) {
+
                 console.error(data);
+
                 return false;
             }
 
-            console.log("Application updated successfully!");
 
             await fetchApplications();
 
@@ -164,21 +252,30 @@ function App() {
     }
 
 
+    /* =========================================
+       DELETE APPLICATION
+    ========================================= */
+
     async function deleteApplication(id) {
 
         try {
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
+
 
             const response = await fetch(
                 `http://localhost:3000/applications/${id}`,
                 {
                     method: "DELETE",
+
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization:
+                            `Bearer ${token}`
                     }
                 }
             );
+
 
             if (!response.ok) {
 
@@ -188,6 +285,7 @@ function App() {
 
                 return;
             }
+
 
             await fetchApplications();
 
@@ -201,43 +299,81 @@ function App() {
     }
 
 
+    /* =========================================
+       LOGIN
+    ========================================= */
+
     async function handleLogin() {
 
         setApplications([]);
+
         setPage(1);
+
         setIsLoggedIn(true);
 
         await fetchApplications();
     }
 
 
+    /* =========================================
+       FETCH APPLICATIONS
+    ========================================= */
+
     async function fetchApplications() {
 
         try {
 
             setLoading(true);
+
             setError("");
 
-            const token = localStorage.getItem("token");
+
+            const token =
+                localStorage.getItem("token");
+
+
+            if (!token) {
+
+                setLoading(false);
+
+                return;
+            }
+
 
             const response = await fetch(
-                `http://localhost:3000/applications?page=${page}&company=${company}&status=${status}&from=${from}&to=${to}&sort=${sort}`,
+                `http://localhost:3000/applications?page=${page}&company=${encodeURIComponent(
+                    company
+                )}&status=${encodeURIComponent(
+                    status
+                )}&from=${encodeURIComponent(
+                    from
+                )}&to=${encodeURIComponent(
+                    to
+                )}&sort=${encodeURIComponent(
+                    sort
+                )}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization:
+                            `Bearer ${token}`
                     }
                 }
             );
+
 
             if (!response.ok) {
 
                 if (response.status === 401) {
 
-                    localStorage.removeItem("token");
+                    localStorage.removeItem(
+                        "token"
+                    );
+
                     setIsLoggedIn(false);
 
                     return;
                 }
+
 
                 setError(
                     "Failed to load applications"
@@ -248,10 +384,18 @@ function App() {
                 return;
             }
 
-            const data = await response.json();
 
-            setApplications(data.data);
-            setTotalPages(data.totalPages);
+            const data =
+                await response.json();
+
+
+            setApplications(
+                data.data || []
+            );
+
+            setTotalPages(
+                data.totalPages || 1
+            );
 
             setLoading(false);
 
@@ -268,35 +412,51 @@ function App() {
     }
 
 
+    /* =========================================
+       HASH NAVIGATION
+    ========================================= */
+
     useEffect(() => {
 
         function handleHashChange() {
 
             const view =
-                window.location.hash.replace("#", "");
+                window.location.hash.replace(
+                    "#",
+                    ""
+                );
+
 
             if (
                 view === "applications" ||
                 view === "analytics" ||
-                view === "add"
+                view === "add" ||
+                view === "settings"
             ) {
+
                 setCurrentView(view);
+
             } else {
+
                 setCurrentView("dashboard");
             }
 
+
             setSelectedApplicationId(null);
         }
+
 
         window.addEventListener(
             "popstate",
             handleHashChange
         );
 
+
         window.addEventListener(
             "hashchange",
             handleHashChange
         );
+
 
         return () => {
 
@@ -314,33 +474,49 @@ function App() {
     }, []);
 
 
+    /* =========================================
+       CURRENT USER
+    ========================================= */
+
     useEffect(() => {
 
         async function fetchCurrentUser() {
 
             try {
 
-                const token = localStorage.getItem("token");
+                const token =
+                    localStorage.getItem("token");
+
 
                 if (!token) {
                     return;
                 }
 
+
                 const response = await fetch(
                     "http://localhost:3000/users/me",
                     {
                         headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization:
+                                `Bearer ${token}`
                         }
                     }
                 );
 
-                const data = await response.json();
+
+                const data =
+                    await response.json();
+
 
                 if (!response.ok) {
-                    console.error(data.message);
+
+                    console.error(
+                        data.message
+                    );
+
                     return;
                 }
+
 
                 setUser(data.user);
 
@@ -350,22 +526,31 @@ function App() {
                     "Failed to fetch current user:",
                     error
                 );
-
             }
         }
 
+
         if (isLoggedIn) {
+
             fetchCurrentUser();
         }
 
     }, [isLoggedIn]);
 
 
+    /* =========================================
+       APPLICATION FETCH
+    ========================================= */
+
     useEffect(() => {
 
-        fetchApplications();
+        if (isLoggedIn) {
+
+            fetchApplications();
+        }
 
     }, [
+        isLoggedIn,
         page,
         company,
         status,
@@ -375,13 +560,32 @@ function App() {
     ]);
 
 
+    /* =========================================
+       THEME
+    ========================================= */
+
     useEffect(() => {
-        document.documentElement.setAttribute("data-theme", theme);
-        localStorage.setItem("theme", theme);
+
+        document.documentElement.setAttribute(
+            "data-theme",
+            theme
+        );
+
+        localStorage.setItem(
+            "theme",
+            theme
+        );
+
     }, [theme]);
+
+
+    /* =========================================
+       RENDER
+    ========================================= */
 
     return (
         <>
+
             {!isLoggedIn ? (
 
                 showRegister ? (
@@ -413,6 +617,7 @@ function App() {
                         onLogout={logout}
                     />
 
+
                     <div className="app-main">
 
                         <Topbar
@@ -421,6 +626,7 @@ function App() {
                             onLogout={logout}
                             user={user}
                         />
+
 
                         <div className="app-content">
 
@@ -431,7 +637,9 @@ function App() {
                                         selectedApplicationId
                                     }
                                     onBack={() =>
-                                        setSelectedApplicationId(null)
+                                        setSelectedApplicationId(
+                                            null
+                                        )
                                     }
                                 />
 
@@ -439,26 +647,52 @@ function App() {
 
                                 <>
 
-                                    {currentView === "dashboard" && (
+                                    {/* DASHBOARD */}
+
+                                    {currentView ===
+                                        "dashboard" && (
 
                                         <DashboardOverview
-                                            applications={applications}
-                                            onViewDetails={handleViewDetails}
+                                            applications={
+                                                applications
+                                            }
+                                            onViewDetails={
+                                                handleViewDetails
+                                            }
                                         />
 
                                     )}
 
 
-                                    {currentView === "applications" && (
+                                    {/* APPLICATIONS */}
+
+                                    {currentView ===
+                                        "applications" && (
 
                                         <Dashboard
-                                            applications={applications}
-                                            loading={loading}
-                                            error={error}
+                                            applications={
+                                                applications
+                                            }
 
-                                            page={page}
-                                            setPage={setPage}
-                                            totalPages={totalPages}
+                                            loading={
+                                                loading
+                                            }
+
+                                            error={
+                                                error
+                                            }
+
+                                            page={
+                                                page
+                                            }
+
+                                            setPage={
+                                                setPage
+                                            }
+
+                                            totalPages={
+                                                totalPages
+                                            }
 
                                             onDelete={
                                                 deleteApplication
@@ -472,27 +706,42 @@ function App() {
                                                 handleViewDetails
                                             }
 
-                                            company={company}
+                                            company={
+                                                company
+                                            }
+
                                             setCompany={
                                                 handleCompanyChange
                                             }
 
-                                            status={status}
+                                            status={
+                                                status
+                                            }
+
                                             setStatus={
                                                 handleStatusChange
                                             }
 
-                                            from={from}
+                                            from={
+                                                from
+                                            }
+
                                             setFrom={
                                                 handleFromChange
                                             }
 
-                                            to={to}
+                                            to={
+                                                to
+                                            }
+
                                             setTo={
                                                 handleToChange
                                             }
 
-                                            sort={sort}
+                                            sort={
+                                                sort
+                                            }
+
                                             setSort={
                                                 handleSortChange
                                             }
@@ -505,18 +754,46 @@ function App() {
                                     )}
 
 
-                                    {currentView === "analytics" && (
+                                    {/* ANALYTICS */}
+
+                                    {currentView ===
+                                        "analytics" && (
 
                                         <Analytics />
 
                                     )}
 
 
-                                    {currentView === "add" && (
+                                    {/* ADD APPLICATION */}
+
+                                    {currentView ===
+                                        "add" && (
 
                                         <AddApplication
                                             onApplicationAdded={
                                                 fetchApplications
+                                            }
+                                        />
+
+                                    )}
+
+
+                                    {/* SETTINGS */}
+
+                                    {currentView ===
+                                        "settings" && (
+
+                                        <Settings
+                                            theme={
+                                                theme
+                                            }
+
+                                            setTheme={
+                                                setTheme
+                                            }
+
+                                            user={
+                                                user
                                             }
                                         />
 
@@ -533,8 +810,10 @@ function App() {
                 </div>
 
             )}
+
         </>
     );
 }
+
 
 export default App;

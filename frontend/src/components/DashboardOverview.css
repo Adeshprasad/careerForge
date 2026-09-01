@@ -1,6 +1,6 @@
-/* =========================
+/* =========================================
    DASHBOARD OVERVIEW
-========================= */
+========================================= */
 
 .dashboard-overview {
     width: min(1180px, calc(100% - 48px));
@@ -11,16 +11,18 @@
 }
 
 
-/* Welcome */
+/* =========================================
+   WELCOME
+========================================= */
 
 .dashboard-welcome {
     display: flex;
-
     align-items: flex-end;
-
     justify-content: space-between;
 
-    margin-bottom: 26px;
+    gap: 20px;
+
+    margin-bottom: 24px;
 }
 
 .dashboard-eyebrow {
@@ -29,7 +31,6 @@
     color: var(--primary);
 
     font-size: 10px;
-
     font-weight: 800;
 
     letter-spacing: 0.12em;
@@ -41,7 +42,6 @@
     color: var(--text);
 
     font-size: 30px;
-
     line-height: 1.1;
 }
 
@@ -53,11 +53,17 @@
     font-size: 13px;
 }
 
+.dashboard-header-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
 .dashboard-date {
     padding: 8px 12px;
 
     border: 1px solid var(--border);
-
     border-radius: 8px;
 
     background: var(--surface);
@@ -65,12 +71,15 @@
     color: var(--text-secondary);
 
     font-size: 11px;
-
     font-weight: 600;
+
+    white-space: nowrap;
 }
 
 
-/* Stats */
+/* =========================================
+   STAT CARDS
+========================================= */
 
 .dashboard-stats {
     display: grid;
@@ -84,43 +93,57 @@
 }
 
 .dashboard-stat-card {
-    display: flex;
+    position: relative;
 
+    display: flex;
     align-items: center;
 
     gap: 13px;
+
+    min-width: 0;
 
     padding: 18px;
 
     background: var(--surface);
 
     border: 1px solid var(--border);
-
     border-radius: 14px;
 
     box-shadow: var(--shadow);
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dashboard-stat-card:hover {
+    border-color: var(--primary);
+
+    transform: translateY(-1px);
 }
 
 .stat-icon {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     flex-shrink: 0;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     background: var(--surface-secondary);
 
     color: var(--primary);
 
     font-size: 16px;
-
     font-weight: 700;
+}
+
+.dashboard-stat-card > div:last-child {
+    min-width: 0;
 }
 
 .dashboard-stat-card span {
@@ -129,7 +152,6 @@
     color: var(--text-secondary);
 
     font-size: 10px;
-
     font-weight: 600;
 }
 
@@ -140,11 +162,25 @@
 
     color: var(--text);
 
-    font-size: 23px;
+    font-size: 24px;
+
+    line-height: 1;
+}
+
+.dashboard-stat-card small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--text-secondary);
+
+    font-size: 9px;
 }
 
 
-/* Panels */
+/* =========================================
+   MAIN GRID
+========================================= */
 
 .dashboard-grid {
     display: grid;
@@ -153,6 +189,8 @@
         1.15fr 1fr;
 
     gap: 18px;
+
+    margin-bottom: 18px;
 }
 
 .dashboard-panel {
@@ -163,7 +201,6 @@
     background: var(--surface);
 
     border: 1px solid var(--border);
-
     border-radius: 15px;
 
     box-shadow: var(--shadow);
@@ -171,14 +208,12 @@
 
 .dashboard-panel-header {
     display: flex;
-
     align-items: flex-start;
-
     justify-content: space-between;
 
     gap: 15px;
 
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .dashboard-panel-header h2 {
@@ -189,7 +224,7 @@
     font-size: 16px;
 }
 
-.dashboard-panel-header p {
+.dashboard-panel-header p:last-child {
     margin: 4px 0 0;
 
     color: var(--text-secondary);
@@ -197,15 +232,23 @@
     font-size: 11px;
 }
 
+.panel-eyebrow {
+    margin: 0 0 5px !important;
+
+    color: var(--primary) !important;
+
+    font-size: 8px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.12em;
+}
+
 .panel-count {
     min-width: 27px;
-
     height: 27px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding: 0 7px;
@@ -217,19 +260,127 @@
     color: var(--text-secondary);
 
     font-size: 11px;
-
     font-weight: 700;
 }
 
 
-/* Follow-ups */
+/* =========================================
+   PIPELINE
+========================================= */
+
+.pipeline {
+    display: flex;
+    flex-direction: column;
+
+    gap: 17px;
+
+    padding-top: 4px;
+}
+
+.pipeline-row {
+    display: grid;
+
+    grid-template-columns:
+        82px 1fr 24px;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.pipeline-label {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.pipeline-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--text-secondary);
+}
+
+.pipeline-dot.applied {
+    background: #3b82f6;
+}
+
+.pipeline-dot.interview {
+    background: #8b5cf6;
+}
+
+.pipeline-dot.offer {
+    background: #22c55e;
+}
+
+.pipeline-dot.rejected {
+    background: #ef4444;
+}
+
+.pipeline-track {
+    height: 7px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--surface-secondary);
+}
+
+.pipeline-fill {
+    height: 100%;
+
+    min-width: 2px;
+
+    border-radius: inherit;
+
+    transition: width 0.4s ease;
+}
+
+.pipeline-fill.applied {
+    background: #3b82f6;
+}
+
+.pipeline-fill.interview {
+    background: #8b5cf6;
+}
+
+.pipeline-fill.offer {
+    background: #22c55e;
+}
+
+.pipeline-fill.rejected {
+    background: #ef4444;
+}
+
+.pipeline-row > strong {
+    color: var(--text);
+
+    font-size: 11px;
+
+    text-align: right;
+}
+
+
+/* =========================================
+   FOLLOW-UPS
+========================================= */
 
 .dashboard-followups {
     display: flex;
-
     flex-direction: column;
 
-    gap: 7px;
+    gap: 6px;
 }
 
 .dashboard-followup,
@@ -237,7 +388,6 @@
     width: 100%;
 
     display: flex;
-
     align-items: center;
 
     gap: 11px;
@@ -245,7 +395,6 @@
     padding: 10px;
 
     border: 1px solid transparent;
-
     border-radius: 10px;
 
     background: transparent;
@@ -258,7 +407,8 @@
 
     transition:
         background 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .dashboard-followup:hover,
@@ -266,6 +416,8 @@
     background: var(--surface-secondary);
 
     border-color: var(--border);
+
+    transform: translateX(2px);
 }
 
 .dashboard-followup .company-avatar,
@@ -274,9 +426,7 @@
     height: 34px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     flex-shrink: 0;
@@ -288,7 +438,6 @@
     color: var(--primary);
 
     font-size: 12px;
-
     font-weight: 800;
 }
 
@@ -310,7 +459,6 @@
     font-size: 12px;
 
     text-overflow: ellipsis;
-
     white-space: nowrap;
 }
 
@@ -327,86 +475,114 @@
     font-size: 10px;
 
     text-overflow: ellipsis;
-
     white-space: nowrap;
 }
 
-.followup-date {
-    color: var(--text-secondary);
+.followup-date-group {
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 2px;
+}
+
+.followup-date-group strong {
+    color: var(--text);
 
     font-size: 10px;
+}
 
-    font-weight: 600;
+.followup-date-group span {
+    color: var(--text-secondary);
+
+    font-size: 9px;
 }
 
 .arrow {
     color: var(--text-secondary);
 
     font-size: 15px;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dashboard-followup:hover .arrow,
+.recent-application:hover .arrow {
+    color: var(--primary);
+
+    transform: translateX(2px);
 }
 
 
-/* Recent */
+/* =========================================
+   RECENT APPLICATIONS
+========================================= */
+
+.recent-panel {
+    margin-bottom: 0;
+}
 
 .recent-applications {
     display: flex;
-
     flex-direction: column;
 
-    gap: 7px;
+    gap: 5px;
 }
 
 .recent-status {
+    flex-shrink: 0;
+
     padding: 5px 8px;
 
     border-radius: 999px;
 
     font-size: 9px;
-
     font-weight: 700;
 }
 
 .recent-status.applied {
     background: #dbeafe;
-
     color: #1d4ed8;
 }
 
 .recent-status.interview {
     background: #ede9fe;
-
     color: #6d28d9;
 }
 
 .recent-status.offer {
     background: #dcfce7;
-
     color: #15803d;
 }
 
 .recent-status.rejected {
     background: #fee2e2;
-
     color: #b91c1c;
 }
 
 
-/* Empty */
+/* =========================================
+   EMPTY STATE
+========================================= */
 
 .dashboard-empty {
     min-height: 145px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     gap: 12px;
 
     border: 1px dashed var(--border);
-
     border-radius: 10px;
+
+    background: var(--surface-secondary);
 }
 
 .dashboard-empty > span {
@@ -414,19 +590,18 @@
     height: 32px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
+
+    flex-shrink: 0;
 
     border-radius: 50%;
 
-    background: var(--surface-secondary);
+    background: var(--surface);
 
     color: var(--primary);
 
     font-size: 15px;
-
     font-weight: 700;
 }
 
@@ -447,15 +622,15 @@
 }
 
 
-/* Loading */
+/* =========================================
+   LOADING
+========================================= */
 
 .dashboard-loading {
     min-height: 300px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     color: var(--text-secondary);
@@ -464,7 +639,21 @@
 }
 
 
-/* Responsive */
+/* =========================================
+   FOCUS
+========================================= */
+
+.dashboard-followup:focus-visible,
+.recent-application:focus-visible {
+    outline: 2px solid var(--primary);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================
+   RESPONSIVE — TABLET
+========================================= */
 
 @media (max-width: 900px) {
 
@@ -476,9 +665,12 @@
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
-
 }
 
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
 
 @media (max-width: 600px) {
 
@@ -508,4 +700,23 @@
         padding: 16px;
     }
 
+    .pipeline-row {
+        grid-template-columns:
+            75px 1fr 20px;
+
+        gap: 7px;
+    }
+
+    .dashboard-followup,
+    .recent-application {
+        gap: 8px;
+    }
+
+    .followup-date-group {
+        display: none;
+    }
+
+    .recent-status {
+        font-size: 8px;
+    }
 }

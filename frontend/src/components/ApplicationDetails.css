@@ -1,36 +1,30 @@
-/* =========================
+/* =========================================
    APPLICATION DETAILS
-========================= */
+========================================= */
 
 .application-details {
     width: min(1100px, calc(100% - 48px));
-
     margin: 0 auto;
-
-    padding: 28px 0 60px;
+    padding: 32px 0 60px;
 }
 
 
-/* =========================
+/* =========================================
    BACK BUTTON
-========================= */
+========================================= */
 
 .back-button {
     display: inline-flex;
     align-items: center;
 
     margin-bottom: 18px;
-
     padding: 0;
 
     border: none;
-
     background: transparent;
 
     color: var(--text-secondary);
-
     font-family: inherit;
-
     font-size: 11px;
     font-weight: 600;
 
@@ -44,11 +38,14 @@
 }
 
 
-/* =========================
+/* =========================================
    HERO
-========================= */
+========================================= */
 
 .details-hero {
+    position: relative;
+    overflow: hidden;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,13 +62,28 @@
     box-shadow: var(--shadow);
 }
 
+.details-hero::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: var(--primary);
+}
+
 .details-hero-main {
     display: flex;
     align-items: center;
 
     gap: 15px;
-
     min-width: 0;
+
+    position: relative;
 }
 
 .details-company-avatar {
@@ -87,7 +99,6 @@
     border-radius: 13px;
 
     background: var(--surface-secondary);
-
     color: var(--primary);
 
     font-size: 19px;
@@ -157,9 +168,9 @@
 }
 
 
-/* =========================
+/* =========================================
    OVERVIEW
-========================= */
+========================================= */
 
 .details-overview {
     display: grid;
@@ -173,10 +184,9 @@
     gap: 0;
 
     margin-top: 12px;
-
     padding: 18px 20px;
 
-    background: var(--surface);
+    background: var(--surface-secondary);
 
     border: 1px solid var(--border);
     border-radius: 13px;
@@ -216,7 +226,7 @@
 
     color: var(--text);
 
-    font-size: 11px;
+    font-size: 12px;
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -235,30 +245,35 @@
     border: 1px solid var(--border);
     border-radius: 8px;
 
-    background: var(--surface-secondary);
+    background: var(--surface);
 
     color: var(--text);
 
     font-family: inherit;
-
     font-size: 10px;
     font-weight: 600;
 
     cursor: pointer;
 
     white-space: nowrap;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .resume-button:hover {
     border-color: var(--primary);
-
     color: var(--primary);
+
+    transform: translateY(-1px);
 }
 
 
-/* =========================
+/* =========================================
    GENERAL DETAILS SECTION
-========================= */
+========================================= */
 
 .details-section {
     margin-top: 18px;
@@ -308,13 +323,12 @@
 }
 
 
-/* =========================
+/* =========================================
    NOTES
-========================= */
+========================================= */
 
 .details-textarea {
     width: 100%;
-
     min-height: 130px;
 
     padding: 12px;
@@ -329,22 +343,31 @@
     color: var(--text);
 
     font-family: inherit;
-
     font-size: 11px;
-
     line-height: 1.6;
 
     outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .details-textarea::placeholder {
     color: var(--text-secondary);
-
     opacity: 0.6;
 }
 
 .details-textarea:focus {
     border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        );
 }
 
 .details-section-actions {
@@ -355,9 +378,9 @@
 }
 
 
-/* =========================
+/* =========================================
    FOLLOW-UP
-========================= */
+========================================= */
 
 .follow-up-form {
     display: flex;
@@ -396,27 +419,38 @@
     color: var(--text);
 
     font-family: inherit;
-
     font-size: 11px;
 
     outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .details-field input:focus {
     border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        );
 }
 
 
-/* =========================
+/* =========================================
    INTERVIEWS
-========================= */
+========================================= */
 
 .interviews-section {
     margin-top: 18px;
 }
 
 .interviews-section > h3 {
-    margin: 0 0 12px;
+    margin: 0 0 14px;
 
     color: var(--text);
 
@@ -432,9 +466,9 @@
     grid-template-columns:
         repeat(2, minmax(0, 1fr));
 
-    gap: 15px;
+    gap: 16px;
 
-    padding: 22px;
+    padding: 24px;
 
     background: var(--surface);
 
@@ -452,7 +486,7 @@
 }
 
 .form-group label {
-    color: var(--text);
+    color: var(--text-secondary);
 
     font-size: 10px;
     font-weight: 700;
@@ -473,10 +507,13 @@
     color: var(--text);
 
     font-family: inherit;
-
     font-size: 11px;
 
     outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .form-group input,
@@ -494,6 +531,14 @@
 .form-group select:focus,
 .form-group textarea:focus {
     border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        );
 }
 
 
@@ -514,7 +559,10 @@
 
     gap: 8px;
 
-    padding-top: 3px;
+    margin-top: 2px;
+    padding-top: 16px;
+
+    border-top: 1px solid var(--border);
 }
 
 .add-interview-button,
@@ -531,6 +579,10 @@
     font-weight: 700;
 
     cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
 }
 
 .add-interview-button {
@@ -549,6 +601,10 @@
     color: var(--text-secondary);
 }
 
+.add-interview-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
 .add-interview-button:disabled {
     opacity: 0.5;
 
@@ -556,31 +612,46 @@
 }
 
 
-/* Interview history */
+/* =========================================
+   INTERVIEW HISTORY
+========================================= */
 
 .interview-list {
-    margin-top: 18px;
+    margin-top: 24px;
 }
 
 .interview-list > h4 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
 
     color: var(--text);
 
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .interview-card {
     position: relative;
 
-    padding: 17px;
+    padding: 18px;
 
-    margin-bottom: 9px;
+    margin-bottom: 10px;
 
     background: var(--surface);
 
     border: 1px solid var(--border);
     border-radius: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.interview-card:hover {
+    border-color: var(--primary);
+
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow);
 }
 
 .interview-card-header {
@@ -592,11 +663,11 @@
 }
 
 .interview-card-header h4 {
-    margin: 0 0 4px;
+    margin: 0 0 5px;
 
     color: var(--text);
 
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .interview-date {
@@ -608,12 +679,14 @@
 }
 
 .interview-outcome {
-    padding: 5px 9px;
+    padding: 6px 10px;
 
     border-radius: 999px;
 
     font-size: 9px;
     font-weight: 700;
+
+    white-space: nowrap;
 }
 
 .interview-outcome.pending {
@@ -631,32 +704,48 @@
     color: #b91c1c;
 }
 
+
+/* Interview metadata */
+
 .interview-meta {
-    margin-top: 11px;
+    display: flex;
+    align-items: center;
 
-    color: var(--text-secondary);
+    gap: 8px;
 
-    font-size: 10px;
-}
-
-.interview-notes-display {
-    margin-top: 12px;
-
-    padding-top: 12px;
+    margin-top: 13px;
+    padding-top: 11px;
 
     border-top: 1px solid var(--border);
 
     color: var(--text-secondary);
 
     font-size: 10px;
+}
 
+
+/* Interview notes */
+
+.interview-notes-display {
+    margin-top: 12px;
+
+    padding: 12px;
+
+    background: var(--surface-secondary);
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
     line-height: 1.6;
 }
 
 .interview-notes-display strong {
     display: block;
 
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 
     color: var(--text);
 
@@ -667,14 +756,19 @@
     margin: 0;
 }
 
+
+/* Interview actions */
+
 .interview-card-actions {
     display: flex;
-
     justify-content: flex-end;
 
     gap: 6px;
 
-    margin-top: 12px;
+    margin-top: 13px;
+    padding-top: 11px;
+
+    border-top: 1px solid var(--border);
 }
 
 .edit-interview-button,
@@ -691,6 +785,11 @@
     font-weight: 600;
 
     cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
 
 .edit-interview-button {
@@ -701,6 +800,14 @@
     color: var(--text-secondary);
 }
 
+.edit-interview-button:hover {
+    border-color: var(--primary);
+
+    background: var(--surface);
+
+    color: var(--primary);
+}
+
 .delete-interview-button {
     border: 1px solid transparent;
 
@@ -708,6 +815,18 @@
 
     color: var(--danger);
 }
+
+.delete-interview-button:hover {
+    background:
+        color-mix(
+            in srgb,
+            var(--danger) 8%,
+            transparent
+        );
+}
+
+
+/* Empty interview state */
 
 .empty-message {
     padding: 18px;
@@ -717,6 +836,8 @@
     border: 1px dashed var(--border);
     border-radius: 10px;
 
+    background: var(--surface-secondary);
+
     color: var(--text-secondary);
 
     font-size: 10px;
@@ -725,23 +846,32 @@
 }
 
 
-/* =========================
+/* =========================================
    STATUS HISTORY
-========================= */
+========================================= */
 
 .status-history-section {
     margin-top: 18px;
+
+    overflow: hidden;
+
+    padding: 24px 28px;
 }
 
 .status-history {
     display: flex;
     flex-direction: column;
+
+    margin-top: 20px;
 }
 
 .history-item {
     display: flex;
 
     min-height: 55px;
+
+    transition:
+        background 0.2s ease;
 }
 
 .history-marker {
@@ -758,6 +888,8 @@
     top: 3px;
     left: 5px;
 
+    z-index: 1;
+
     width: 10px;
     height: 10px;
 
@@ -766,6 +898,18 @@
     border-radius: 50%;
 
     background: var(--surface);
+}
+
+.history-item:first-child .history-marker span {
+    background: var(--primary);
+
+    box-shadow:
+        0 0 0 4px
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
 }
 
 .history-line {
@@ -784,7 +928,9 @@
 .history-content {
     flex: 1;
 
-    padding-bottom: 16px;
+    min-width: 0;
+
+    padding: 0 0 16px 4px;
 }
 
 .history-top {
@@ -799,12 +945,20 @@
     color: var(--text);
 
     font-size: 11px;
+
+    transition: color 0.2s ease;
 }
 
 .history-top span {
     color: var(--text-secondary);
 
     font-size: 9px;
+
+    white-space: nowrap;
+}
+
+.history-item:hover .history-top strong {
+    color: var(--primary);
 }
 
 .history-empty {
@@ -814,6 +968,8 @@
     gap: 9px;
 
     padding: 14px;
+
+    background: var(--surface-secondary);
 
     border: 1px dashed var(--border);
     border-radius: 9px;
@@ -832,9 +988,22 @@
 }
 
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+
+/* =========================================
+   RESPONSIVE — TABLET
+========================================= */
 
 @media (max-width: 850px) {
 
@@ -868,8 +1037,15 @@
         grid-column: auto;
     }
 
+    .interview-form-actions {
+        border-top: 1px solid var(--border);
+    }
 }
 
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
 
 @media (max-width: 600px) {
 
@@ -895,6 +1071,11 @@
         align-self: flex-start;
     }
 
+    .details-company-avatar {
+        width: 46px;
+        height: 46px;
+    }
+
     .details-overview {
         grid-template-columns: 1fr;
 
@@ -916,6 +1097,8 @@
     .details-section,
     .interview-form {
         padding: 17px;
+
+        border-radius: 12px;
     }
 
     .follow-up-form {
@@ -928,8 +1111,25 @@
         width: 100%;
     }
 
+    .interview-form-actions {
+        flex-wrap: wrap;
+    }
+
+    .add-interview-button,
+    .cancel-interview-button {
+        flex: 1;
+    }
+
     .interview-card-header {
         flex-direction: column;
+    }
+
+    .interview-meta {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 5px;
     }
 
     .history-top {
@@ -940,4 +1140,11 @@
         gap: 4px;
     }
 
+    .history-top span {
+        white-space: normal;
+    }
+
+    .status-history-section {
+        padding: 20px;
+    }
 }

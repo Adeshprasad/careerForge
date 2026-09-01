@@ -2,53 +2,93 @@
     box-sizing: border-box;
 }
 
+
+/* =========================================
+   THEME
+========================================= */
+
 :root {
-    --bg: #f5f7fb;
-    --surface: #ffffff;
-    --surface-secondary: #f8fafc;
+    /* Backgrounds */
+    --bg: #07080a;
+    --surface: #0d0f12;
+    --surface-secondary: #13161a;
+    --surface-elevated: #181b20;
 
-    --text: #111827;
-    --text-secondary: #6b7280;
+    /* Text */
+    --text: #f4f4f5;
+    --text-secondary: #8b9099;
+    --text-muted: #626872;
 
-    --border: #e5e7eb;
+    /* Borders */
+    --border: #20242a;
+    --border-hover: #30353d;
 
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
+    /* Accent */
+    --primary: #8b8cff;
+    --primary-hover: #7475f5;
 
-    --success: #16a34a;
-    --warning: #d97706;
-    --danger: #dc2626;
-
-    --shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
-}
-
-[data-theme="dark"] {
-    --bg: #0f1117;
-    --surface: #171a23;
-    --surface-secondary: #1e222d;
-
-    --text: #f5f7fb;
-    --text-secondary: #9ca3af;
-
-    --border: #2a2f3a;
-
-    --primary: #818cf8;
-    --primary-hover: #6366f1;
-
+    /* Semantic */
     --success: #4ade80;
     --warning: #fbbf24;
     --danger: #f87171;
 
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    /* Shadow */
+    --shadow:
+        0 8px 30px rgba(0, 0, 0, 0.28);
+
+    --shadow-hover:
+        0 12px 35px rgba(0, 0, 0, 0.38);
 }
+
+
+/* =========================================
+   LIGHT THEME
+========================================= */
+
+[data-theme="light"] {
+    --bg: #eef1f5;
+    --surface: #f8f9fb;
+    --surface-secondary: #f1f3f6;
+    --surface-elevated: #ffffff;
+
+    --text: #17191d;
+    --text-secondary: #686e78;
+    --text-muted: #969ca5;
+
+    --border: #dfe3e8;
+    --border-hover: #cbd1d8;
+
+    --primary: #5b5ee8;
+    --primary-hover: #4c4fd1;
+
+    --success: #15803d;
+    --warning: #b45309;
+    --danger: #dc2626;
+
+    --shadow:
+        0 4px 18px rgba(15, 23, 42, 0.06);
+
+    --shadow-hover:
+        0 8px 24px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================
+   DOCUMENT
+========================================= */
 
 html {
     background: var(--bg);
     color: var(--text);
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
 }
 
 body {
     margin: 0;
+
     min-width: 320px;
     min-height: 100vh;
 
@@ -67,6 +107,11 @@ body {
         background-color 0.25s ease,
         color 0.25s ease;
 }
+
+
+/* =========================================
+   FORM ELEMENTS
+========================================= */
 
 button,
 input,
@@ -87,6 +132,59 @@ input,
 select,
 textarea {
     color: var(--text);
+
     background: var(--surface);
+
     border-color: var(--border);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted);
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+}
+
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+    background: color-mix(in srgb,
+            var(--primary) 25%,
+            transparent);
+
+    color: var(--text);
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }

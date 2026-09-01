@@ -24,6 +24,29 @@ function Dashboard({
     setTo
 }) {
 
+    function handleDelete(id) {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this application?\n\nThis action cannot be undone."
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        onDelete(id);
+    }
+
+    function hasActiveFilters() {
+        return Boolean(
+            company ||
+            status ||
+            from ||
+            to ||
+            sort !== "-createdAt"
+        );
+    }
+
+
     return (
         <main className="dashboard">
 
@@ -171,7 +194,9 @@ function Dashboard({
 
 
                 <button
-                    className="clear-filters-button"
+                    type="button"
+                    className={`clear-filters-button ${hasActiveFilters() ? "active" : ""
+                        }`}
                     onClick={onClearFilters}
                 >
                     Clear
@@ -198,6 +223,7 @@ function Dashboard({
                 {error ? (
 
                     <div className="dashboard-state error-state">
+
                         <h3>
                             Unable to load applications
                         </h3>
@@ -205,6 +231,7 @@ function Dashboard({
                         <p>
                             {error}
                         </p>
+
                     </div>
 
                 ) : loading ? (
@@ -224,16 +251,30 @@ function Dashboard({
                     <div className="dashboard-state">
 
                         <div className="empty-icon">
-                            📋
+                            {hasActiveFilters() ? "🔍" : "📋"}
                         </div>
 
                         <h3>
-                            No applications found
+                            {hasActiveFilters()
+                                ? "No matching applications"
+                                : "No applications yet"}
                         </h3>
 
                         <p>
-                            Try changing your filters or add a new application.
+                            {hasActiveFilters()
+                                ? "Try adjusting or clearing your filters."
+                                : "Add your first application to start tracking your pipeline."}
                         </p>
+
+                        {hasActiveFilters() && (
+                            <button
+                                type="button"
+                                className="empty-clear-button"
+                                onClick={onClearFilters}
+                            >
+                                Clear filters
+                            </button>
+                        )}
 
                     </div>
 
@@ -256,7 +297,7 @@ function Dashboard({
 
                                 resume={application.resume}
 
-                                onDelete={onDelete}
+                                onDelete={handleDelete}
 
                                 onUpdate={onUpdate}
 
@@ -279,6 +320,7 @@ function Dashboard({
                     <div className="pagination">
 
                         <button
+                            type="button"
                             onClick={() => setPage(page - 1)}
                             disabled={page === 1}
                         >
@@ -302,6 +344,7 @@ function Dashboard({
                         </div>
 
                         <button
+                            type="button"
                             onClick={() => setPage(page + 1)}
                             disabled={page === totalPages}
                         >

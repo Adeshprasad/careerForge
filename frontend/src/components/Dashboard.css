@@ -490,3 +490,47 @@
     }
 
 }
+
+/* Active filters */
+
+.clear-filters-button.active {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+/* Empty state action */
+
+.empty-clear-button {
+    margin-top: 12px;
+
+    height: 34px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-secondary);
+
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.empty-clear-button:hover {
+    border-color: var(--primary);
+
+    background: var(--surface);
+
+    color: var(--primary);
+}
