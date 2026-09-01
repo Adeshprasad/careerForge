@@ -260,8 +260,7 @@ const getApplications = asyncHandler(async (req, res) => {
 const getApplicationAnalytics =
     asyncHandler(async (req, res) => {
 
-        const userId =
-            req.user.userId;
+        const userId = req.user.userId;
 
 
         const totalApplications =
@@ -272,7 +271,6 @@ const getApplicationAnalytics =
 
         const statusBreakdown =
             await Application.aggregate([
-
                 {
                     $match: {
                         user:
@@ -282,7 +280,6 @@ const getApplicationAnalytics =
                     }
                 },
 
-
                 {
                     $group: {
                         _id: "$status",
@@ -291,73 +288,41 @@ const getApplicationAnalytics =
                             $sum: 1
                         }
                     }
+                }
+            ]);
+
+
+        const applicationsOverTime =
+            await Application.aggregate([
+                {
+                    $match: {
+                        user:
+                            new mongoose.Types.ObjectId(
+                                userId
+                            )
+                    }
                 },
 
-
                 {
-                    $addFields: {
-                        order: {
-                            $switch: {
-                                branches: [
-                                    {
-                                        case: {
-                                            $eq: [
-                                                "$_id",
-                                                "Applied"
-                                            ]
-                                        },
-                                        then: 1
-                                    },
-                                    {
-                                        case: {
-                                            $eq: [
-                                                "$_id",
-                                                "Interview"
-                                            ]
-                                        },
-                                        then: 2
-                                    },
-                                    {
-                                        case: {
-                                            $eq: [
-                                                "$_id",
-                                                "Offer"
-                                            ]
-                                        },
-                                        then: 3
-                                    },
-                                    {
-                                        case: {
-                                            $eq: [
-                                                "$_id",
-                                                "Rejected"
-                                            ]
-                                        },
-                                        then: 4
-                                    }
-                                ],
-
-                                default: 99
+                    $group: {
+                        _id: {
+                            $dateToString: {
+                                format: "%Y-%m",
+                                date: "$createdAt"
                             }
+                        },
+
+                        count: {
+                            $sum: 1
                         }
                     }
                 },
 
-
                 {
                     $sort: {
-                        order: 1
-                    }
-                },
-
-
-                {
-                    $project: {
-                        _id: 1,
-                        count: 1
+                        _id: 1
                     }
                 }
-
             ]);
 
 
@@ -365,9 +330,12 @@ const getApplicationAnalytics =
 
             totalApplications,
 
-            statusBreakdown
+            statusBreakdown,
+
+            applicationsOverTime
 
         });
+
     });
 
 

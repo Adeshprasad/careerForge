@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
+
+import {
+    PieChart,
+    Pie,
+    Cell,
+    Tooltip,
+    ResponsiveContainer,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid
+} from "recharts";
+
 import "./Analytics.css";
+
 
 function Analytics() {
 
     const [analytics, setAnalytics] = useState(null);
+
     const [loading, setLoading] = useState(true);
+
     const [error, setError] = useState("");
 
 
@@ -15,9 +32,12 @@ function Analytics() {
             try {
 
                 setLoading(true);
+
                 setError("");
 
-                const token = localStorage.getItem("token");
+                const token =
+                    localStorage.getItem("token");
+
 
                 const response = await fetch(
                     "http://localhost:3000/applications/analytics",
@@ -29,7 +49,10 @@ function Analytics() {
                     }
                 );
 
-                const data = await response.json();
+
+                const data =
+                    await response.json();
+
 
                 if (!response.ok) {
 
@@ -42,6 +65,7 @@ function Analytics() {
 
                     return;
                 }
+
 
                 setAnalytics(data);
 
@@ -59,38 +83,10 @@ function Analytics() {
             }
         }
 
+
         fetchAnalytics();
 
     }, []);
-
-
-    function getStatusCount(status) {
-
-        return (
-            analytics?.statusBreakdown?.find(
-                (item) =>
-                    item._id === status
-            )?.count || 0
-        );
-    }
-
-
-    function getPercentage(status) {
-
-        const total =
-            analytics?.totalApplications || 0;
-
-        const count =
-            getStatusCount(status);
-
-        if (total === 0) {
-            return 0;
-        }
-
-        return (
-            (count / total) * 100
-        ).toFixed(1);
-    }
 
 
     if (loading) {
@@ -127,84 +123,168 @@ function Analytics() {
     }
 
 
-    const total =
-        analytics.totalApplications || 0;
+    function getStatusCount(status) {
 
-    const interviews =
-        getStatusCount("Interview");
+        return (
+            analytics.statusBreakdown.find(
+                (item) =>
+                    item._id === status
+            )?.count || 0
+        );
+    }
 
-    const offers =
-        getStatusCount("Offer");
+
+    /* =========================
+       STATUS CHART DATA
+    ========================= */
+
+    const chartData =
+        analytics.statusBreakdown.map(
+            (item) => ({
+                name: item._id,
+                value: item.count
+            })
+        );
 
 
-    const interviewRate =
-        total > 0
-            ? ((interviews / total) * 100).toFixed(1)
-            : 0;
+    /* =========================
+       TIME CHART DATA
+    ========================= */
 
-    const offerRate =
-        total > 0
-            ? ((offers / total) * 100).toFixed(1)
-            : 0;
+    const rawTimeData =
+        analytics.applicationsOverTime || [];
+
+
+    const timeDataMap =
+        new Map(
+            rawTimeData.map((item) => [
+                item._id,
+                item.count
+            ])
+        );
+
+
+    const months = [];
+
+    const today = new Date();
+
+
+    for (let i = 5; i >= 0; i--) {
+
+        const date = new Date(
+            today.getFullYear(),
+            today.getMonth() - i,
+            1
+        );
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+        const key =
+            `${year}-${month}`;
+
+
+        months.push({
+            month: key,
+
+            applications:
+                timeDataMap.get(key) || 0
+        });
+    }
+
+
+    const timeChartData =
+        months.map((item) => {
+
+            const [year, month] =
+                item.month.split("-");
+
+
+            const date = new Date(
+                Number(year),
+                Number(month) - 1,
+                1
+            );
+
+
+            return {
+                ...item,
+
+                label: date.toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "short"
+                    }
+                )
+            };
+
+        });
+
+
+    const chartColors = {
+        Applied: "#3b82f6",
+        Interview: "#8b5cf6",
+        Offer: "#22c55e",
+        Rejected: "#ef4444"
+    };
 
 
     return (
-        <main className="analytics">
+        <section className="analytics">
 
-            {/* Header */}
 
-            <section className="analytics-header">
+            {/* =========================
+                HEADER
+            ========================= */}
+
+            <div className="analytics-header">
 
                 <div>
 
                     <p className="analytics-eyebrow">
-                        INSIGHTS
+                        OVERVIEW
                     </p>
 
-                    <h1>
-                        Analytics
-                    </h1>
+                    <h2>
+                        Career Analytics
+                    </h2>
 
                     <p>
-                        Understand how your application
-                        pipeline is performing.
+                        A quick look at your
+                        application pipeline.
                     </p>
 
                 </div>
 
-                <div className="analytics-total">
-
-                    <span>
-                        Applications tracked
-                    </span>
-
-                    <strong>
-                        {total}
-                    </strong>
-
-                </div>
-
-            </section>
+            </div>
 
 
-            {/* Summary cards */}
+            {/* =========================
+                SUMMARY CARDS
+            ========================= */}
 
-            <section className="analytics-cards">
+            <div className="analytics-cards">
+
 
                 <div className="analytics-card">
 
                     <div className="analytics-card-icon">
-                        ◉
+                        📋
                     </div>
 
                     <div>
 
                         <span>
-                            TOTAL
+                            TOTAL APPLICATIONS
                         </span>
 
                         <strong>
-                            {total}
+                            {analytics.totalApplications}
                         </strong>
 
                     </div>
@@ -215,7 +295,7 @@ function Analytics() {
                 <div className="analytics-card">
 
                     <div className="analytics-card-icon">
-                        ↗
+                        📤
                     </div>
 
                     <div>
@@ -236,7 +316,7 @@ function Analytics() {
                 <div className="analytics-card">
 
                     <div className="analytics-card-icon">
-                        ◌
+                        🎤
                     </div>
 
                     <div>
@@ -246,7 +326,7 @@ function Analytics() {
                         </span>
 
                         <strong>
-                            {interviews}
+                            {getStatusCount("Interview")}
                         </strong>
 
                     </div>
@@ -257,7 +337,7 @@ function Analytics() {
                 <div className="analytics-card">
 
                     <div className="analytics-card-icon">
-                        ★
+                        🎯
                     </div>
 
                     <div>
@@ -267,139 +347,275 @@ function Analytics() {
                         </span>
 
                         <strong>
-                            {offers}
+                            {getStatusCount("Offer")}
                         </strong>
 
                     </div>
 
                 </div>
 
-            </section>
+            </div>
 
 
-            {/* Pipeline */}
+            {/* =========================
+                VISUAL ANALYTICS
+            ========================= */}
 
-            <section className="analytics-panel">
+            <div className="analytics-visual-grid">
 
-                <div className="analytics-panel-header">
 
-                    <div>
+                {/* =========================
+                    DONUT CHART
+                ========================= */}
 
-                        <h2>
-                            Application Pipeline
-                        </h2>
+                <div className="analytics-chart-card">
 
-                        <p>
-                            Breakdown of your current applications.
-                        </p>
+                    <div className="chart-card-header">
+
+                        <div>
+
+                            <h3>
+                                Applications by Status
+                            </h3>
+
+                            <p>
+                                Current application distribution
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <span className="pipeline-total">
-                        {total} total
-                    </span>
 
-                </div>
+                    <div className="donut-chart-wrapper">
 
+                        <ResponsiveContainer
+                            width="100%"
+                            height={260}
+                        >
 
-                <div className="pipeline-list">
+                            <PieChart>
 
-                    {analytics.statusBreakdown.map(
-                        (item) => {
-
-                            const percentage =
-                                getPercentage(
-                                    item._id
-                                );
-
-                            return (
-
-                                <div
-                                    className="pipeline-item"
-                                    key={item._id}
+                                <Pie
+                                    data={chartData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={72}
+                                    outerRadius={100}
+                                    paddingAngle={3}
+                                    stroke="none"
                                 >
 
-                                    <div className="pipeline-item-header">
+                                    {chartData.map(
+                                        (entry) => (
 
-                                        <div className="pipeline-name">
+                                            <Cell
+                                                key={
+                                                    entry.name
+                                                }
+                                                fill={
+                                                    chartColors[
+                                                    entry.name
+                                                    ]
+                                                }
+                                            />
 
-                                            <span
-                                                className={`pipeline-dot ${String(
-                                                    item._id
-                                                ).toLowerCase()}`}
-                                            ></span>
+                                        )
+                                    )}
 
-                                            <span>
-                                                {item._id}
-                                            </span>
-
-                                        </div>
-
-                                        <div className="pipeline-value">
-
-                                            <strong>
-                                                {item.count}
-                                            </strong>
-
-                                            <span>
-                                                {percentage}%
-                                            </span>
-
-                                        </div>
-
-                                    </div>
+                                </Pie>
 
 
-                                    <div className="pipeline-bar">
+                                <Tooltip
+                                    formatter={(
+                                        value,
+                                        name
+                                    ) => [
+                                            value,
+                                            name
+                                        ]}
+                                />
 
-                                        <div
-                                            className={`pipeline-fill ${String(
-                                                item._id
-                                            ).toLowerCase()}`}
-                                            style={{
-                                                width:
-                                                    `${percentage}%`
-                                            }}
-                                        ></div>
+                            </PieChart>
 
-                                    </div>
+                        </ResponsiveContainer>
+
+
+                        <div className="donut-center">
+
+                            <strong>
+                                {analytics.totalApplications}
+                            </strong>
+
+                            <span>
+                                Total
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* LEGEND */}
+
+                    <div className="chart-legend">
+
+                        {chartData.map(
+                            (item) => (
+
+                                <div
+                                    className="legend-item"
+                                    key={item.name}
+                                >
+
+                                    <span
+                                        className="legend-dot"
+                                        style={{
+                                            background:
+                                                chartColors[
+                                                item.name
+                                                ]
+                                        }}
+                                    ></span>
+
+                                    <span>
+                                        {item.name}
+                                    </span>
+
+                                    <strong>
+                                        {item.value}
+                                    </strong>
 
                                 </div>
 
-                            );
-                        }
-                    )}
+                            )
+                        )}
+
+                    </div>
 
                 </div>
 
-            </section>
 
+                {/* =========================
+                    PIPELINE
+                ========================= */}
 
-            {/* Performance */}
+                <div className="analytics-chart-card">
 
-            <section className="analytics-performance">
+                    <div className="chart-card-header">
 
-                <div className="performance-card">
+                        <div>
 
-                    <div className="performance-icon">
-                        ◌
+                            <h3>
+                                Application Pipeline
+                            </h3>
+
+                            <p>
+                                Breakdown by current status
+                            </p>
+
+                        </div>
+
                     </div>
+
+
+                    <div className="status-list">
+
+                        {[
+                            "Applied",
+                            "Interview",
+                            "Offer",
+                            "Rejected"
+                        ].map(
+                            (status) => {
+
+                                const count =
+                                    getStatusCount(
+                                        status
+                                    );
+
+
+                                const percentage =
+                                    analytics.totalApplications >
+                                        0
+                                        ? (
+                                            (count /
+                                                analytics.totalApplications) *
+                                            100
+                                        ).toFixed(1)
+                                        : 0;
+
+
+                                return (
+
+                                    <div
+                                        className="status-item"
+                                        key={status}
+                                    >
+
+                                        <div className="status-item-header">
+
+                                            <span className="status-name">
+                                                {status}
+                                            </span>
+
+                                            <span className="status-count">
+
+                                                {count}
+
+                                                <small>
+                                                    {" "}
+                                                    ({percentage}%)
+                                                </small>
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <div className="status-bar">
+
+                                            <div
+                                                className={`status-bar-fill ${status.toLowerCase()}`}
+                                                style={{
+                                                    width:
+                                                        `${percentage}%`
+                                                }}
+                                            ></div>
+
+                                        </div>
+
+                                    </div>
+
+                                );
+                            }
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* =========================
+                APPLICATIONS OVER TIME
+            ========================= */}
+
+            <div className="analytics-chart-card analytics-time-chart">
+
+                <div className="chart-card-header">
 
                     <div>
 
-                        <span>
-                            INTERVIEW RATE
-                        </span>
-
-                        <strong>
-                            {interviewRate}%
-                        </strong>
+                        <h3>
+                            Applications Over Time
+                        </h3>
 
                         <p>
-                            {interviews} of {total}
-                            {" "}
-                            applications reached
-                            interview stage.
+                            Your application activity by month
                         </p>
 
                     </div>
@@ -407,37 +623,290 @@ function Analytics() {
                 </div>
 
 
-                <div className="performance-card">
+                <div className="time-chart-wrapper">
 
-                    <div className="performance-icon">
-                        ★
-                    </div>
+                    <ResponsiveContainer
+                        width="100%"
+                        height={300}
+                    >
+
+                        <LineChart
+                            data={timeChartData}
+                            margin={{
+                                top: 10,
+                                right: 20,
+                                left: 0,
+                                bottom: 5
+                            }}
+                        >
+
+                            <CartesianGrid
+                                stroke="var(--border)"
+                                strokeDasharray="4 4"
+                                vertical={false}
+                            />
+
+                            <XAxis
+                                dataKey="label"
+                                stroke="var(--text-secondary)"
+                                fontSize={11}
+                                tickLine={false}
+                                axisLine={false}
+                            />
+
+                            <YAxis
+                                allowDecimals={false}
+                                stroke="var(--text-secondary)"
+                                fontSize={11}
+                                tickLine={false}
+                                axisLine={false}
+                            />
+
+                            <Tooltip
+                                contentStyle={{
+                                    background:
+                                        "var(--surface-secondary)",
+
+                                    border:
+                                        "1px solid var(--border)",
+
+                                    borderRadius: "10px",
+
+                                    color:
+                                        "var(--text)"
+                                }}
+
+                                labelStyle={{
+                                    color:
+                                        "var(--text-secondary)",
+
+                                    marginBottom: "4px"
+                                }}
+
+                                formatter={(value) => [
+                                    value,
+                                    "Applications"
+                                ]}
+                            />
+
+                            <Line
+                                type="monotone"
+                                dataKey="applications"
+                                stroke="var(--primary)"
+                                strokeWidth={3}
+                                dot={{
+                                    r: 4,
+                                    fill: "var(--primary)",
+                                    strokeWidth: 0
+                                }}
+                                activeDot={{
+                                    r: 6
+                                }}
+                            />
+
+                        </LineChart>
+
+                    </ResponsiveContainer>
+
+                </div>
+
+            </div>
+
+            {/* =========================
+    PIPELINE CONVERSION
+========================= */}
+
+            <div className="conversion-card">
+
+                <div className="chart-card-header">
 
                     <div>
 
-                        <span>
-                            OFFER RATE
-                        </span>
-
-                        <strong>
-                            {offerRate}%
-                        </strong>
+                        <h3>
+                            Pipeline Conversion
+                        </h3>
 
                         <p>
-                            {offers} of {total}
-                            {" "}
-                            applications resulted
-                            in an offer.
+                            How applications move through your pipeline
                         </p>
 
                     </div>
 
                 </div>
 
-            </section>
 
-        </main>
+                <div className="conversion-grid">
+
+
+                    {/* APPLICATION → INTERVIEW */}
+
+                    <div className="conversion-item">
+
+                        <div className="conversion-top">
+
+                            <span className="conversion-label">
+                                APPLICATION → INTERVIEW
+                            </span>
+
+                            <strong>
+                                {analytics.totalApplications > 0
+                                    ? (
+                                        (
+                                            getStatusCount("Interview") /
+                                            analytics.totalApplications
+                                        ) * 100
+                                    ).toFixed(1)
+                                    : 0
+                                }%
+                            </strong>
+
+                        </div>
+
+
+                        <div className="conversion-bar">
+
+                            <div
+                                className="conversion-fill interview"
+                                style={{
+                                    width:
+                                        `${analytics.totalApplications > 0
+                                            ? (
+                                                (
+                                                    getStatusCount("Interview") /
+                                                    analytics.totalApplications
+                                                ) * 100
+                                            )
+                                            : 0
+                                        }%`
+                                }}
+                            ></div>
+
+                        </div>
+
+
+                        <p>
+                            {getStatusCount("Interview")} of{" "}
+                            {analytics.totalApplications} applications
+                        </p>
+
+                    </div>
+
+
+                    {/* APPLICATION → OFFER */}
+
+                    <div className="conversion-item">
+
+                        <div className="conversion-top">
+
+                            <span className="conversion-label">
+                                APPLICATION → OFFER
+                            </span>
+
+                            <strong>
+                                {analytics.totalApplications > 0
+                                    ? (
+                                        (
+                                            getStatusCount("Offer") /
+                                            analytics.totalApplications
+                                        ) * 100
+                                    ).toFixed(1)
+                                    : 0
+                                }%
+                            </strong>
+
+                        </div>
+
+
+                        <div className="conversion-bar">
+
+                            <div
+                                className="conversion-fill offer"
+                                style={{
+                                    width:
+                                        `${analytics.totalApplications > 0
+                                            ? (
+                                                (
+                                                    getStatusCount("Offer") /
+                                                    analytics.totalApplications
+                                                ) * 100
+                                            )
+                                            : 0
+                                        }%`
+                                }}
+                            ></div>
+
+                        </div>
+
+
+                        <p>
+                            {getStatusCount("Offer")} of{" "}
+                            {analytics.totalApplications} applications
+                        </p>
+
+                    </div>
+
+
+                    {/* INTERVIEW → OFFER */}
+
+                    <div className="conversion-item">
+
+                        <div className="conversion-top">
+
+                            <span className="conversion-label">
+                                INTERVIEW → OFFER
+                            </span>
+
+                            <strong>
+                                {getStatusCount("Interview") > 0
+                                    ? (
+                                        (
+                                            getStatusCount("Offer") /
+                                            getStatusCount("Interview")
+                                        ) * 100
+                                    ).toFixed(1)
+                                    : 0
+                                }%
+                            </strong>
+
+                        </div>
+
+
+                        <div className="conversion-bar">
+
+                            <div
+                                className="conversion-fill success"
+                                style={{
+                                    width:
+                                        `${getStatusCount("Interview") > 0
+                                            ? (
+                                                (
+                                                    getStatusCount("Offer") /
+                                                    getStatusCount("Interview")
+                                                ) * 100
+                                            )
+                                            : 0
+                                        }%`
+                                }}
+                            ></div>
+
+                        </div>
+
+
+                        <p>
+                            {getStatusCount("Offer")} of{" "}
+                            {getStatusCount("Interview")} interviews
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
     );
 }
+
 
 export default Analytics;
