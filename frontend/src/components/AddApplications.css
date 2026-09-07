@@ -1,330 +1,649 @@
+/* =========================================
+   ADD APPLICATION
+========================================= */
+
 .add-application-page {
-    width: min(900px, calc(100% - 48px));
-
+    width: min(1120px, calc(100% - 48px));
     margin: 0 auto;
-
     padding: 30px 0 50px;
 }
 
 
-/* Header */
+/* =========================================
+   HEADER
+========================================= */
 
 .add-application-header {
-    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
 }
 
 .add-application-eyebrow {
-    margin: 0 0 6px;
-
+    margin: 0 0 7px;
     color: var(--primary);
-
     font-size: 10px;
     font-weight: 800;
-
-    letter-spacing: 0.12em;
+    letter-spacing: 0.13em;
 }
 
 .add-application-header h1 {
     margin: 0;
-
     color: var(--text);
-
     font-size: 30px;
     line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
 .add-application-header p:last-child {
-    margin: 7px 0 0;
-
+    max-width: 560px;
+    margin: 8px 0 0;
     color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
 
+.add-header-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.add-header-badge span {
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: var(--surface-secondary);
+    color: var(--primary);
     font-size: 13px;
 }
 
 
-/* Form */
+/* =========================================
+   LAYOUT
+========================================= */
+
+.add-application-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 18px;
+    align-items: start;
+}
+
+
+/* =========================================
+   MAIN FORM
+========================================= */
 
 .application-form {
+    min-width: 0;
     padding: 24px;
-
     background: var(--surface);
-
     border: 1px solid var(--border);
-    border-radius: 15px;
-
+    border-radius: 16px;
     box-shadow: var(--shadow);
 }
 
-.application-form-grid {
-    display: grid;
+.form-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
 
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+.form-section-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-secondary);
+    color: var(--primary);
+    font-size: 15px;
+}
 
-    gap: 20px 16px;
+.form-section-header h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 15px;
+}
+
+.form-section-header p {
+    margin: 4px 0 0;
+    color: var(--text-secondary);
+    font-size: 10px;
 }
 
 
-/* Fields */
+/* =========================================
+   FORM GRID
+========================================= */
+
+.application-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px 16px;
+}
+
+
+/* =========================================
+   FIELDS
+========================================= */
 
 .application-field {
     display: flex;
     flex-direction: column;
-
     gap: 7px;
 }
 
 .application-field label {
     color: var(--text);
-
     font-size: 11px;
     font-weight: 700;
+}
+
+.application-field label>span {
+    margin-left: 3px;
+    color: var(--primary);
 }
 
 .application-field input[type="text"],
 .application-field select {
     width: 100%;
-    height: 42px;
-
+    height: 44px;
     padding: 0 12px;
-
     border: 1px solid var(--border);
     border-radius: 9px;
-
     background: var(--surface-secondary);
-
     color: var(--text);
-
     font-family: inherit;
     font-size: 12px;
-
     outline: none;
-
     transition:
         border-color 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 .application-field input[type="text"]::placeholder {
     color: var(--text-secondary);
+    opacity: 0.55;
+}
 
-    opacity: 0.6;
+.application-field input[type="text"]:hover,
+.application-field select:hover {
+    border-color: var(--border-hover);
 }
 
 .application-field input[type="text"]:focus,
 .application-field select:focus {
     border-color: var(--primary);
-
+    background: var(--surface);
     box-shadow:
-        0 0 0 3px
-        color-mix(
-            in srgb,
+        0 0 0 3px color-mix(in srgb,
             var(--primary) 12%,
-            transparent
-        );
+            transparent);
+}
+
+.application-field small {
+    color: var(--text-muted);
+    font-size: 9px;
+    line-height: 1.3;
 }
 
 
-/* File upload */
+/* =========================================
+   SELECT
+========================================= */
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: "⌄";
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-55%);
+    color: var(--text-secondary);
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.application-field select {
+    appearance: none;
+    padding-right: 34px;
+}
+
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
 
 .file-upload {
     position: relative;
-
-    min-height: 66px;
-
+    min-height: 72px;
     display: flex;
     align-items: center;
-
     gap: 11px;
-
-    padding: 10px 12px;
-
-    border: 1px dashed var(--border);
-    border-radius: 9px;
-
+    padding: 11px 12px;
+    border: 1px dashed var(--border-hover);
+    border-radius: 10px;
     background: var(--surface-secondary);
-
     cursor: pointer;
-
     transition:
         border-color 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
 .file-upload:hover {
     border-color: var(--primary);
+    background: var(--surface-elevated);
+    transform: translateY(-1px);
 }
 
 .file-upload input {
     position: absolute;
-
     width: 1px;
     height: 1px;
-
     opacity: 0;
+    pointer-events: none;
 }
 
 .file-upload-icon {
-    width: 34px;
-    height: 34px;
-
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
-
     flex-shrink: 0;
-
-    border-radius: 8px;
-
+    border-radius: 9px;
     background: var(--surface);
-
     color: var(--primary);
-
     font-size: 17px;
     font-weight: 700;
 }
 
 .file-upload-content {
     min-width: 0;
-
     flex: 1;
 }
 
 .file-upload-content strong {
     display: block;
-
     overflow: hidden;
-
     color: var(--text);
-
     font-size: 11px;
-
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.file-upload-content small {
+.file-upload-content span {
     display: block;
-
-    margin-top: 3px;
-
+    margin-top: 4px;
     color: var(--text-secondary);
-
     font-size: 9px;
 }
 
 .file-upload-browse {
-    padding: 6px 9px;
-
+    padding: 7px 10px;
     border: 1px solid var(--border);
     border-radius: 7px;
-
     background: var(--surface);
-
     color: var(--text-secondary);
-
     font-size: 9px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 
-/* Feedback */
+/* =========================================
+   FEEDBACK
+========================================= */
 
 .form-feedback {
-    margin-top: 18px;
-
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
     padding: 10px 12px;
-
-    border-radius: 8px;
-
-    font-size: 11px;
+    border-radius: 9px;
+    font-size: 10px;
     font-weight: 600;
+}
+
+.form-feedback>span {
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
 }
 
 .form-error {
-    background: #fee2e2;
+    background: color-mix(in srgb,
+            var(--danger) 10%,
+            var(--surface));
+    color: var(--danger);
+}
 
-    color: #b91c1c;
+.form-error>span {
+    background: color-mix(in srgb,
+            var(--danger) 15%,
+            transparent);
 }
 
 .form-success {
-    background: #dcfce7;
+    background: color-mix(in srgb,
+            var(--success) 10%,
+            var(--surface));
+    color: var(--success);
+}
 
-    color: #15803d;
+.form-success>span {
+    background: color-mix(in srgb,
+            var(--success) 15%,
+            transparent);
 }
 
 
-/* Footer */
+/* =========================================
+   FOOTER
+========================================= */
 
 .application-form-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 15px;
-
-    margin-top: 24px;
-
-    padding-top: 18px;
-
+    margin-top: 25px;
+    padding-top: 19px;
     border-top: 1px solid var(--border);
 }
 
-.application-form-footer p {
+.form-footer-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-footer-note>span {
+    color: var(--primary);
+    font-size: 13px;
+}
+
+.form-footer-note p {
     margin: 0;
-
     color: var(--text-secondary);
-
-    font-size: 10px;
+    font-size: 9px;
 }
 
 .add-application-button {
-    height: 38px;
-
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
     padding: 0 15px;
-
     border: 1px solid var(--primary);
-    border-radius: 8px;
-
+    border-radius: 9px;
     background: var(--primary);
-
     color: white;
-
     font-family: inherit;
-
     font-size: 11px;
     font-weight: 700;
-
     cursor: pointer;
-
     transition:
         transform 0.2s ease,
-        opacity 0.2s ease;
+        opacity 0.2s ease,
+        background 0.2s ease;
+}
+
+.add-application-button span {
+    font-size: 14px;
+    transition: transform 0.2s ease;
 }
 
 .add-application-button:hover:not(:disabled) {
     transform: translateY(-1px);
+    background: var(--primary-hover);
+}
+
+.add-application-button:hover:not(:disabled) span {
+    transform: translateX(2px);
 }
 
 .add-application-button:disabled {
     opacity: 0.6;
-
     cursor: not-allowed;
 }
 
 
-/* Mobile */
+/* =========================================
+   SIDE PANEL
+========================================= */
+
+.add-application-side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.add-side-card,
+.add-side-checklist {
+    padding: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+
+/* =========================================
+   QUICK TIP
+========================================= */
+
+.add-side-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.add-side-card::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: -45px;
+    top: -45px;
+    border-radius: 50%;
+    background: color-mix(in srgb,
+            var(--primary) 8%,
+            transparent);
+}
+
+.side-card-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    border-radius: 9px;
+    background: var(--surface-secondary);
+    color: var(--primary);
+    font-size: 13px;
+}
+
+.side-card-eyebrow {
+    margin: 0 0 6px;
+    color: var(--primary);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.add-side-card h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.35;
+}
+
+.add-side-card>p:last-child {
+    margin: 8px 0 0;
+    color: var(--text-secondary);
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+
+/* =========================================
+   CHECKLIST
+========================================= */
+
+.checklist-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.checklist-header span {
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.checklist-header strong {
+    color: var(--text-muted);
+    font-size: 9px;
+}
+
+.checklist-item {
+    display: flex;
+    gap: 10px;
+    padding: 11px 0;
+    border-top: 1px solid var(--border);
+}
+
+.checklist-number {
+    color: var(--primary);
+    font-size: 8px;
+    font-weight: 800;
+    padding-top: 2px;
+}
+
+.checklist-item strong {
+    display: block;
+    color: var(--text);
+    font-size: 10px;
+}
+
+.checklist-item p {
+    margin: 3px 0 0;
+    color: var(--text-secondary);
+    font-size: 9px;
+    line-height: 1.35;
+}
+
+
+/* =========================================
+   SIDE FOOTER
+========================================= */
+
+.add-side-footer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 4px;
+}
+
+.add-side-footer>span {
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--surface-secondary);
+    color: var(--primary);
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.add-side-footer strong {
+    display: block;
+    color: var(--text);
+    font-size: 9px;
+}
+
+.add-side-footer p {
+    margin: 2px 0 0;
+    color: var(--text-muted);
+    font-size: 8px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+    .add-application-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .add-application-side {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .add-side-footer {
+        grid-column: 1 / -1;
+    }
+}
+
 
 @media (max-width: 650px) {
-
     .add-application-page {
         width: calc(100% - 32px);
-
         padding: 22px 0 40px;
+    }
+
+    .add-application-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
     }
 
     .add-application-header h1 {
         font-size: 25px;
+    }
+
+    .add-header-badge {
+        display: none;
     }
 
     .application-form {
@@ -335,14 +654,17 @@
         grid-template-columns: 1fr;
     }
 
+    .add-application-side {
+        display: flex;
+    }
+
     .application-form-footer {
         align-items: stretch;
-
         flex-direction: column;
     }
 
     .add-application-button {
         width: 100%;
+        justify-content: center;
     }
-
 }

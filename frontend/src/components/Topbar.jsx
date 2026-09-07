@@ -6,7 +6,6 @@ function Topbar({
     onLogout,
     user
 }) {
-
     const userName = user?.name || "User";
 
     const userInitial = userName
@@ -17,6 +16,7 @@ function Topbar({
         <header className="topbar">
 
             <div className="topbar-mobile-brand">
+
                 <div className="sidebar-logo">
                     CF
                 </div>
@@ -24,12 +24,14 @@ function Topbar({
                 <strong>
                     CareerForge
                 </strong>
+
             </div>
 
 
             <div className="topbar-actions">
 
                 <button
+                    type="button"
                     className="topbar-theme"
                     onClick={() =>
                         setTheme(
@@ -39,6 +41,11 @@ function Topbar({
                         )
                     }
                     aria-label="Toggle theme"
+                    title={
+                        theme === "dark"
+                            ? "Switch to light mode"
+                            : "Switch to dark mode"
+                    }
                 >
                     {theme === "dark"
                         ? "☀️"
@@ -60,6 +67,7 @@ function Topbar({
 
 
                 <button
+                    type="button"
                     className="topbar-logout"
                     onClick={onLogout}
                 >

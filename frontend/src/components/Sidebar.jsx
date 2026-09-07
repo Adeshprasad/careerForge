@@ -5,9 +5,10 @@ function Sidebar({
     setCurrentView,
     onLogout
 }) {
-
     return (
         <aside className="sidebar">
+
+            {/* Brand */}
 
             <div className="sidebar-brand">
 
@@ -35,112 +36,152 @@ function Sidebar({
             </div>
 
 
-            <div className="sidebar-section">
+            {/* Navigation */}
 
-                <p className="sidebar-section-title">
-                    OVERVIEW
-                </p>
+            <nav className="sidebar-nav">
 
+                {/* Overview */}
 
-                <button
-                    type="button"
-                    className={`sidebar-link ${
-                        currentView === "dashboard"
-                            ? "active"
-                            : ""
-                    }`}
-                    onClick={() =>
-                        setCurrentView("dashboard")
-                    }
-                >
-                    <span className="sidebar-icon">
-                        ▣
-                    </span>
+                <div className="sidebar-section">
 
-                    Dashboard
-                </button>
+                    <p className="sidebar-section-title">
+                        OVERVIEW
+                    </p>
 
 
-                <button
-                    type="button"
-                    className={`sidebar-link ${
-                        currentView === "analytics"
-                            ? "active"
-                            : ""
-                    }`}
-                    onClick={() =>
-                        setCurrentView("analytics")
-                    }
-                >
-                    <span className="sidebar-icon">
-                        ◫
-                    </span>
+                    <button
+                        type="button"
+                        className={`sidebar-link ${currentView === "dashboard"
+                                ? "active"
+                                : ""
+                            }`}
+                        onClick={() =>
+                            setCurrentView("dashboard")
+                        }
+                    >
+                        <span className="sidebar-icon">
+                            ▣
+                        </span>
 
-                    Analytics
-                </button>
-
-            </div>
-
-
-            <div className="sidebar-section">
-
-                <p className="sidebar-section-title">
-                    WORKSPACE
-                </p>
+                        <span>
+                            Dashboard
+                        </span>
+                    </button>
 
 
-                <button
-                    type="button"
-                    className={`sidebar-link ${
-                        currentView === "applications"
-                            ? "active"
-                            : ""
-                    }`}
-                    onClick={() =>
-                        setCurrentView("applications")
-                    }
-                >
-                    <span className="sidebar-icon">
-                        ▤
-                    </span>
+                    <button
+                        type="button"
+                        className={`sidebar-link ${currentView === "analytics"
+                                ? "active"
+                                : ""
+                            }`}
+                        onClick={() =>
+                            setCurrentView("analytics")
+                        }
+                    >
+                        <span className="sidebar-icon">
+                            ◫
+                        </span>
 
-                    Applications
-                </button>
+                        <span>
+                            Analytics
+                        </span>
+                    </button>
+
+                </div>
 
 
-                <button
-                    type="button"
-                    className={`sidebar-link ${
-                        currentView === "add"
-                            ? "active"
-                            : ""
-                    }`}
-                    onClick={() =>
-                        setCurrentView("add")
-                    }
-                >
-                    <span className="sidebar-icon">
-                        ＋
-                    </span>
+                {/* Workspace */}
 
-                    Add Application
-                </button>
+                <div className="sidebar-section">
 
-            </div>
+                    <p className="sidebar-section-title">
+                        WORKSPACE
+                    </p>
 
+
+                    <button
+                        type="button"
+                        className={`sidebar-link ${currentView === "applications"
+                                ? "active"
+                                : ""
+                            }`}
+                        onClick={() =>
+                            setCurrentView("applications")
+                        }
+                    >
+                        <span className="sidebar-icon">
+                            ▤
+                        </span>
+
+                        <span>
+                            Applications
+                        </span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className={`sidebar-link ${currentView === "add"
+                                ? "active"
+                                : ""
+                            }`}
+                        onClick={() =>
+                            setCurrentView("add")
+                        }
+                    >
+                        <span className="sidebar-icon">
+                            ＋
+                        </span>
+
+                        <span>
+                            Add Application
+                        </span>
+                    </button>
+
+                </div>
+
+            </nav>
+
+
+            {/* Flexible space */}
 
             <div className="sidebar-spacer"></div>
 
+
+            {/* Small product message */}
+
+            <div className="sidebar-insight">
+
+                <div className="sidebar-insight-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <strong>
+                        Keep moving
+                    </strong>
+
+                    <p>
+                        Every application is a step forward.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {/* Bottom navigation */}
 
             <div className="sidebar-bottom">
 
                 <button
                     type="button"
-                    className={`sidebar-link ${
-                        currentView === "settings"
+                    className={`sidebar-link ${currentView === "settings"
                             ? "active"
                             : ""
-                    }`}
+                        }`}
                     onClick={() =>
                         setCurrentView("settings")
                     }
@@ -149,7 +190,9 @@ function Sidebar({
                         ⚙
                     </span>
 
-                    Settings
+                    <span>
+                        Settings
+                    </span>
                 </button>
 
 
@@ -162,7 +205,9 @@ function Sidebar({
                         ↪
                     </span>
 
-                    Logout
+                    <span>
+                        Logout
+                    </span>
                 </button>
 
             </div>

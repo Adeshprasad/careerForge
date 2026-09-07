@@ -17,7 +17,6 @@
     padding: 24px 14px;
 
     background: var(--surface);
-
     border-right: 1px solid var(--border);
 
     z-index: 100;
@@ -26,7 +25,9 @@
 }
 
 
-/* Brand */
+/* =========================
+   BRAND
+========================= */
 
 .sidebar-brand {
     display: flex;
@@ -40,9 +41,10 @@
 .sidebar-logo {
     width: 40px;
     height: 40px;
-    
+
     border: none;
     padding: 0;
+
     font-family: inherit;
     cursor: pointer;
 
@@ -55,7 +57,6 @@
     border-radius: 11px;
 
     background: var(--primary);
-
     color: white;
 
     font-size: 12px;
@@ -82,7 +83,9 @@
 }
 
 
-/* Sections */
+/* =========================
+   SECTIONS
+========================= */
 
 .sidebar-section {
     margin-bottom: 24px;
@@ -100,7 +103,9 @@
 }
 
 
-/* Navigation */
+/* =========================
+   NAVIGATION
+========================= */
 
 .sidebar-link {
     width: 100%;
@@ -117,11 +122,9 @@
     border-radius: 9px;
 
     background: transparent;
-
     color: var(--text-secondary);
 
     font-family: inherit;
-
     font-size: 13px;
     font-weight: 600;
 
@@ -137,7 +140,6 @@
 
 .sidebar-link:hover {
     background: var(--surface-secondary);
-
     color: var(--text);
 
     transform: translateX(2px);
@@ -145,7 +147,6 @@
 
 .sidebar-link.active {
     background: var(--surface-secondary);
-
     color: var(--primary);
 }
 
@@ -161,7 +162,9 @@
 }
 
 
-/* Bottom */
+/* =========================
+   BOTTOM
+========================= */
 
 .sidebar-spacer {
     flex: 1;
@@ -179,7 +182,7 @@
 
 
 /* =========================
-   RESPONSIVE
+   TABLET
 ========================= */
 
 @media (max-width: 800px) {
@@ -196,7 +199,7 @@
         padding: 4px 0 25px;
     }
 
-    .sidebar-brand > div:last-child,
+    .sidebar-brand>div:last-child,
     .sidebar-section-title {
         display: none;
     }
@@ -212,9 +215,12 @@
     .sidebar-icon {
         font-size: 16px;
     }
-
 }
 
+
+/* =========================
+   MOBILE BOTTOM NAV
+========================= */
 
 @media (max-width: 500px) {
 
@@ -226,27 +232,43 @@
         bottom: 0;
         left: 0;
 
+        z-index: 1000;
+
         width: 100%;
-        height: 62px;
+        height: 68px;
 
+        display: flex;
         flex-direction: row;
+        align-items: stretch;
 
-        padding: 7px 10px;
+        padding: 5px 8px;
 
-        border-right: none;
+        background: var(--surface);
+
         border-top: 1px solid var(--border);
+        border-right: none;
+
+        box-shadow:
+            0 -8px 25px rgba(0, 0, 0, 0.18);
     }
 
     .sidebar-brand,
     .sidebar-spacer,
-    .sidebar-bottom {
+    .sidebar-bottom,
+    .sidebar-insight {
         display: none;
     }
 
-    .sidebar-section {
+    .sidebar-nav {
         display: flex;
 
         flex: 1;
+
+        align-items: stretch;
+    }
+
+    .sidebar-section {
+        display: contents;
 
         margin: 0;
     }
@@ -256,17 +278,79 @@
     }
 
     .sidebar-link {
+        position: relative;
+
         flex: 1;
 
+        min-width: 0;
+        height: 58px;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
         justify-content: center;
 
+        gap: 4px;
+
+        padding: 5px 2px;
         margin: 0;
 
-        font-size: 0;
+        border: none;
+        border-radius: 9px;
+
+        background: transparent;
+        color: var(--text-secondary);
+
+        font-size: 8px;
+        font-weight: 600;
+
+        text-align: center;
+
+        white-space: nowrap;
+
+        transform: none;
+    }
+
+    .sidebar-link:hover {
+        background: var(--surface-secondary);
+        color: var(--text);
+
+        transform: none;
+    }
+
+    .sidebar-link.active {
+        background: color-mix(in srgb,
+                var(--primary) 10%,
+                transparent);
+
+        color: var(--primary);
+    }
+
+    .sidebar-link.active::before {
+        content: "";
+
+        position: absolute;
+
+        top: 3px;
+        left: 50%;
+
+        width: 22px;
+        height: 2px;
+
+        transform: translateX(-50%);
+
+        border-radius: 999px;
+
+        background: var(--primary);
     }
 
     .sidebar-icon {
-        font-size: 17px;
-    }
+        width: auto;
+        min-width: 0;
+        height: auto;
 
+        font-size: 17px;
+        line-height: 1;
+    }
 }

@@ -36,7 +36,7 @@
 
 
 /* =========================
-   RESPONSIVE
+   TABLET
 ========================= */
 
 @media (max-width: 800px) {
@@ -50,6 +50,10 @@
 }
 
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 500px) {
 
     .app-main {
@@ -59,7 +63,9 @@
     }
 
     .app-content {
-        padding-bottom: 80px;
+        min-height: calc(100vh - 64px);
+
+        padding-bottom: 92px;
     }
 
 }
