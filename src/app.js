@@ -15,7 +15,7 @@ const userRoutes = require("./routes/userRoutes");
 // CORS Middleware
 app.use(
     cors({
-        origin: "http://localhost:5173"
+        origin: process.env.FRONTEND_URL
     })
 );
 
@@ -73,7 +73,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

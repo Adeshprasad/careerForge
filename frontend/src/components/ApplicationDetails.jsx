@@ -44,7 +44,7 @@ function ApplicationDetails({ applicationId, onBack }) {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    `http://localhost:3000/applications/${applicationId}`,
+                    `${import.meta.env.VITE_API_URL}/applications/${applicationId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -110,7 +110,7 @@ function ApplicationDetails({ applicationId, onBack }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications/${applicationId}`,
+                `${import.meta.env.VITE_API_URL}/applications/${applicationId}`,
                 {
                     method: "PATCH",
 
@@ -193,7 +193,7 @@ function ApplicationDetails({ applicationId, onBack }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications/${applicationId}`,
+                `${import.meta.env.VITE_API_URL}/applications/${applicationId}`,
                 {
                     method: "PATCH",
 
@@ -306,7 +306,7 @@ function ApplicationDetails({ applicationId, onBack }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications/${applicationId}/interviews`,
+                `${import.meta.env.VITE_API_URL}/applications/${applicationId}/interviews`,
                 {
                     method: "POST",
 
@@ -394,7 +394,7 @@ function ApplicationDetails({ applicationId, onBack }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications/${applicationId}/interviews/${editingInterviewId}`,
+                `${import.meta.env.VITE_API_URL}/applications/${applicationId}/interviews/${editingInterviewId}`,
                 {
                     method: "PATCH",
 
@@ -522,7 +522,7 @@ function ApplicationDetails({ applicationId, onBack }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications/${applicationId}/interviews/${interviewId}`,
+                `${import.meta.env.VITE_API_URL}/applications/${applicationId}/interviews/${interviewId}`,
                 {
                     method: "DELETE",
 
@@ -584,7 +584,7 @@ function ApplicationDetails({ applicationId, onBack }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/applications/${applicationId}/resume`,
+                `${import.meta.env.VITE_API_URL}/applications/${applicationId}/resume`,
                 {
                     headers: {
                         Authorization:

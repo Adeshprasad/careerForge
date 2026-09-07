@@ -17,7 +17,7 @@ function DashboardOverview({
                 const [analyticsResponse, followUpsResponse] =
                     await Promise.all([
                         fetch(
-                            "http://localhost:3000/applications/analytics",
+                            `${import.meta.env.VITE_API_URL}/applications/analytics`,
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`
@@ -26,7 +26,7 @@ function DashboardOverview({
                         ),
 
                         fetch(
-                            "http://localhost:3000/applications/follow-ups",
+                            `${import.meta.env.VITE_API_URL}/applications/follow-ups`,
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`

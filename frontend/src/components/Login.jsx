@@ -22,7 +22,7 @@ function Login({ onLogin, onRegister }) {
         try {
 
             const response = await fetch(
-                "http://localhost:3000/users/login",
+                `${import.meta.env.VITE_API_URL}/users/login`,
                 {
                     method: "POST",
 

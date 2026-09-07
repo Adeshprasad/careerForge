@@ -16,7 +16,7 @@ function UpcomingFollowUps() {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:3000/applications/follow-ups",
+                    `${import.meta.env.VITE_API_URL}/applications/follow-ups`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`

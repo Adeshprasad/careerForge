@@ -209,7 +209,7 @@ function App() {
 
 
             const response = await fetch(
-                `http://localhost:3000/applications/${id}`,
+                `${import.meta.env.VITE_API_URL}/applications/${id}`,
                 {
                     method: "PATCH",
 
@@ -269,7 +269,7 @@ function App() {
 
 
             const response = await fetch(
-                `http://localhost:3000/applications/${id}`,
+                `${import.meta.env.VITE_API_URL}/applications/${id}`,
                 {
                     method: "DELETE",
 
@@ -345,7 +345,7 @@ function App() {
 
 
             const response = await fetch(
-                `http://localhost:3000/applications?page=${page}&company=${encodeURIComponent(
+                `${import.meta.env.VITE_API_URL}/applications?page=${page}&company=${encodeURIComponent(
                     company
                 )}&status=${encodeURIComponent(
                     status
@@ -516,7 +516,7 @@ function App() {
 
 
                 const response = await fetch(
-                    "http://localhost:3000/users/me",
+                    `${import.meta.env.VITE_API_URL}/users/me`,
                     {
                         headers: {
                             Authorization:

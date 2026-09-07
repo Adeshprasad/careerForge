@@ -40,7 +40,7 @@ function Analytics() {
 
 
                 const response = await fetch(
-                    "http://localhost:3000/applications/analytics",
+                    `${import.meta.env.VITE_API_URL}/applications/analytics`,
                     {
                         headers: {
                             Authorization:
