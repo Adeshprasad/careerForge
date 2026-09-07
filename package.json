@@ -4,6 +4,8 @@
   "description": "A full-stack MERN application for tracking internships, job applications, interview progress, and placement preparation.",
   "main": "index.js",
   "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
