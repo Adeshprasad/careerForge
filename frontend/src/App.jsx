@@ -124,10 +124,14 @@ function App() {
     ========================================= */
 
     function handleViewDetails(id) {
-
         setSelectedApplicationId(id);
-    }
 
+        window.history.pushState(
+            {},
+            "",
+            `#applications/${id}`
+        );
+    }
 
     /* =========================================
        FILTERS
@@ -420,12 +424,16 @@ function App() {
 
         function handleHashChange() {
 
-            const view =
+            const hash =
                 window.location.hash.replace(
                     "#",
                     ""
                 );
 
+            const parts =
+                hash.split("/");
+
+            const view = parts[0];
 
             if (
                 view === "applications" ||
@@ -442,15 +450,29 @@ function App() {
             }
 
 
-            setSelectedApplicationId(null);
+            if (
+                view === "applications" &&
+                parts[1]
+            ) {
+
+                setSelectedApplicationId(
+                    parts[1]
+                );
+
+            } else {
+
+                setSelectedApplicationId(null);
+            }
         }
+
+
+        handleHashChange();
 
 
         window.addEventListener(
             "popstate",
             handleHashChange
         );
-
 
         window.addEventListener(
             "hashchange",
@@ -636,11 +658,16 @@ function App() {
                                     applicationId={
                                         selectedApplicationId
                                     }
-                                    onBack={() =>
-                                        setSelectedApplicationId(
-                                            null
-                                        )
-                                    }
+                                    onBack={() => {
+
+                                        setSelectedApplicationId(null);
+
+                                        window.history.pushState(
+                                            {},
+                                            "",
+                                            "#applications"
+                                        );
+                                    }}
                                 />
 
                             ) : (
@@ -652,16 +679,16 @@ function App() {
                                     {currentView ===
                                         "dashboard" && (
 
-                                        <DashboardOverview
-                                            applications={
-                                                applications
-                                            }
-                                            onViewDetails={
-                                                handleViewDetails
-                                            }
-                                        />
+                                            <DashboardOverview
+                                                applications={
+                                                    applications
+                                                }
+                                                onViewDetails={
+                                                    handleViewDetails
+                                                }
+                                            />
 
-                                    )}
+                                        )}
 
 
                                     {/* APPLICATIONS */}
@@ -669,89 +696,89 @@ function App() {
                                     {currentView ===
                                         "applications" && (
 
-                                        <Dashboard
-                                            applications={
-                                                applications
-                                            }
+                                            <Dashboard
+                                                applications={
+                                                    applications
+                                                }
 
-                                            loading={
-                                                loading
-                                            }
+                                                loading={
+                                                    loading
+                                                }
 
-                                            error={
-                                                error
-                                            }
+                                                error={
+                                                    error
+                                                }
 
-                                            page={
-                                                page
-                                            }
+                                                page={
+                                                    page
+                                                }
 
-                                            setPage={
-                                                setPage
-                                            }
+                                                setPage={
+                                                    setPage
+                                                }
 
-                                            totalPages={
-                                                totalPages
-                                            }
+                                                totalPages={
+                                                    totalPages
+                                                }
 
-                                            onDelete={
-                                                deleteApplication
-                                            }
+                                                onDelete={
+                                                    deleteApplication
+                                                }
 
-                                            onUpdate={
-                                                updateApplication
-                                            }
+                                                onUpdate={
+                                                    updateApplication
+                                                }
 
-                                            onViewDetails={
-                                                handleViewDetails
-                                            }
+                                                onViewDetails={
+                                                    handleViewDetails
+                                                }
 
-                                            company={
-                                                company
-                                            }
+                                                company={
+                                                    company
+                                                }
 
-                                            setCompany={
-                                                handleCompanyChange
-                                            }
+                                                setCompany={
+                                                    handleCompanyChange
+                                                }
 
-                                            status={
-                                                status
-                                            }
+                                                status={
+                                                    status
+                                                }
 
-                                            setStatus={
-                                                handleStatusChange
-                                            }
+                                                setStatus={
+                                                    handleStatusChange
+                                                }
 
-                                            from={
-                                                from
-                                            }
+                                                from={
+                                                    from
+                                                }
 
-                                            setFrom={
-                                                handleFromChange
-                                            }
+                                                setFrom={
+                                                    handleFromChange
+                                                }
 
-                                            to={
-                                                to
-                                            }
+                                                to={
+                                                    to
+                                                }
 
-                                            setTo={
-                                                handleToChange
-                                            }
+                                                setTo={
+                                                    handleToChange
+                                                }
 
-                                            sort={
-                                                sort
-                                            }
+                                                sort={
+                                                    sort
+                                                }
 
-                                            setSort={
-                                                handleSortChange
-                                            }
+                                                setSort={
+                                                    handleSortChange
+                                                }
 
-                                            onClearFilters={
-                                                clearFilters
-                                            }
-                                        />
+                                                onClearFilters={
+                                                    clearFilters
+                                                }
+                                            />
 
-                                    )}
+                                        )}
 
 
                                     {/* ANALYTICS */}
@@ -759,9 +786,9 @@ function App() {
                                     {currentView ===
                                         "analytics" && (
 
-                                        <Analytics />
+                                            <Analytics />
 
-                                    )}
+                                        )}
 
 
                                     {/* ADD APPLICATION */}
@@ -769,13 +796,13 @@ function App() {
                                     {currentView ===
                                         "add" && (
 
-                                        <AddApplication
-                                            onApplicationAdded={
-                                                fetchApplications
-                                            }
-                                        />
+                                            <AddApplication
+                                                onApplicationAdded={
+                                                    fetchApplications
+                                                }
+                                            />
 
-                                    )}
+                                        )}
 
 
                                     {/* SETTINGS */}
@@ -783,21 +810,21 @@ function App() {
                                     {currentView ===
                                         "settings" && (
 
-                                        <Settings
-                                            theme={
-                                                theme
-                                            }
+                                            <Settings
+                                                theme={
+                                                    theme
+                                                }
 
-                                            setTheme={
-                                                setTheme
-                                            }
+                                                setTheme={
+                                                    setTheme
+                                                }
 
-                                            user={
-                                                user
-                                            }
-                                        />
+                                                user={
+                                                    user
+                                                }
+                                            />
 
-                                    )}
+                                        )}
 
                                 </>
 

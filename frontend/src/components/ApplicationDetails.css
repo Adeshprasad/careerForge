@@ -917,6 +917,59 @@
 }
 
 
+/* =========================
+   APPLICATION OVERVIEW
+========================= */
+
+.details-overview {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.overview-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    padding: 18px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+.overview-item span {
+    color: var(--text-secondary);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.overview-item strong {
+    color: var(--text);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.resume-button {
+    padding: 18px;
+
+    border: 1px solid var(--primary);
+    border-radius: 13px;
+
+    background: var(--surface);
+    color: var(--primary);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.resume-button:hover {
+    background: var(--surface-secondary);
+}
+
 /* =========================================
    RESPONSIVE
 ========================================= */
@@ -934,6 +987,12 @@
     }
 }
 
+
+@media (max-width: 700px) {
+    .details-overview {
+        grid-template-columns: 1fr;
+    }
+}
 
 @media (max-width: 650px) {
     .application-details {
@@ -1029,5 +1088,334 @@
 
     .details-section-actions .primary-action {
         width: 100%;
+    }
+}
+
+/* =========================
+   SAVED CONTENT
+========================= */
+
+.saved-content {
+    padding: 16px 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--surface-secondary);
+}
+
+.saved-content p {
+    margin: 0;
+
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+}
+
+.empty-content {
+    padding: 16px 18px;
+
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+
+    background: var(--surface-secondary);
+}
+
+.empty-content p {
+    margin: 0;
+
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.saved-follow-up {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 16px 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--surface-secondary);
+}
+
+.saved-follow-up-icon {
+    font-size: 22px;
+}
+
+.saved-follow-up div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.saved-follow-up span {
+    color: var(--text-secondary);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+.saved-follow-up strong {
+    color: var(--text);
+
+    font-size: 15px;
+}
+
+.secondary-action {
+    padding: 10px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: transparent;
+    color: var(--text-secondary);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.secondary-action:hover {
+    background: var(--surface-secondary);
+    color: var(--text);
+}
+
+.save-success {
+    margin: 10px 0 0;
+
+    color: var(--success);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.save-error {
+    margin: 10px 0 0;
+
+    color: var(--danger);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* =========================
+   STATUS HISTORY — FINAL
+========================= */
+
+.status-history-section {
+    margin-top: 18px;
+    overflow: hidden;
+}
+
+.status-history {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.history-item {
+    display: flex;
+    min-height: 60px;
+}
+
+.history-marker {
+    position: relative;
+    width: 28px;
+    flex-shrink: 0;
+}
+
+.history-marker>span {
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    z-index: 2;
+
+    width: 12px;
+    height: 12px;
+
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+
+    background: var(--surface);
+}
+
+.history-item:first-child .history-marker>span {
+    background: var(--primary);
+
+    box-shadow:
+        0 0 0 4px color-mix(in srgb,
+            var(--primary) 12%,
+            transparent);
+}
+
+.history-line {
+    position: absolute;
+
+    top: 17px;
+    bottom: -5px;
+    left: 11px;
+
+    width: 2px;
+
+    background: var(--border);
+}
+
+.history-content {
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 20px;
+}
+
+.history-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.history-top strong {
+    display: block;
+
+    color: var(--text);
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.history-top span {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+.history-item:hover .history-top strong {
+    color: var(--primary);
+}
+
+.history-empty {
+    padding: 22px;
+
+    margin-top: 18px;
+
+    background: var(--surface-secondary);
+
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+
+    color: var(--text-secondary);
+
+    text-align: center;
+    font-size: 13px;
+}
+
+/* =========================
+   STATUS HISTORY
+========================= */
+
+.status-history {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 20px;
+}
+
+.status-history-item {
+    position: relative;
+    padding: 0 0 20px 28px;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.status-history-item::before {
+    content: "";
+
+    position: absolute;
+    top: 20px;
+    left: 5px;
+
+    width: 12px;
+    height: 12px;
+
+    transform: translateY(-50%);
+
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    background: var(--surface);
+}
+
+.status-history-item:not(:last-child)::after {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: 10px;
+
+    width: 2px;
+
+    background: var(--border);
+}
+
+.status-history-item:first-child::before {
+    background: var(--primary);
+
+    box-shadow:
+        0 0 0 4px color-mix(in srgb,
+            var(--primary) 12%,
+            transparent);
+}
+
+.status-history-item>div {
+    display: inline-flex;
+    align-items: center;
+    gap: 28px;
+
+    padding: 12px 16px;
+
+    background: var(--surface-secondary);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    max-width: 100%;
+}
+
+.status-history-item strong {
+    color: var(--text);
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.status-history-item span {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.status-history-item:hover>div {
+    border-color: var(--border-hover);
+}
+
+@media (max-width: 600px) {
+    .status-history-item>div {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .status-history-item span {
+        white-space: normal;
     }
 }

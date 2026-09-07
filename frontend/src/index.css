@@ -100,6 +100,9 @@ body {
         "Segoe UI",
         sans-serif;
 
+    font-size: 15px;
+    line-height: 1.5;
+
     background: var(--bg);
     color: var(--text);
 
@@ -141,6 +144,214 @@ textarea {
 input::placeholder,
 textarea::placeholder {
     color: var(--text-muted);
+}
+
+
+/* =========================================
+   GLOBAL READABILITY
+========================================= */
+
+/*
+   Most of the app was originally built with
+   very small 9–12px text.
+
+   These rules establish a readable minimum
+   across the application.
+*/
+
+.app-shell p {
+    font-size: 14px !important;
+    line-height: 1.5;
+}
+
+.app-shell label {
+    font-size: 13px !important;
+}
+
+.app-shell button {
+    font-size: 14px !important;
+}
+
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+    font-size: 14px !important;
+}
+
+.app-shell li {
+    font-size: 14px !important;
+}
+
+.app-shell td,
+.app-shell th {
+    font-size: 14px !important;
+}
+
+
+/* Normal text spans */
+
+.app-shell span {
+    font-size: 14px;
+}
+
+
+/* Secondary / metadata text */
+
+.app-shell small {
+    font-size: 12px !important;
+}
+
+
+/* =========================================
+   PRESERVE VISUAL HIERARCHY
+========================================= */
+
+.app-shell h1 {
+    font-size: 30px;
+}
+
+.app-shell h2 {
+    font-size: 22px;
+}
+
+.app-shell h3 {
+    font-size: 19px;
+}
+
+.app-shell h4 {
+    font-size: 16px;
+}
+
+
+/* =========================================
+   SMALL LABELS
+========================================= */
+
+.app-shell .sidebar-section-title,
+.app-shell .details-section-eyebrow,
+.app-shell .dashboard-eyebrow,
+.app-shell .add-header-eyebrow,
+.app-shell .details-section-eyebrow,
+.app-shell [class*="eyebrow"] {
+    font-size: 10px !important;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.app-shell .sidebar-link {
+    font-size: 14px !important;
+}
+
+.app-shell .topbar-user {
+    font-size: 14px !important;
+}
+
+
+/* =========================================
+   ICONS
+========================================= */
+
+.app-shell .sidebar-icon,
+.app-shell .topbar-avatar,
+.app-shell .sidebar-logo {
+    font-size: initial !important;
+}
+
+
+/* =========================================
+   STATUS / BADGES
+========================================= */
+
+.app-shell [class*="status"] {
+    font-size: 12px !important;
+}
+
+
+/* =========================================
+   DASHBOARD CONTENT
+========================================= */
+
+.app-shell .dashboard-loading {
+    font-size: 14px !important;
+}
+
+.app-shell .dashboard-empty strong {
+    font-size: 14px !important;
+}
+
+.app-shell .dashboard-empty p {
+    font-size: 13px !important;
+}
+
+
+/* =========================================
+   APPLICATION CONTENT
+========================================= */
+
+.app-shell .application-count {
+    font-size: 14px !important;
+}
+
+.app-shell .page-indicator {
+    font-size: 14px !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .app-shell p {
+        font-size: 13px !important;
+    }
+
+    .app-shell button {
+        font-size: 13px !important;
+    }
+
+    .app-shell input,
+    .app-shell select,
+    .app-shell textarea {
+        font-size: 14px !important;
+    }
+
+    .app-shell h1 {
+        font-size: 28px;
+    }
+
+    .app-shell h2 {
+        font-size: 20px;
+    }
+
+    .app-shell h3 {
+        font-size: 18px;
+    }
+
+    /*
+       Bottom navigation intentionally keeps
+       its labels compact.
+    */
+
+    .app-shell .sidebar-link {
+        font-size: 0 !important;
+    }
+
+    .app-shell .sidebar-icon {
+        font-size: 17px !important;
+    }
+
+    .app-shell .sidebar-section-title {
+        font-size: 10px !important;
+    }
 }
 
 
